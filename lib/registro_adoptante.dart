@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'main.dart';
 
 void main() {
   runApp(MaterialApp(home: MyApp()));
@@ -20,18 +21,7 @@ class MyAppState extends State<MyApp> {
     return MaterialApp(
       home: Scaffold(
         resizeToAvoidBottomInset: false,
-        appBar: AppBar(
-          toolbarHeight: 70,
-          title: Text(
-            'PetMate',
-            style:
-              GoogleFonts.alfaSlabOne(fontSize: 35.0, color: Colors.white),
-          ),
-          centerTitle: true,
-          backgroundColor: Colors.brown,
-          leading:
-            const Icon(Icons.pets_rounded ),
-    ),
+        appBar: PetMateAppBar(),
         body: Center(
           child: Container(
             width: MediaQuery.of(context).size.width,
