@@ -7,53 +7,88 @@ class RegistroProtectora extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
     home: Scaffold(
-      backgroundColor: Color(0xFFC4A484),
+      resizeToAvoidBottomInset: false,
       appBar: PetMateAppBar(),
-
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
+      body: Center(
         child: Container(
           width: MediaQuery.of(context).size.width,
-          child: Form(
+          color: Color(0xFFC4A484),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+            Text(
+            "Registro como protectora",
+             style: GoogleFonts.quicksand(
+              fontSize: 20.0,
+              color: Colors.black,
+              fontWeight: FontWeight.w900,
+              letterSpacing: 2.0,
+             ),
+            ),
+          SizedBox(height: 70),
+          Container(
+            width: 350,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                TextFormField(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                TextField(
                   decoration: InputDecoration(
-                    labelText: "Número del contacto",
-                    border: OutlineInputBorder(),
+                      border: const OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.brown)
+                      ),
+                      focusedBorder: const OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.brown)
+                      ),
+                    labelText: 'Número de contacto',
                     labelStyle: GoogleFonts.quicksand(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700
                     )
                   ),
                 ),
-                SizedBox(height: 16.0),
-                TextFormField(
-                  decoration: InputDecoration(
-                    labelText: "Dirección de la protectora",
-                    border: OutlineInputBorder(),
-                    labelStyle: GoogleFonts.quicksand(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700
-                    )
+            SizedBox(height: 40),
+            TextField(
+              decoration: InputDecoration(
+                  border: const OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.brown)
                   ),
-                ),
-                SizedBox(height: 16.0),
-                Center(
-                  child: ElevatedButton(
-                    onPressed: () {print("Registro pulsado");},
-                    style: ElevatedButton.styleFrom(backgroundColor: Colors.brown),
-                    child: Text("Registrarse"),
+                  focusedBorder: const OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.brown)
                   ),
-                ),
+                labelText: 'Dirección de la protectora',
+                labelStyle: GoogleFonts.quicksand(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold
+                )
+          ),
+        ),
+        SizedBox(height: 20),
+        ElevatedButton(onPressed: (){print("Registro pulsado");},
+        child: Text(
+          "Registrarse",
+          style: GoogleFonts.quicksand(
+            fontSize: 14.0,
+            color: Colors.white,
+            fontWeight: FontWeight.w900,
+            letterSpacing: 2.0
+        )),
+        style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.brown,
+    ))
               ],
             ),
           ),
+            ],
+          ),
         ),
+
+
       ),
-     )
+    ),
     );
   }
 }
+
+
