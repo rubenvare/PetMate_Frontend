@@ -44,9 +44,11 @@ class RegistroProtectora extends StatelessWidget {
                     labelText: 'Número de contacto',
                     labelStyle: GoogleFonts.quicksand(
                       fontSize: 16,
-                      fontWeight: FontWeight.w700
+                      fontWeight: FontWeight.w700,
+                      color: Colors.black
                     )
                   ),
+                  cursorColor: Colors.brown
                 ),
             SizedBox(height: 40),
             TextField(
@@ -60,9 +62,11 @@ class RegistroProtectora extends StatelessWidget {
                 labelText: 'Dirección de la protectora',
                 labelStyle: GoogleFonts.quicksand(
                   fontSize: 16,
-                  fontWeight: FontWeight.bold
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black
                 )
           ),
+          cursorColor: Colors.brown
         ),
         SizedBox(height: 20),
         ElevatedButton(onPressed: (){print("Registro pulsado");},
