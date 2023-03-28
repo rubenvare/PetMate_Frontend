@@ -20,6 +20,8 @@ class MyAppState extends State<MyApp> {
   bool houseError = false;
   bool timeError = false;
 
+  RegExp regExp = RegExp(r'(^[0-9]*$)');
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -82,6 +84,11 @@ class MyAppState extends State<MyApp> {
                                         houseError = true;
                                       });
                                       return 'Este campo es obligatorio';
+                                    } else if (!regExp.hasMatch(value!)) {
+                                      setState(() {
+                                        houseError = true;
+                                      });
+                                      return 'Este campo requiere de números';
                                     } else {
                                       setState(() {
                                         houseError = false;
@@ -173,6 +180,11 @@ class MyAppState extends State<MyApp> {
                                         timeError = true;
                                       });
                                       return 'Este campo es obligatorio';
+                                    } else if (!regExp.hasMatch(value!)) {
+                                      setState(() {
+                                        timeError = true;
+                                      });
+                                      return 'Este campo requiere de números';
                                     } else {
                                       setState(() {
                                         timeError = false;
@@ -206,7 +218,8 @@ class MyAppState extends State<MyApp> {
                                                     Radius.circular(20))),
                                             actions: <Widget>[
                                               Column(
-                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
                                                 children: [
                                                   ElevatedButton(
                                                       style: ElevatedButton
