@@ -4,7 +4,8 @@ import 'package:flutter_proyecto/pantalla_registro.dart';
 import 'package:flutter_proyecto/registro_protectora.dart';
 import 'package:google_fonts/google_fonts.dart';
 void main() {
-  runApp(MaterialApp(home: MyApp()));
+  // el flag activado quita la etiqueta de Debug cuando ejecutas, aunque en el main no lo hace...
+  runApp(MaterialApp(home: MyApp(), debugShowCheckedModeBanner: false));
 }
 
 class MyApp extends StatefulWidget {
@@ -21,6 +22,7 @@ class InicioSesion extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+
       home: Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: PetMateAppBar(),
@@ -181,7 +183,8 @@ class InicioSesion extends State<MyApp> {
 }
 
 class PetMateAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const PetMateAppBar({super.key});
+  const PetMateAppBar({Key? key}) : super(key: key);
+
   @override
   Size get preferredSize => const Size.fromHeight(70);
   @override
@@ -195,10 +198,17 @@ class PetMateAppBar extends StatelessWidget implements PreferredSizeWidget {
       centerTitle: true,
       backgroundColor: Colors.brown,
       actions: [
-               Padding(padding: EdgeInsets.all(20.0), child:  const Icon(Icons.pets_rounded ))
+        Padding(padding: EdgeInsets.all(20.0), child:  const Icon(Icons.pets_rounded ))
       ],
-      leading: BackButton(onPressed: (){Navigator.pop(context);})
-
+      leading: Builder(
+        builder: (BuildContext context) {
+          if (Navigator.of(context).canPop()) { // Si puede hacer pop te mostrará el icono
+            return BackButton(onPressed: () => Navigator.pop(context));
+          } else {
+            return const SizedBox.shrink(); // si no, devuelve un espacio vacío
+          }
+        },
+      ),
     );
   }
 
