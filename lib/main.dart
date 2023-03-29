@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_proyecto/registro_protectora.dart';
 import 'package:google_fonts/google_fonts.dart';
 void main() {
-  runApp(MaterialApp(home: MyApp()));
+  runApp(MaterialApp(home: RegistroProtectora()));
 }
 
 class MyApp extends StatefulWidget {
