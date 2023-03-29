@@ -195,7 +195,7 @@ class PetMateAppBar extends StatelessWidget implements PreferredSizeWidget {
       centerTitle: true,
       backgroundColor: Colors.brown,
       actions: [
-        const Icon(Icons.pets_rounded )
+               Padding(padding: EdgeInsets.all(20.0), child:  const Icon(Icons.pets_rounded ))
       ],
       leading: BackButton(onPressed: (){Navigator.pop(context);})
 
