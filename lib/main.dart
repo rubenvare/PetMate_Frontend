@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_proyecto/registro_protectora.dart';
 import 'package:google_fonts/google_fonts.dart';
 void main() {
-  runApp(MaterialApp(home: RegistroProtectora()));
+  runApp(MaterialApp(home: MyApp()));
 }
 
 class MyApp extends StatefulWidget {
