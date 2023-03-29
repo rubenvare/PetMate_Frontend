@@ -2,7 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'main.dart';
 
-class RegistroProtectora extends StatelessWidget {
+class RegistroProtectora extends StatefulWidget {
+  @override
+  State<RegistroProtectora> createState() => RegistroProtectoraState();
+}
+class RegistroProtectoraState extends State<RegistroProtectora> {
+  final formkey = GlobalKey<FormState>();
+  bool NumberError = false;
+  bool DirectionError = false;
+
+  RegExp regExp = RegExp(r'(^[0-9]*$)');
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -32,8 +41,8 @@ class RegistroProtectora extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                TextField(
+              children:<Widget> [
+                TextFormField(
                   decoration: InputDecoration(
                       border: const OutlineInputBorder(
                           borderSide: BorderSide(color: Colors.brown)
@@ -45,10 +54,32 @@ class RegistroProtectora extends StatelessWidget {
                     labelStyle: GoogleFonts.quicksand(
                       fontSize: 16,
                       fontWeight: FontWeight.w700,
-                      color: Colors.black
-                    )
+                      color: NumberError
+                        ? Colors.red
+                        : Colors.black),
+
                   ),
-                  cursorColor: Colors.brown
+
+                  cursorColor: Colors.brown,
+                  keyboardType: TextInputType.number,
+                  validator: (value) {
+                  if (value?.isEmpty ?? true) {
+                      setState(() {
+                      NumberError = true;
+                    });
+                    return 'Este campo es obligatorio';
+                  } else if (!regExp.hasMatch(value!)) {
+                      setState(() {
+                      NumberError = true;
+                    });
+                    return 'Este campo requiere de números';
+                  } else {
+                    setState(() {
+                    NumberError = false;
+                    });
+                  return null;
+                }
+            }
                 ),
             SizedBox(height: 40),
             TextField(
@@ -81,18 +112,18 @@ class RegistroProtectora extends StatelessWidget {
         style: ElevatedButton.styleFrom(
         backgroundColor: Colors.brown,
     ))
+
               ],
             ),
           ),
             ],
           ),
         ),
-
-
       ),
     ),
     );
   }
 }
+
 
 
