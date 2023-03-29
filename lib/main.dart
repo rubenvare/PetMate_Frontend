@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_proyecto/pantalla_registro.dart';
 import 'package:flutter_proyecto/registro_protectora.dart';
 import 'package:google_fonts/google_fonts.dart';
 void main() {
@@ -152,7 +153,7 @@ class InicioSesion extends State<MyApp> {
                             )
                         ),
                         SizedBox(height: 10,),
-                        ElevatedButton( onPressed: () {},
+                        ElevatedButton( onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context)=>pantallaRegistro()));},
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.brown,
                             ),
@@ -193,8 +194,11 @@ class PetMateAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       centerTitle: true,
       backgroundColor: Colors.brown,
-      leading:
-      const Icon(Icons.pets_rounded ),
+      actions: [
+        const Icon(Icons.pets_rounded )
+      ],
+      leading: BackButton(onPressed: (){Navigator.pop(context);})
+
     );
   }
 

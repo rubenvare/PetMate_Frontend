@@ -2,20 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'main.dart';
 
-void main() {
-  runApp(MaterialApp(home: MyApp()));
-}
-
 bool switchAnimales = false;
 bool switchTerraza = false;
 bool switchJardin = false;
 
-class MyApp extends StatefulWidget {
+class RegistroAdoptante extends StatefulWidget {
   @override
-  MyAppState createState() => MyAppState();
+  State<RegistroAdoptante> createState() => RegistroAdoptanteState();
 }
 
-class MyAppState extends State<MyApp> {
+class RegistroAdoptanteState extends State<RegistroAdoptante> {
   final formkey = GlobalKey<FormState>();
   bool houseError = false;
   bool timeError = false;
