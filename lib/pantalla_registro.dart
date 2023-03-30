@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_proyecto/registro_adoptante.dart';
-import 'package:flutter_proyecto/registro_protectora.dart';
-import 'main.dart';
+import 'package:flutter_proyecto/inicio.dart';
+import 'package:flutter_proyecto/routing_constants.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class pantallaRegistro extends StatefulWidget {
@@ -131,9 +130,9 @@ class _pantallaRegistroState extends State<pantallaRegistro> {
                             formKey.currentState!.save();
                             if(dropdownValue=="Protectora")
                             {
-                                Navigator.push(context, MaterialPageRoute(builder: (context)=> RegistroProtectora()));
+                              Navigator.pushNamed(context, RegistroProtectoraRoute);
                             } else {
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=> RegistroAdoptante()));
+                              Navigator.pushNamed(context, RegistroAdoptanteRoute);
                             }
 
                             // Falta validar y pasar info a la otra page

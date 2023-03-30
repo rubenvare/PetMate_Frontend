@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'main.dart';
+import 'inicio.dart';
+import 'router.dart';
 
 bool switchAnimales = false;
 bool switchTerraza = false;
@@ -8,10 +9,10 @@ bool switchJardin = false;
 
 class RegistroAdoptante extends StatefulWidget {
   @override
-  State<RegistroAdoptante> createState() => RegistroAdoptanteState();
+  State<RegistroAdoptante> createState() => _RegistroAdoptanteState();
 }
 
-class RegistroAdoptanteState extends State<RegistroAdoptante> {
+class _RegistroAdoptanteState extends State<RegistroAdoptante> {
   final formkey = GlobalKey<FormState>();
   bool houseError = false;
   bool timeError = false;
