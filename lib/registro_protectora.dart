@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'main.dart';
+import 'package:flutter_proyecto/inicio.dart';
+import 'router.dart';
 
 class RegistroProtectora extends StatefulWidget {
   @override
-  State<RegistroProtectora> createState() => RegistroProtectoraState();
+  State<RegistroProtectora> createState() => _RegistroProtectoraState();
 }
-class RegistroProtectoraState extends State<RegistroProtectora> {
+class _RegistroProtectoraState extends State<RegistroProtectora> {
   final formkey = GlobalKey<FormState>();
   bool NumberError = false;
   bool DirectionError = false;
