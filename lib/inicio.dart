@@ -51,7 +51,6 @@ class InicioSesionState extends State<InicioSesion> {
                       children: [
                         TextFormField(
                           cursorColor: Colors.brown,
-                          obscureText: true,
                           decoration: InputDecoration(
                             border: const OutlineInputBorder(
                               borderSide: BorderSide(color: Colors.brown),
