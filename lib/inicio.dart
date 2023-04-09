@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_proyecto/router.dart';
 import 'package:flutter_proyecto/routing_constants.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_proyecto/http_functions.dart';
 
 
 
@@ -15,6 +16,8 @@ class InicioSesionState extends State<InicioSesion> {
   bool errorMailRegExp = false;
   bool errorMailEmpty = false;
   bool errorPassword = false;
+  String email = '';
+  String password = '';
   RegExp coincideMail = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
   @override
   Widget build(BuildContext context) {
@@ -83,6 +86,7 @@ class InicioSesionState extends State<InicioSesion> {
                                 return 'por favor, sigue el formato user@domain.com';
                               }
                               else {
+                                email = value;
                                 return null;
                               }
                             }
@@ -113,20 +117,28 @@ class InicioSesionState extends State<InicioSesion> {
                               });
                               return 'Por favor, rellena el campo con tu contraseña.';
                             }
+                            password = value;
                             return null;
                           },
                         ),
 
                         SizedBox(height: 20),
                         ElevatedButton(
-                            onPressed: (){
+                            onPressed: () async {
                               if (!formKey.currentState!.validate()) {
                                 return;
                               }
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(content: Text('Cargando')),
-                              );
+                              var body = {
+                                'email': email,
+                                'password': password,
+                              };
+                              if (await sendLoginRequest(body)){
+                                Navigator.pushNamed(context, PantallaTestRoute);
+                              } else {
+                                openDialog();
+                                formKey.currentState?.reset();
 
+                              }
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.brown,
@@ -176,6 +188,20 @@ class InicioSesionState extends State<InicioSesion> {
       ),
     );
   }
+  Future<void> openDialog() => showDialog(
+      context: this.context,
+      builder: (context) => AlertDialog(
+        title: Text('Error'),
+        content: Text('Usuario no encontrado'),
+        actions: [
+          TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text('Ok'))
+        ],
+      )
+  );
 }
 
 class PetMateAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -210,3 +236,4 @@ class PetMateAppBar extends StatelessWidget implements PreferredSizeWidget {
     );
   }
 }
+
