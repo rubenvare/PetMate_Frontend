@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_proyecto/pantalla_busqueda.dart';
 import 'package:flutter_proyecto/routing_constants.dart';
 import 'router.dart' as router;
 void main() {
