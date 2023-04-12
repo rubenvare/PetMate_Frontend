@@ -8,7 +8,6 @@ class pantallaRegistro extends StatefulWidget {
   State<pantallaRegistro> createState() => _pantallaRegistroState();
 }
 
-
 class _pantallaRegistroState extends State<pantallaRegistro> {
   final formKey = GlobalKey<FormState>();
   String? dropdownValue;
@@ -16,137 +15,242 @@ class _pantallaRegistroState extends State<pantallaRegistro> {
   String correoElectronico = "";
   String password = "";
   String confirmPassword = "";
+  bool nameError = false;
+  bool correoError = false;
+  bool dropdownError = false;
+  bool passwordError = false;
+  bool confirmPasswordError = false;
 
-
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PetMateAppBar(),
-      resizeToAvoidBottomInset: false,
-      body: Container(
-        width:MediaQuery.of(context).size.width,
-        color: Color(0xFFC4A484),
-        child: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Form(
+        appBar: PetMateAppBar(),
+        body: Center(
+            child: Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          color: Color(0xFFC4A484),
+          child: Center(
+            child: SingleChildScrollView(
+                child: Form(
               key: formKey,
-              child: ListView(
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Text(
-                      "REGISTRO",
-                      style: GoogleFonts.quicksand(
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold
-                      ),
-                    ),
-                    Padding(
-                        padding: EdgeInsets.all(10.0),
-                        child: TextFormField(
-                          onSaved: (value) => nombreCompleto = value!,
-                          validator: (value) {
-                            if(value!.isEmpty){
-                              return "Rellene el campo de nombre";
-                            }
-                          },
-                          decoration: const InputDecoration(
-                            labelText: "Nombre completo",
-                            border: OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.brown),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.brown)
-                            ),
+                    Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'REGISTRO',
+                            style: GoogleFonts.quicksand(
+                                fontSize: 20,
+                                color: Colors.black,
+                                fontWeight: FontWeight.w900,
+                                letterSpacing: 2.0),
                           ),
-                        )),
-                    Padding(
-                        padding: EdgeInsets.all(10.0),
-                        child: TextFormField(
-                          onSaved: (value) => correoElectronico = value!,
-                          validator: (value) {
-                            if(value!.isEmpty){
-                              return "Llene el campo de correo";
-                            }
-                          },
-                          decoration: const InputDecoration(
-                            labelText: "Correo electronico",
-                            border: OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.brown),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.brown)
-                            ),
-                          ),
-                        )),
-                    DropdownButton(
-                        onChanged: (String? changedValue){
-                          dropdownValue = changedValue!;
-                          setState(() {
-                            dropdownValue;
-                          });
-                        },
-                        value: dropdownValue,
-                        items: <String>["Adoptante", "Protectora"].map((item) => DropdownMenuItem(child: Text(item), value: item,)).toList()
-                    ),
-                    Padding(
-                        padding: EdgeInsets.all(10.0),
-                        child: TextFormField(
-                          onSaved: (value) => password = value!,
-                          validator: (value) {
-                            if(value!.isEmpty){
-                              return "Rellene el campo de contraseña";
-                            }
-                          },
-                          decoration: const InputDecoration(
-                            labelText: "Contraseña",
-                            border: OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.brown),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.brown)
-                            ),
-                          ),
-                        )),
-                    Padding(
-                        padding: EdgeInsets.all(10.0),
-                        child: TextFormField(
-                          onSaved: (value) => confirmPassword = value!,
-                          validator: (value) {
-                            if(value!.isEmpty){
-                              return "Rellene el campo de confirmar contraseña";
-                            }
-                          },
-                          decoration: const InputDecoration(
-                            labelText: "Confirmar contraseña",
-                            border: OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.brown),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.brown)
-                            ),
-                          ),
-                        )),
-                    ElevatedButton(
-                        onPressed: () {
-                          if (formKey.currentState!.validate()){
-                            formKey.currentState!.save();
-                            if(dropdownValue=="Protectora")
-                            {
-                              Navigator.pushNamed(context, RegistroProtectoraRoute);
-                            } else {
-                              Navigator.pushNamed(context, RegistroAdoptanteRoute);
-                            }
+                        ]),
+                    const SizedBox(height: 20),
+                    SizedBox(
+                        width: 350,
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              TextFormField(
+                                onSaved: (value) => nombreCompleto = value!,
+                                validator: (value) {
+                                  if (value?.isEmpty ?? true) {
+                                    setState(() {
+                                      nameError = true;
+                                    });
+                                    return "Rellene el campo de nombre";
+                                  } else {
+                                    setState(() {
+                                      nameError = false;
+                                    });
+                                    return null;
+                                  }
+                                },
+                                decoration: InputDecoration(
+                                  labelText: "Nombre completo",
+                                  labelStyle: GoogleFonts.quicksand(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w700,
+                                      color: nameError
+                                          ? Colors.red
+                                          : Colors.black),
+                                  border: const OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.brown),
+                                  ),
+                                  focusedBorder: const OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.brown)),
+                                ),
+                                cursorColor: Colors.brown,
+                              ),
+                              const SizedBox(height: 20),
+                              TextFormField(
+                                onSaved: (value) => correoElectronico = value!,
+                                validator: (value) {
+                                  if (value?.isEmpty ?? true) {
+                                    setState(() {
+                                      correoError = true;
+                                    });
+                                    return "Rellene el campo de correo";
+                                  } else {
+                                    setState(() {
+                                      correoError = false;
+                                    });
+                                    return null;
+                                  }
+                                },
+                                decoration: InputDecoration(
+                                  labelText: "Correo electrónico",
+                                  labelStyle: GoogleFonts.quicksand(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w700,
+                                      color: correoError
+                                          ? Colors.red
+                                          : Colors.black),
+                                  border: const OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.brown),
+                                  ),
+                                  focusedBorder: const OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.brown)),
+                                ),
+                                cursorColor: Colors.brown,
+                                keyboardType: TextInputType.emailAddress,
+                              ),
+                              const SizedBox(height: 20),
+                              Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: dropdownError ? Colors.red : Colors.black),
+                                  borderRadius: BorderRadius.circular(5)
+                                ),
+                                child: DropdownButton(
+                                    dropdownColor: Colors.brown,
+                                    onChanged: (String? changedValue) {
+                                      dropdownValue = changedValue!;
+                                      setState(() {
+                                        dropdownValue;
+                                      });
+                                    },
+                                    isExpanded: true,
+                                    style: GoogleFonts.quicksand(
+                                      color: Colors.black,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                    value: dropdownValue,
+                                    items: <String>["Adoptante", "Protectora"]
+                                        .map((item) => DropdownMenuItem(
+                                              child: Text(item),
+                                              value: item,
+                                            ))
+                                        .toList()),
+                              ),
+                              const SizedBox(height: 20),
+                              TextFormField(
+                                onSaved: (value) => confirmPassword = value!,
+                                validator: (value) {
+                                  if (value?.isEmpty ?? true) {
+                                    setState(() {
+                                      passwordError = true;
+                                    });
+                                    return "Rellene el campo de contraseña";
+                                  } else {
+                                    setState(() {
+                                      passwordError = false;
+                                    });
+                                    return null;
+                                  }
+                                },
+                                obscureText: true,
+                                decoration: InputDecoration(
+                                  labelText: "Contraseña",
+                                  labelStyle: GoogleFonts.quicksand(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w700,
+                                      color: passwordError
+                                          ? Colors.red
+                                          : Colors.black),
+                                  border: const OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.brown),
+                                  ),
+                                  focusedBorder: const OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.brown)),
+                                ),
+                                cursorColor: Colors.brown,
+                              ),
+                              const SizedBox(height: 20),
+                              TextFormField(
+                                onSaved: (value) => password = value!,
+                                validator: (value) {
+                                  if (value?.isEmpty ?? true) {
+                                    setState(() {
+                                      confirmPasswordError = true;
+                                    });
+                                    return "Rellene el campo de confirmar contraseña";
+                                  } else {
+                                    setState(() {
+                                      confirmPasswordError = false;
+                                    });
+                                    return null;
+                                  }
+                                },
+                                obscureText: true,
+                                decoration: InputDecoration(
+                                  labelText: "Confirmar contraseña",
+                                  labelStyle: GoogleFonts.quicksand(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w700,
+                                      color: confirmPasswordError
+                                          ? Colors.red
+                                          : Colors.black),
+                                  border: const OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.brown),
+                                  ),
+                                  focusedBorder: const OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.brown)),
+                                ),
+                                cursorColor: Colors.brown,
+                              ),
+                              const SizedBox(height: 20),
+                              ElevatedButton(
+                                  onPressed: () {
+                                    if (formKey.currentState!.validate()) {
+                                      formKey.currentState!.save();
+                                      if (dropdownValue == "Protectora") {
+                                        Navigator.pushNamed(
+                                            context, RegistroProtectoraRoute);
+                                      } else {
+                                        Navigator.pushNamed(
+                                            context, RegistroAdoptanteRoute);
+                                      }
 
-                            // Falta validar y pasar info a la otra page
-                          }
-                        },
-                        child: Text("Siguiente"))
-                  ]
-              ),
-            )
-        ) ,
-      )
-    );
+                                      // Falta validar y pasar info a la otra page
+                                    }
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.brown),
+                                  child: Text(
+                                    'SIGUIENTE',
+                                    style: GoogleFonts.quicksand(
+                                        fontSize: 14,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w900,
+                                        letterSpacing: 2.0),
+                                  ))
+                            ]))
+                  ]),
+            )),
+          ),
+        )));
   }
 }
-
-
-
