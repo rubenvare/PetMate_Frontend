@@ -68,9 +68,7 @@ class InicioSesionState extends State<InicioSesion> {
                                 fontWeight: FontWeight.w700,
                                 color: Colors.brown
                             ),
-
                           ),
-
                           validator: (value){
                             if (value == null || value.isEmpty == true) {
                               setState(() {
