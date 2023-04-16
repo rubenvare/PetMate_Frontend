@@ -4,6 +4,14 @@ import 'inicio.dart';
 import 'router.dart';
 
 class RegistroAdoptante extends StatefulWidget {
+
+  final String name;
+  final String email;
+  final String type;
+  final String password;
+
+  const RegistroAdoptante(this.name, this.email, this.type, this.password);
+
   @override
   State<RegistroAdoptante> createState() => _RegistroAdoptanteState();
 }
@@ -15,6 +23,7 @@ class _RegistroAdoptanteState extends State<RegistroAdoptante> {
   bool switchAnimales = false;
   bool switchTerraza = false;
   bool switchJardin = false;
+  String size = '';
 
   RegExp regExp = RegExp(r'(^[0-9]*$)');
 
@@ -88,6 +97,7 @@ class _RegistroAdoptanteState extends State<RegistroAdoptante> {
                                     setState(() {
                                       houseError = false;
                                     });
+                                    size = value;
                                     return null;
                                   }
                                 }),

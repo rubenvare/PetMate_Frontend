@@ -119,7 +119,6 @@ class InicioSesionState extends State<InicioSesion> {
                             return null;
                           },
                         ),
-
                         SizedBox(height: 20),
                         ElevatedButton(
                             onPressed: () async {
@@ -131,7 +130,7 @@ class InicioSesionState extends State<InicioSesion> {
                                 'password': password,
                               };
                               if (await sendLoginRequest(body)){
-                                Navigator.pushNamed(context, PantallaTestRoute);
+                                Navigator.pushNamed(context, PantallaAdoptanteRoute);
                               } else {
                                 openDialog();
                                 formKey.currentState?.reset();

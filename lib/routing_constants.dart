@@ -2,4 +2,4 @@ const String InicioSesionRoute = "/";
 const String RegistroRoute = "/registro";
 const String RegistroAdoptanteRoute = "/registro_adoptante";
 const String RegistroProtectoraRoute = "/registro_protectora";
-const String PantallaTestRoute = "/pantalla_test";
+const String PantallaAdoptanteRoute = "/pantalla_adoptante";

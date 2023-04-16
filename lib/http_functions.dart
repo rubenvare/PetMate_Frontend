@@ -30,12 +30,14 @@ Future<bool> sendLoginRequest(dynamic data) async {
   }
 }
 
-Future<void> sendRegisterRequest(dynamic data) async {
+Future<bool> sendRegisterRequest(dynamic data) async {
   final path = '/register';
   final response = await sendPostRequest(path, data);
   if (response.statusCode != 200) {
     print('Error en la solicitud: ${response.reasonPhrase}');
+    return Future<bool>.value(false);
   } else {
+    return Future<bool>.value(true);
     final responseBody = json.decode(response.body);
   }
 }
