@@ -160,7 +160,7 @@ class InicioSesionState extends State<InicioSesion> {
                             )
                         ),
                         SizedBox(height: 10,),
-                        ElevatedButton( onPressed: () {Navigator.pushNamed(context, RegistroRoute);},
+                        ElevatedButton( onPressed: () {Navigator.pushNamed(context, VisualizarAnimalesRoute);},
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.brown,
                             ),
