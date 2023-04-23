@@ -4,70 +4,111 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'inicio.dart';
+import 'http_functions.dart';
 
 class DogSearchScreen extends StatefulWidget {
   @override
   _DogSearchScreenState createState() => _DogSearchScreenState();
 }
 
-class DogApi {
-  static Future<List<String>> getImages() async {
-    final response =
-    await http.get(Uri.parse('https://dog.ceo/api/breeds/image/random/20'));
-    if (response.statusCode == 200) {
-      final data = json.decode(response.body) as Map<String, dynamic>;
-      final images = List<String>.from(data['message'] as List<dynamic>);
-      return images;
-    } else {
-      throw Exception('Failed to load images');
-    }
-  }
-}
-
 class _DogSearchScreenState extends State<DogSearchScreen> {
-  final List<String> _images = [];
-  final List<String> _names = List.generate(20, (index) => 'PERRO $index');
+  bool dataLoaded = false;
+  Image? currentAnimalPhoto;
+  Map<String, dynamic> currentAnimal = {};
+  double containerSize = 50.0;
   int _currentIndex = 0;
   SwiperController _swiperController = SwiperController();
+
+  Widget PetMateLoading() {
+    return Container(
+      color: Color(0xFFC4A484),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Expanded(child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const Icon(
+                Icons.pets,
+                size: 72,
+                color: Colors.brown,
+              ),
+              SizedBox(height: 16),
+              Text(
+                'Loading...',
+                style: GoogleFonts.lato(
+                  textStyle: const TextStyle(
+                    color: Colors.brown,
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ],
+          ))
+        ],
+      ),
+    );
+  }
 
   @override
   void initState() {
     super.initState();
-    _loadImages();
+    _swiperController = SwiperController();
+    var firstPet = {
+      'user_id': 1,
+      'animal_id': null,
+      'action': null,
+      'filters': {
+        'species': null,
+        'size': null,
+        'age': null,
+        'color': null
+      }
+    };
+    initAsync(firstPet);
   }
 
-  Future<void> _loadImages() async {
-    final images = await DogApi.getImages();
+  Future<void> initAsync(pet) async {
+    // first petition to the server
 
+    Map<String, dynamic> response = await getNextPet(pet);
     setState(() {
-      _images.clear();
-      _images.addAll(images);
-      _currentIndex = 0;
+      // OJO, USER_ID HARDCODED
+      currentAnimal['user_id'] = 1;
+      // TIENE QUE LLEGARTE EL USER ID DE LA PANTALLA ANTERIOR
+
+      currentAnimal['age'] = response['age'];
+      currentAnimal['animal_id'] = response['animal_id'];
+      currentAnimal['name'] = response['name'];
+      currentAnimal['photo'] = response['photo'];
+      currentAnimal['shelter_id'] = response['shelter_id'];
+      currentAnimalPhoto = getImage(response['photo']);
+      dataLoaded = true;
     });
   }
 
-  void _handleAccept() {
-    // this method should be overrided with specific actions when backend is ready
-    // the following method erases the card when accepted
-    setState(() {
-      _images.removeAt(_currentIndex);
-      _currentIndex = _currentIndex < _images.length ? _currentIndex : _images.length - 1;
-      _currentIndex = _currentIndex < _names.length ? _currentIndex : _names.length - 1;
-    });
-    _swiperController.next();
-  }
+  Future<void> _handleAction(nextPetData) async {
+    var response = await getNextPet(nextPetData);
+    containerSize = 70.0;
+    Future.delayed(Duration(milliseconds: 200), () {
+      setState(() {
+        containerSize = 50.0;
+        currentAnimal['age'] = response['age'];
+        currentAnimal['animal_id'] = response['animal_id'];
+        currentAnimal['name'] = response['name'];
+        currentAnimal['photo'] = response['photo'];
+        currentAnimal['shelter_id'] = response['shelter_id'];
+        currentAnimalPhoto = getImage(response['photo']);
+        dataLoaded = true;
+      });
 
-  void _handleReject() {
-    // this method should be overrided with specific actions when backend is ready
-    // the following method erases the card when declined
-    setState(() {
-      _images.removeAt(_currentIndex);
-      _currentIndex = _currentIndex < _images.length ? _currentIndex : _images.length - 1;
-      _currentIndex = _currentIndex < _names.length ? _currentIndex : _names.length - 1;
-    });
-    _swiperController.next();
-  }
+    // Reinicia el tamaño del contenedor después de 200 milisegundos
 
+    });
+  }
 
   void _handleDetails() {
     // Navigate to the details screen for the current image
@@ -77,12 +118,11 @@ class _DogSearchScreenState extends State<DogSearchScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PetMateAppBar(),
-      body: _images.isEmpty ? const Center(child: CircularProgressIndicator()) :
+      body: dataLoaded == false ?  PetMateLoading():
       Container(
         color: Color(0xFFC4A484),
         child: Swiper(
-          controller: _swiperController,
-          itemCount: _images.length,
+          itemCount: 1,
           itemBuilder: (BuildContext context, int index) {
             return Padding(
               padding: const EdgeInsets.all(16.0),
@@ -97,10 +137,7 @@ class _DogSearchScreenState extends State<DogSearchScreen> {
                       borderRadius: BorderRadius.circular(16.0),
                       child: SizedBox(
                         height: MediaQuery.of(context).size.height * 0.5,
-                        child: Image.network(
-                          _images[index],
-                          fit: BoxFit.cover,
-                        ),
+                        child: Center(child: currentAnimalPhoto),
                       ),
                     ),
                     Positioned(
@@ -115,23 +152,40 @@ class _DogSearchScreenState extends State<DogSearchScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                _names[index],
+                                currentAnimal['name'] ?? "",
                                 style:
                                 GoogleFonts.zillaSlab(fontSize: 35.0, color: Colors.black),
                               ),
                               const SizedBox(height: 45.0),
                               Row(
-                                mainAxisAlignment:
-                                MainAxisAlignment.spaceEvenly,
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: [
-                                  Container(
-
+                                  AnimatedContainer(
+                                    duration: Duration(milliseconds: 200), // Duración de la animación en milisegundos
+                                    width: containerSize, // Ancho inicial del contenedor
+                                    height: containerSize, // Alto inicial del contenedor
                                     decoration: const BoxDecoration(
                                       shape: BoxShape.circle,
                                       color: Colors.blue,
                                     ),
                                     child: IconButton(
-                                      onPressed: _handleReject,
+                                      onPressed: () async {
+                                        var body = {
+                                          'user_id': currentAnimal['user_id'],
+                                          'animal_id': currentAnimal['animal_id'],
+                                          'action': 2,
+                                          'filters': {
+                                            'species': null,
+                                            'size': null,
+                                            'age': null,
+                                            'color': null
+                                          }
+                                        };
+                                        setState(() {
+                                          dataLoaded = false;
+                                        });
+                                        _handleAction(body);
+                                      },
                                       icon: const Icon(
                                         Icons.clear,
                                         color: Colors.white,
@@ -139,7 +193,10 @@ class _DogSearchScreenState extends State<DogSearchScreen> {
                                       ),
                                     ),
                                   ),
-                                  Container(
+                                  AnimatedContainer(
+                                    duration: const Duration(milliseconds: 200), // Duración de la animación en milisegundos
+                                    width: containerSize, // Ancho inicial del contenedor
+                                    height: containerSize, // Alto inicial del contenedor
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
                                       color: Colors.grey[300],
@@ -152,14 +209,33 @@ class _DogSearchScreenState extends State<DogSearchScreen> {
                                       ),
                                     ),
                                   ),
-                                  Container(
-                                    decoration: BoxDecoration(
+                                  AnimatedContainer(
+                                    duration: const Duration(milliseconds: 200), // Duración de la animación en milisegundos
+                                    width: containerSize, // Ancho inicial del contenedor
+                                    height: containerSize, // Alto inicial del contenedor
+                                    decoration: const BoxDecoration(
                                       shape: BoxShape.circle,
                                       color: Colors.red,
                                     ),
                                     child: IconButton(
-                                      onPressed: _handleAccept,
-                                      icon: const Icon(
+                                      onPressed: () async {
+                                        var body = {
+                                          'user_id': currentAnimal['user_id'],
+                                          'animal_id': currentAnimal['animal_id'],
+                                          'action': 1,
+                                          'filters': {
+                                            'species': null,
+                                            'size': null,
+                                            'age': null,
+                                            'color': null
+                                          }
+                                        };
+                                        setState(() {
+                                          dataLoaded = false;
+                                        });
+                                        _handleAction(body);
+                                    },
+                                        icon: const Icon(
                                         Icons.favorite,
                                         color: Colors.white,
                                         size: 32.0,
@@ -212,5 +288,8 @@ class _DogSearchScreenState extends State<DogSearchScreen> {
       ),
     );
   }
+
 }
+
+
 

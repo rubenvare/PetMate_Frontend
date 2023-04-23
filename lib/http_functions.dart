@@ -1,6 +1,9 @@
 import 'dart:convert';
+import 'dart:ui';
 import 'package:http/http.dart' as http;
 import 'package:flutter_proyecto/global.dart';
+import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 
 
 Future<http.Response> sendPostRequest(String path, dynamic data) async {
@@ -13,9 +16,16 @@ Future<http.Response> sendPostRequest(String path, dynamic data) async {
   return response;
 }
 
+
+Image getImage(String urlRequest)  {
+  var respuesta = Image.network('$baseImage$urlRequest');
+  return respuesta;
+}
+
 Future<bool> sendLoginRequest(dynamic data) async {
   final path = '/login';
   final response = await sendPostRequest(path, data);
+  var datos = json.decode(response.body);
   if (response.statusCode != 200) {
     print('Error en la solicitud: ${response.reasonPhrase}');
     return Future<bool>.value(false);
@@ -51,4 +61,15 @@ Future<void> sendShowProfileDataRequest(dynamic data) async {
     final responseBody = json.decode(response.body);
     // Aquí puedes procesar la respuesta como sea necesario
   }
+}
+
+Future<Map<String, dynamic>> getNextPet(dynamic data) async {
+  final path = '/A_next_pet';
+  final response = await sendPostRequest(path, data);
+  var datos = json.decode(response.body);
+  if (response.statusCode != 200) {
+    print('Error en la solicitud: ${response.reasonPhrase}');
+  }
+
+  return datos;
 }

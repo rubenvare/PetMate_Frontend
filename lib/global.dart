@@ -1,1 +1,2 @@
-final baseUrl = 'http://192.168.1.42:5000';
+final baseUrl = 'http://127.0.0.1:5000';
+final baseImage = baseUrl + '/IMAGES';
