@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter_proyecto/singleton_user.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_proyecto/global.dart';
 
@@ -24,7 +25,9 @@ Future<bool> sendLoginRequest(dynamic data) async {
     return Future<bool>.value(false);
   } else {
     final responseBody = json.decode(response.body);
-    print('Todo ok');
+    UserSession().userId = responseBody["user_id"];
+    UserSession().type = responseBody["type"];
+
     return Future<bool>.value(true);
     // Aquí puedes procesar la respuesta como sea necesario
   }
