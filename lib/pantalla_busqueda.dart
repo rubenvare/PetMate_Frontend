@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 import 'inicio.dart';
 import 'http_functions.dart';
 
@@ -114,6 +112,17 @@ class _DogSearchScreenState extends State<DogSearchScreen> {
     // Navigate to the details screen for the current image
   }
 
+  void _showMessage(BuildContext context, String message, Color color) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message, style: GoogleFonts.alfaSlabOne(fontSize: 20.0)),
+        duration: Duration(seconds: 2),
+        backgroundColor: color,
+
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -123,6 +132,7 @@ class _DogSearchScreenState extends State<DogSearchScreen> {
         color: Color(0xFFC4A484),
         child: Swiper(
           itemCount: 1,
+          loop: false,
           itemBuilder: (BuildContext context, int index) {
             return Padding(
               padding: const EdgeInsets.all(16.0),
@@ -170,6 +180,7 @@ class _DogSearchScreenState extends State<DogSearchScreen> {
                                     ),
                                     child: IconButton(
                                       onPressed: () async {
+                                        _showMessage(context, 'You disliked ${currentAnimal['name']} :/', Colors.blue);
                                         var body = {
                                           'user_id': currentAnimal['user_id'],
                                           'animal_id': currentAnimal['animal_id'],
@@ -219,6 +230,7 @@ class _DogSearchScreenState extends State<DogSearchScreen> {
                                     ),
                                     child: IconButton(
                                       onPressed: () async {
+                                        _showMessage(context, 'You liked ${currentAnimal['name']} <3', Colors.red );
                                         var body = {
                                           'user_id': currentAnimal['user_id'],
                                           'animal_id': currentAnimal['animal_id'],
