@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_proyecto/pantalla_detalles.dart';
+import 'package:flutter_proyecto/singleton_user.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'inicio.dart';
@@ -14,8 +16,6 @@ class _DogSearchScreenState extends State<DogSearchScreen> {
   Image? currentAnimalPhoto;
   Map<String, dynamic> currentAnimal = {};
   double containerSize = 50.0;
-  int _currentIndex = 0;
-  SwiperController _swiperController = SwiperController();
 
   Widget PetMateLoading() {
     return Container(
@@ -54,7 +54,6 @@ class _DogSearchScreenState extends State<DogSearchScreen> {
   @override
   void initState() {
     super.initState();
-    _swiperController = SwiperController();
     var firstPet = {
       'user_id': 1,
       'animal_id': null,
@@ -74,10 +73,8 @@ class _DogSearchScreenState extends State<DogSearchScreen> {
 
     Map<String, dynamic> response = await getNextPet(pet);
     setState(() {
-      // OJO, USER_ID HARDCODED
+      //currentAnimal['user_id'] = UserSession().userId;
       currentAnimal['user_id'] = 1;
-      // TIENE QUE LLEGARTE EL USER ID DE LA PANTALLA ANTERIOR
-
       currentAnimal['age'] = response['age'];
       currentAnimal['animal_id'] = response['animal_id'];
       currentAnimal['name'] = response['name'];
@@ -102,14 +99,19 @@ class _DogSearchScreenState extends State<DogSearchScreen> {
         currentAnimalPhoto = getImage(response['photo']);
         dataLoaded = true;
       });
-
-    // Reinicia el tamaño del contenedor después de 200 milisegundos
-
     });
   }
 
-  void _handleDetails() {
-    // Navigate to the details screen for the current image
+  void _handleDetails(BuildContext context, int pet_id) {
+    // Navigate to the details screen for the current pet
+    DetailScreen detailScreen = DetailScreen(pet_id);
+    // Navegar a la pantalla de detalles del animal
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => detailScreen,
+      ),
+    );
   }
 
   void _showMessage(BuildContext context, String message, Color color) {
@@ -213,7 +215,9 @@ class _DogSearchScreenState extends State<DogSearchScreen> {
                                       color: Colors.grey[300],
                                     ),
                                     child: IconButton(
-                                      onPressed: _handleDetails,
+                                      onPressed: () {
+                                        _handleDetails(context, currentAnimal['animal_id']);
+                                      },
                                       icon: const Icon(
                                         Icons.info,
                                         size: 32.0,
