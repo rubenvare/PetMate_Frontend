@@ -42,6 +42,37 @@ class _DetailScreenState extends State<DetailScreen> {
       details['image'] = response['image'];
       details['shelter_id'] = response['shelter_id'];
       details['status'] = response['status'];
+
+      switch(details['color']) {
+        case 0:
+          color = 'Claro';
+          break;
+        case 1:
+          color = 'Neutro';
+          break;
+        case 2:
+          color = 'Oscuro';
+          break;
+        default:
+          color = '';
+          break;
+      }
+
+      switch(details['size']) {
+        case 0:
+          size = 'Pequeño';
+          break;
+        case 1:
+          size = 'Mediano';
+          break;
+        case 2:
+          size = 'Grande';
+          break;
+        default:
+          size = '';
+          break;
+      }
+
       dataLoaded = true;
     });
     Map<String, dynamic> shelter_info = await getProfileInfo({'user_id': details['shelter_id'], 'type': 'S' });
@@ -185,7 +216,7 @@ class _DetailScreenState extends State<DetailScreen> {
                     Icon(Icons.palette_outlined),
                     Text('  Color:  '
                         , style: GoogleFonts.quicksand(fontSize: 20.0, fontWeight: FontWeight.w900)),
-                    Text('${details['color']}'
+                    Text('${color}'
                         , style: GoogleFonts.quicksand(
                             fontSize: 20.0, fontWeight: FontWeight.bold)),
                   ],),
@@ -195,7 +226,7 @@ class _DetailScreenState extends State<DetailScreen> {
                     Icon(Icons.straighten_outlined),
                     Text('  Tamaño:  '
                         , style: GoogleFonts.quicksand(fontSize: 20.0, fontWeight: FontWeight.w900)),
-                    Text('${details['size']}'
+                    Text('${size}'
                         , style: GoogleFonts.quicksand(
                             fontSize: 20.0, fontWeight: FontWeight.bold)),
                   ],),
