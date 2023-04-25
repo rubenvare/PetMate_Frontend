@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_proyecto/inicio.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class PantallaProtectoraItems extends StatefulWidget {
 
-  final String nombre;
-  final String descripcion;
+  final String nombreAdoptante;
+  final String nombreAnimal;
 
-  const PantallaProtectoraItems(this.nombre, this.descripcion, {super.key});
+  const PantallaProtectoraItems(this.nombreAdoptante, this.nombreAnimal, {super.key});
 
   @override
   State<PantallaProtectoraItems> createState() => PantallaProtectoraItemsState();
@@ -15,8 +16,8 @@ class PantallaProtectoraItems extends StatefulWidget {
 class PantallaProtectoraItemsState extends State<PantallaProtectoraItems> {
   
   final List<PantallaProtectoraItems> elementos = [
-    const PantallaProtectoraItems("Elemento 1", "Descripción del elemento 1"),
-    const PantallaProtectoraItems("Elemento 2", "Descripción del elemento 2"),
+    const PantallaProtectoraItems("Maria", "Haku"),
+    const PantallaProtectoraItems("Laura", "Antonio"),
   ];
 
   @override
@@ -25,6 +26,13 @@ class PantallaProtectoraItemsState extends State<PantallaProtectoraItems> {
       appBar:PetMateAppBar(),
       body:Column(
         children: [
+          Text("Posibles adopciones",
+          style: GoogleFonts.quicksand(
+            fontSize: 30.0,
+            color: Colors.black,
+            fontWeight: FontWeight.w900,
+            letterSpacing: 2.0,
+          )),
           Expanded(
             child: ListView.builder(
               itemCount: elementos.length,
@@ -36,30 +44,41 @@ class PantallaProtectoraItemsState extends State<PantallaProtectoraItems> {
                     padding: EdgeInsets.all(16.0),
                     margin: EdgeInsets.all(16.0),
                     decoration: BoxDecoration(
-                      color: Colors.black,
+                      color: Colors.white,
                       borderRadius: BorderRadius.circular(8.0),
+                      border: Border.all(color: Colors.black),
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          elemento.nombre,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 24.0,
-                          ),
+                        Column(
+                          children:[
+                            Text(
+                              elemento.nombreAdoptante,
+                              style: const TextStyle(
+                                color: Colors.black,
+                                fontSize: 24.0,
+                              ),
+                            ),
+                            Text(
+                                elemento.nombreAnimal,
+                                style: const TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 12.0,
+                                )),
+                          ]
                         ),
                         Row(
                           children: const [
                             CircleAvatar(
-                              backgroundColor: Colors.white,
-                              backgroundImage: AssetImage("assets/imagen1.png"),
+                              backgroundImage: NetworkImage(
+                                  'https://picsum.photos/id/64/200/300'),
                             ),
                             SizedBox(width: 8.0),
-                            CircleAvatar(
-                              backgroundColor: Colors.white,
-                              backgroundImage: AssetImage("assets/imagen2.png"),
-                            ),
+                          CircleAvatar(
+                            backgroundImage: NetworkImage(
+                                'https://picsum.photos/id/237/200/300'),
+                          ),
                           ],
                         ),
                       ],
@@ -110,17 +129,73 @@ class PantallaProtectoraItemsState extends State<PantallaProtectoraItems> {
   }
 }
 
+
 void _mostrarPopUp(BuildContext context, PantallaProtectoraItems elemento) {
   showDialog(
     context: context,
-    builder: (context) {
+    builder: (BuildContext context) {
       return AlertDialog(
-        title: Text(elemento.nombre),
-        content: Text(elemento.descripcion),
+        title: Text('Información adoptante y animal'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              children: [
+                CircleAvatar(
+                  radius: 25,
+                  backgroundImage: NetworkImage(
+                      'https://picsum.photos/id/64/200/300'),
+                ),
+                SizedBox(width: 16),
+                Expanded(
+                  child: Text(
+                    elemento.nombreAdoptante,
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ),
+                IconButton(
+                  onPressed: () {},
+                  icon: Icon(Icons.info_outline),
+                ),
+              ],
+            ),
+            SizedBox(height: 16),
+            Row(
+              children: [
+                CircleAvatar(
+                  radius: 25,
+                  backgroundImage: NetworkImage(
+                      'https://picsum.photos/id/237/200/300'),
+                ),
+                SizedBox(width: 16),
+                Expanded(
+                  child: Text(
+                    elemento.nombreAnimal,
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ),
+                IconButton(
+                  onPressed: () {},
+                  icon: Icon(Icons.info_outline),
+                ),
+              ],
+            ),
+            SizedBox(height: 16),
+            Text(
+              '¿Deseas que el adoptante conozca a la mascota?',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 16),
+            ),
+          ],
+        ),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: Text("Cerrar"),
+            child: Text('Cancelar'),
+          ),
+          ElevatedButton(
+            onPressed: () {},
+            child: Text('Aceptar'),
           ),
         ],
       );
