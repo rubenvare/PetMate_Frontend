@@ -1,19 +1,47 @@
 import 'package:flutter/material.dart';
 import 'inicio.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'http_functions.dart';
 
 class VisualizarAnimales extends StatefulWidget {
+  final int userId = 1;
+  
   @override
   State<VisualizarAnimales> createState() => VisualizarAnimalesState();
 }
 
 class VisualizarAnimalesState extends State<VisualizarAnimales> {
+  Map<int, Map<String, dynamic>> datos = {};
+
+
+  @override
+    void initState() {
+      super.initState();
+      getDatos();
+    }
+  
+  Future<void> getDatos() async {
+    try {
+      var response = await showPets({'user_id': widget.userId});
+      Map<int, Map<String, dynamic>> nuevos_datos = {};
+      if (response != null && response.isNotEmpty) {
+        response.forEach((key, value) {
+          nuevos_datos[int.parse(key)] = value;
+        });
+      }
+      setState(() {
+        datos = nuevos_datos;
+      });
+    } catch (error){
+      print('Error al obtener los datos: $error');
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PetMateAppBar(),
       body: Center(
-          child: Container(
+        child: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         color: const Color(0xFFC4A484),

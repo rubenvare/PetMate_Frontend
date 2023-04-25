@@ -52,3 +52,14 @@ Future<void> sendShowProfileDataRequest(dynamic data) async {
     // Aquí puedes procesar la respuesta como sea necesario
   }
 }
+
+Future<Map<String,dynamic>> showPets(dynamic data) async {
+  final path = '/S_show_pets';
+  final response = await sendPostRequest(path, data);
+  var datos = json.decode(response.body);
+  if (response.statusCode != 200) {
+    print('Error en la solicitud: ${response.reasonPhrase}');
+  }
+  
+  return datos;
+}
