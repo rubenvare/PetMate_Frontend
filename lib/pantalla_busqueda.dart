@@ -74,9 +74,8 @@ class _DogSearchScreenState extends State<DogSearchScreen> {
 
     Map<String, dynamic> response = await getNextPet(pet);
     setState(() {
-      //
-      //currentAnimal['user_id'] = UserSession().userId;
-      currentAnimal['user_id'] = 1;
+      currentAnimal['user_id'] = UserSession().userId;
+      // para pruebas: currentAnimal['user_id'] = 1;
       currentAnimal['age'] = response['age'];
       currentAnimal['animal_id'] = response['animal_id'];
       currentAnimal['name'] = response['name'];
@@ -159,11 +158,13 @@ class _DogSearchScreenState extends State<DogSearchScreen> {
                       top: 10.0,
                       right: 15.0,
                       child: IconButton(
-                        icon: saveForLater == false ? Icon(Icons.bookmark_border_outlined, size: 50, ) :  Icon(Icons.bookmark_border, size: 50),
+                        icon: saveForLater == false ? Icon(Icons.bookmark_border_outlined, size: 50, ) :  Icon(Icons.bookmark, size: 50),
                         color: Colors.black,
                         onPressed: () {
                           // TODO: implementar la logica para el 10 (guardar animal en la bd para luego)
-                          saveForLater = !saveForLater;
+                          setState((){
+                            saveForLater = !saveForLater;
+                          });
                         },
                       ),
                     ),

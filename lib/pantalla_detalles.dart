@@ -264,7 +264,7 @@ class _DetailScreenState extends State<DetailScreen> {
                     SizedBox(
                       height: MediaQuery.of(context).size.height * 0.2,
                       // cuando se añadan fotos de protectoras al server: child: Center(child: shelterPicture),
-                      child: Image.network('${shelter['photo']}'),
+                      child: getImage('${shelter['photo']}'),
                     ),
                     SizedBox(height: 20.0,),
                     Row(children: [
