@@ -81,8 +81,8 @@ class _DogSearchScreenState extends State<DogSearchScreen> {
 
     Map<String, dynamic> response = await getNextPet(pet);
     setState(() {
-      //currentAnimal['user_id'] = UserSession().userId;
-      currentAnimal['user_id'] = 1;
+      currentAnimal['user_id'] = UserSession().userId;
+      // para pruebas: currentAnimal['user_id'] = 1;
       currentAnimal['age'] = response['age'];
       currentAnimal['animal_id'] = response['animal_id'];
       currentAnimal['name'] = response['name'];
