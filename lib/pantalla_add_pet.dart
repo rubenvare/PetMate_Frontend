@@ -382,7 +382,7 @@ class AddPetState extends State<AddPet> {
                                             titleTextStyle: GoogleFonts.quicksand(
                                                 fontSize: 16,
                                                 fontWeight: FontWeight.w700,
-                                                color: Colors.white),
+                                                color: Colors.black),
                                             backgroundColor:
                                             const Color(0xFFC4A484),
                                             shape: const RoundedRectangleBorder(
@@ -419,7 +419,7 @@ class AddPetState extends State<AddPet> {
                                             titleTextStyle: GoogleFonts.quicksand(
                                                 fontSize: 16,
                                                 fontWeight: FontWeight.w700,
-                                                color: Colors.white),
+                                                color: Colors.black),
                                             backgroundColor:
                                             const Color(0xFFC4A484),
                                             shape: const RoundedRectangleBorder(
