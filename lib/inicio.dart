@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_proyecto/router.dart';
 import 'package:flutter_proyecto/routing_constants.dart';
+import 'package:flutter_proyecto/singleton_user.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_proyecto/http_functions.dart';
 
@@ -130,11 +131,14 @@ class InicioSesionState extends State<InicioSesion> {
                                 'password': password,
                               };
                               if (await sendLoginRequest(body)){
-                                Navigator.pushNamed(context, PantallaAdoptanteRoute);
+                                if(UserSession().type == "A"){
+                                  Navigator.pushNamed(context, PantallaAdoptanteRoute);
+                                } else {
+                                  Navigator.pushNamed(context, PantallaProtectoraRoute);
+                                }
                               } else {
                                 openDialog();
                                 formKey.currentState?.reset();
-
                               }
                             },
                             style: ElevatedButton.styleFrom(
