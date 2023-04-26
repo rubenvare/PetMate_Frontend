@@ -18,7 +18,7 @@ Route<dynamic> generateRoute(RouteSettings settings){
     case PantallaAdoptanteRoute:
       return MaterialPageRoute(builder: (context) => DogSearchScreen());
     case VisualizarAnimalesRoute:
-      return MaterialPageRoute(builder: (context) => VisualizarAnimales(11));
+      return MaterialPageRoute(builder: (context) => VisualizarAnimales());
 
     default:
       return MaterialPageRoute(builder: (context) => InicioSesion());
