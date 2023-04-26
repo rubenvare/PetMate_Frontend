@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_proyecto/inicio.dart';
+import 'package:flutter_proyecto/pantalla_add_pet.dart';
 import 'package:flutter_proyecto/pantalla_protectora.dart';
 import 'package:flutter_proyecto/pantalla_registro.dart';
 import 'package:flutter_proyecto/pantalla_busqueda.dart';
@@ -15,6 +16,8 @@ Route<dynamic> generateRoute(RouteSettings settings){
       return MaterialPageRoute(builder: (context) => DogSearchScreen());
     case PantallaProtectoraRoute:
       return MaterialPageRoute(builder: (context) => PantallaProtectoraItems("null", "null"));
+    case PantallaAddAnimalRoute:
+      return MaterialPageRoute(builder: (context) => AddPet());
     default:
       return MaterialPageRoute(builder: (context) => InicioSesion());
   }
