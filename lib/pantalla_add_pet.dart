@@ -13,6 +13,7 @@ class AddPetState extends State<AddPet> {
   final formkey = GlobalKey<FormState>();
   bool NumberError = false;
   bool DirectionError = false;
+  bool DescriptionError = false;
   bool dropdownError1 = false;
   String? dropdownValue1;
   bool dropdownError2 = false;
@@ -129,37 +130,50 @@ class AddPetState extends State<AddPet> {
                                 ),
 
                                 child: DropdownButtonFormField<String>(
-                                  decoration: InputDecoration(
-                                    labelText: 'Especie',
-                                    labelStyle: TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16,
+                                    decoration: InputDecoration(
+                                      labelText: 'Especie',
+                                      labelStyle: TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16,
+                                      ),
+                                      border: InputBorder.none,
                                     ),
-                                    border: InputBorder.none,
-                                  ),
-                                  dropdownColor: Colors.brown,
-                                  onChanged: (String? changedValue) {
-                                    dropdownValue1 = changedValue!;
-                                    setState(() {
-                                      dropdownValue1;
-                                    });
-                                  },
-                                  isExpanded: true,
-                                  style: GoogleFonts.quicksand(
-                                    color: Colors.black,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                  value: dropdownValue1,
-                                  items: <String>["Perro", "Gato", "Pajaro"]
-                                      .map((item) => DropdownMenuItem(
-                                    child: Text(item),
-                                    value: item,
+                                    dropdownColor: Colors.brown,
+                                    onChanged: (String? changedValue) {
+                                      dropdownValue1 = changedValue!;
+                                      setState(() {
+                                        dropdownValue1;
+                                      });
+                                    },
+                                    isExpanded: true,
+                                    style: GoogleFonts.quicksand(
+                                      color: Colors.black,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                    value: dropdownValue1,
+                                    items: <String>["Perro", "Gato", "Pajaro"]
+                                        .map((item) => DropdownMenuItem(
+                                      child: Text(item),
+                                      value: item,
 
-                                  ))
-                                      .toList(),
-                                  validator: (value) => value == null ? 'Este campo es requerido' : breed = value,
+                                    ))
+                                        .toList(),
+                                    validator: (value) {
+                                      if (value == null) {
+                                        setState(() {
+                                          dropdownError1 = true;
+                                        });
+                                        return 'Este campo es obligatorio';
+                                      }
+                                      else {
+                                        setState(() {
+                                          dropdownError1 = false;
+                                          breed = value!;
+                                        });
+                                        return null;
+                                      }}
                                 )
                             ),
                             const SizedBox(height: 20),
@@ -173,37 +187,50 @@ class AddPetState extends State<AddPet> {
                                 ),
 
                                 child: DropdownButtonFormField<String>(
-                                  decoration: InputDecoration(
-                                    labelText: 'Tonalidad',
-                                    labelStyle: TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16,
+                                    decoration: InputDecoration(
+                                      labelText: 'Tonalidad',
+                                      labelStyle: TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16,
+                                      ),
+                                      border: InputBorder.none,
                                     ),
-                                    border: InputBorder.none,
-                                  ),
-                                  dropdownColor: Colors.brown,
-                                  onChanged: (String? changedValue) {
-                                    dropdownValue2 = changedValue!;
-                                    setState(() {
-                                      dropdownValue2;
-                                    });
-                                  },
-                                  isExpanded: true,
-                                  style: GoogleFonts.quicksand(
-                                    color: Colors.black,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                  value: dropdownValue2,
-                                  items: <String>["Claro", "Neutro", "Oscuro"]
-                                      .map((item) => DropdownMenuItem(
-                                    child: Text(item),
-                                    value: item,
+                                    dropdownColor: Colors.brown,
+                                    onChanged: (String? changedValue) {
+                                      dropdownValue2 = changedValue!;
+                                      setState(() {
+                                        dropdownValue2;
+                                      });
+                                    },
+                                    isExpanded: true,
+                                    style: GoogleFonts.quicksand(
+                                      color: Colors.black,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                    value: dropdownValue2,
+                                    items: <String>["Claro", "Neutro", "Oscuro"]
+                                        .map((item) => DropdownMenuItem(
+                                      child: Text(item),
+                                      value: item,
 
-                                  ))
-                                      .toList(),
-                                  validator: (value) => value == null ? 'Este campo es requerido' : tone = value,)
+                                    ))
+                                        .toList(),
+                                    validator: (value) {
+                                      if (value == null) {
+                                        setState(() {
+                                          dropdownError2 = true;
+                                        });
+                                        return 'Este campo es obligatorio';
+                                      }
+                                      else {
+                                        setState(() {
+                                          dropdownError2 = false;
+                                          tone = value!;
+                                        });
+                                        return null;
+                                      }})
                             ),
                             const SizedBox(height: 20),
                             Container(
@@ -216,37 +243,50 @@ class AddPetState extends State<AddPet> {
                                 ),
 
                                 child: DropdownButtonFormField<String>(
-                                  decoration: InputDecoration(
-                                    labelText: 'Tamaño',
-                                    labelStyle: TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16,
+                                    decoration: InputDecoration(
+                                      labelText: 'Tamaño',
+                                      labelStyle: TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16,
+                                      ),
+                                      border: InputBorder.none,
                                     ),
-                                    border: InputBorder.none,
-                                  ),
-                                  dropdownColor: Colors.brown,
-                                  onChanged: (String? changedValue) {
-                                    dropdownValue3 = changedValue!;
-                                    setState(() {
-                                      dropdownValue3;
-                                    });
-                                  },
-                                  isExpanded: true,
-                                  style: GoogleFonts.quicksand(
-                                    color: Colors.black,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                  value: dropdownValue3,
-                                  items: <String>["Pequeño", "Mediano", "Grande"]
-                                      .map((item) => DropdownMenuItem(
-                                    child: Text(item),
-                                    value: item,
+                                    dropdownColor: Colors.brown,
+                                    onChanged: (String? changedValue) {
+                                      dropdownValue3 = changedValue!;
+                                      setState(() {
+                                        dropdownValue3;
+                                      });
+                                    },
+                                    isExpanded: true,
+                                    style: GoogleFonts.quicksand(
+                                      color: Colors.black,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                    value: dropdownValue3,
+                                    items: <String>["Pequeño", "Mediano", "Grande"]
+                                        .map((item) => DropdownMenuItem(
+                                      child: Text(item),
+                                      value: item,
 
-                                  ))
-                                      .toList(),
-                                  validator: (value) => value == null ? 'Este campo es requerido' : size = value,)
+                                    ))
+                                        .toList(),
+                                    validator: (value) {
+                                      if (value == null) {
+                                        setState(() {
+                                          dropdownError3 = true;
+                                        });
+                                        return 'Este campo es obligatorio';
+                                      }
+                                      else {
+                                        setState(() {
+                                          dropdownError3 = false;
+                                          size = value!;
+                                        });
+                                        return null;
+                                      }})
                             ),
                             const SizedBox(height: 20),
                             TextFormField(
@@ -301,17 +341,17 @@ class AddPetState extends State<AddPet> {
                                 validator: (value) {
                                   if (value?.isEmpty ?? true) {
                                     setState(() {
-                                      NumberError = true;
+                                      DescriptionError = true;
                                     });
                                     return 'Este campo es obligatorio';
                                   } else if (!regExp.hasMatch(value!)) {
                                     setState(() {
-                                      NumberError = true;
+                                      DescriptionError = true;
                                     });
                                     return 'Este campo requiere de letras';
                                   } else {
                                     setState(() {
-                                      NumberError = false;
+                                      DescriptionError = false;
                                       description = value;
                                     });
                                     return null;
@@ -342,7 +382,7 @@ class AddPetState extends State<AddPet> {
                                             titleTextStyle: GoogleFonts.quicksand(
                                                 fontSize: 16,
                                                 fontWeight: FontWeight.w700,
-                                                color: Colors.white),
+                                                color: Colors.black),
                                             backgroundColor:
                                             const Color(0xFFC4A484),
                                             shape: const RoundedRectangleBorder(
@@ -379,7 +419,7 @@ class AddPetState extends State<AddPet> {
                                             titleTextStyle: GoogleFonts.quicksand(
                                                 fontSize: 16,
                                                 fontWeight: FontWeight.w700,
-                                                color: Colors.white),
+                                                color: Colors.black),
                                             backgroundColor:
                                             const Color(0xFFC4A484),
                                             shape: const RoundedRectangleBorder(
