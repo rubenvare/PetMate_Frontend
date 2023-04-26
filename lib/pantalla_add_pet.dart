@@ -23,8 +23,9 @@ class AddPetState extends State<AddPet> {
   late String breed;
   late String tone;
   late String size;
-  late String age;
+  late int age;
   late String description;
+  String photo = "";
 
   RegExp regExp = RegExp(r'(^[A-z]*$)');
   @override
@@ -112,6 +113,7 @@ class AddPetState extends State<AddPet> {
                                   } else {
                                     setState(() {
                                       NumberError = false;
+                                      name = value!;
                                     });
                                     return null;
                                   }
@@ -157,7 +159,8 @@ class AddPetState extends State<AddPet> {
 
                                   ))
                                       .toList(),
-                                  validator: (value) => value == null ? 'Este campo es requerido' : null,)
+                                  validator: (value) => value == null ? 'Este campo es requerido' : breed = value,
+                                )
                             ),
                             const SizedBox(height: 20),
                             Container(
@@ -200,7 +203,7 @@ class AddPetState extends State<AddPet> {
 
                                   ))
                                       .toList(),
-                                  validator: (value) => value == null ? 'Este campo es requerido' : null,)
+                                  validator: (value) => value == null ? 'Este campo es requerido' : tone = value,)
                             ),
                             const SizedBox(height: 20),
                             Container(
@@ -243,7 +246,7 @@ class AddPetState extends State<AddPet> {
 
                                   ))
                                       .toList(),
-                                  validator: (value) => value == null ? 'Este campo es requerido' : null,)
+                                  validator: (value) => value == null ? 'Este campo es requerido' : size = value,)
                             ),
                             const SizedBox(height: 20),
                             TextFormField(
@@ -272,6 +275,7 @@ class AddPetState extends State<AddPet> {
                                 if (yearOfBirth < 1900 || yearOfBirth > DateTime.now().year) {
                                   return 'Por favor, ingresa un año válido';
                                 }
+                                age = yearOfBirth;
                                 return null;
                               },
                             ),
@@ -308,6 +312,7 @@ class AddPetState extends State<AddPet> {
                                   } else {
                                     setState(() {
                                       NumberError = false;
+                                      description = value;
                                     });
                                     return null;
                                   }
@@ -317,16 +322,23 @@ class AddPetState extends State<AddPet> {
                               onPressed: () async {
                                 if (formkey.currentState?.validate() ?? false ) {
                                   var data = {
-
+                                    'user_id': 8,
+                                    'name': name,
+                                    'photo': photo,
+                                    'species': breed,
+                                    'age': age,
+                                    'color': tone,
+                                    'size': size,
+                                    'description' : description
                                   };
-                                  if(await sendRegisterRequest(data)) {
+                                  if(await sendAddPetRequest(data)) {
                                     showDialog(
                                         context: context,
                                         builder: (BuildContext context) {
                                           return AlertDialog(
                                             icon: const Icon(Icons.pets_rounded),
                                             title: const Text(
-                                                'Registro como protectora completado'),
+                                                'Mascota añadida correctamente'),
                                             titleTextStyle: GoogleFonts.quicksand(
                                                 fontSize: 16,
                                                 fontWeight: FontWeight.w700,
@@ -363,7 +375,7 @@ class AddPetState extends State<AddPet> {
                                           return AlertDialog(
                                             icon: const Icon(Icons.pets_rounded),
                                             title: const Text(
-                                                'Error en el registro'),
+                                                'Error en añadir la mascota'),
                                             titleTextStyle: GoogleFonts.quicksand(
                                                 fontSize: 16,
                                                 fontWeight: FontWeight.w700,
