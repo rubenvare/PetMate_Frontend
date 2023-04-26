@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_proyecto/pantalla_detalles.dart';
+import 'package:flutter_proyecto/pantalla_protectora.dart';
+import 'package:flutter_proyecto/routing_constants.dart';
 import 'package:flutter_proyecto/singleton_user.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -303,6 +305,14 @@ class PetMateNavBar extends StatelessWidget {
     return BottomNavigationBar(
       currentIndex: 0, // Establece el índice del elemento seleccionado actualmente
       onTap: (index) {
+        switch (index){
+          case 0: UserSession().type == "A" ? Navigator.pushNamed(context, PantallaAdoptanteRoute) : Navigator.pushNamed(context, PantallaProtectoraRoute);
+              break;
+          case 1: break;
+          case 2: Navigator.pushNamed(context, VisualizarAnimalesRoute);
+              break;
+          default: break;
+        }
         // Agrega aquí la lógica para manejar el cambio de pantalla según el índice seleccionado
       },
       fixedColor: Colors.black, // Establece el color de fondo de los botones
