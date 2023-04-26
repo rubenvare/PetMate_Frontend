@@ -1,19 +1,42 @@
 import 'package:flutter/material.dart';
 import 'inicio.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'http_functions.dart';
 
 class VisualizarAnimales extends StatefulWidget {
+  int userId;
+  
+  VisualizarAnimales(this.userId);
   @override
-  State<VisualizarAnimales> createState() => VisualizarAnimalesState();
+  State<VisualizarAnimales> createState() => VisualizarAnimalesState(userId);
 }
 
 class VisualizarAnimalesState extends State<VisualizarAnimales> {
+  int userId;
+  Map<String, dynamic> datos = {};
+
+  VisualizarAnimalesState(this.userId);
+
+  @override
+    void initState() {
+      super.initState();
+      getDatos(userId);
+    }
+  
+  Future<void> getDatos(int userId) async {
+    try {
+      var response = await showPets({'user_id': userId});
+      datos = response;
+    } catch (error){
+      print('Error al obtener los datos: $error');
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PetMateAppBar(),
       body: Center(
-          child: Container(
+        child: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         color: const Color(0xFFC4A484),
@@ -24,12 +47,12 @@ class VisualizarAnimalesState extends State<VisualizarAnimales> {
             Row(children: <Widget>[
               Padding(
                   padding: const EdgeInsets.symmetric(
-                      horizontal: 30.0, vertical: 20.0),
+                      horizontal: 30.0, vertical: 10.0),
                   child: Column(
                     children: [
                       ElevatedButton(
                         onPressed: () {
-                          print("protectora");
+                          print(datos);
                         },
                         style: ElevatedButton.styleFrom(
                             minimumSize: const Size(165, 35),
@@ -74,16 +97,17 @@ class VisualizarAnimalesState extends State<VisualizarAnimales> {
             ]),
             const SizedBox(height: 20),
             Column(
-              children: List.generate(5, (index) {
+              children: datos.entries.map((entry) {
+                final animalData = entry.value;
                 return GestureDetector(
                   onTap: () {
-                    print("entrada ${index + 1}");
+                    print("animal ${entry.key}");
                   },
                   child: Container(
                     decoration: BoxDecoration(
                       border: Border.all(
-                        color: Colors.black,
-                      ),
+                        color: Colors.black
+                      )
                     ),
                     child: SizedBox(
                       height: 100,
@@ -92,66 +116,28 @@ class VisualizarAnimalesState extends State<VisualizarAnimales> {
                           Positioned(
                             left: 30,
                             top: 45,
-                            child: Text("Perro ${index + 1}",
-                                style: GoogleFonts.quicksand(
-                                    fontSize: 14.0,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w900,
-                                    letterSpacing: 2.0)),
+                            child: Text("${animalData['pet_name']}",
+                            style: GoogleFonts.quicksand(
+                              fontSize: 14.0,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w900,
+                              letterSpacing: 2.0))
                           ),
                           Positioned(
                             right: 0,
                             child: SizedBox(
                               height: 100,
-                              child: Image.network(
-                                  'https://static.fundacion-affinity.org/cdn/farfuture/PVbbIC-0M9y4fPbbCsdvAD8bcjjtbFc0NSP3lRwlWcE/mtime:1643275542/sites/default/files/los-10-sonidos-principales-del-perro.jpg',
-                                  fit: BoxFit.cover),
-                            ),
-                          ),
+                              child: Image.network('${animalData['photo_pet']}'),
+                            ))
                         ],
                       ),
                     ),
                   ),
                 );
-              }),
+              },
+            ).toList(),
             ),
             const SizedBox(height: 30),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    print('logout');
-                  },
-                  style: ElevatedButton.styleFrom(
-                      minimumSize: const Size(150, 35),
-                      backgroundColor: Colors.brown),
-                  child: Text("LOGOUT",
-                      style: GoogleFonts.quicksand(
-                          fontSize: 14.0,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w900,
-                          letterSpacing: 2.0)),
-                ),
-                const SizedBox(width: 30),
-                ElevatedButton(
-                    onPressed: () {
-                      print('submit');
-                    },
-                    style: ElevatedButton.styleFrom(
-                        minimumSize: const Size(150, 35),
-                        backgroundColor: Colors.brown),
-                    child: Text('SUBMIT',
-                    style: GoogleFonts.quicksand(
-                                    fontSize: 14.0,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w900,
-                                    letterSpacing: 2.0
-                                )))
-              ],
-            ),
-            const SizedBox(height: 30)
           ],
         )),
       )),
