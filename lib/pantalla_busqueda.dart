@@ -290,38 +290,41 @@ class _DogSearchScreenState extends State<DogSearchScreen> {
         ),
       ),
 
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: 0,
-        onTap: (index) {
-          // COMO CONECTARLO: haz un switch de index, cada index (0,1,2,3) es un boton, esta ya asignado empezando por el home
-          // entonces haz el push a la pantalla que quieras! :)
-        },
-        fixedColor: Colors.black,
-        selectedFontSize: 14,
-        iconSize: 24, // Establece el tamaño de los íconos de los botones
-        type: BottomNavigationBarType.fixed,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Inicio',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.edit),
-            label: 'Editar',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.message),
-            label: 'Mensajes',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Perfil',
-          ),
-        ],
-      ),
+      bottomNavigationBar: const PetMateNavBar()
     );
   }
+}
 
+class PetMateNavBar extends StatelessWidget {
+  const PetMateNavBar({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BottomNavigationBar(
+      currentIndex: 0, // Establece el índice del elemento seleccionado actualmente
+      onTap: (index) {
+        // Agrega aquí la lógica para manejar el cambio de pantalla según el índice seleccionado
+      },
+      fixedColor: Colors.black, // Establece el color de fondo de los botones
+      selectedFontSize: 14, // Aumenta el tamaño del texto de los botones seleccionados
+      iconSize: 24, // Establece el tamaño de los íconos de los botones
+      type: BottomNavigationBarType.fixed, // Fuerza la alineación de los botones
+      items: const [
+        BottomNavigationBarItem(
+          icon: Icon(Icons.home),
+          label: 'Inicio',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.message),
+          label: 'Mensajes',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.person),
+          label: 'Perfil',
+        ),
+      ],
+    );
+  }
 }
 
 

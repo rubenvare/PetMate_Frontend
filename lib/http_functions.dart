@@ -76,9 +76,9 @@ Future<Map<String,dynamic>> showPets(dynamic data) async {
   if (response.statusCode != 200) {
     print('Error en la solicitud: ${response.reasonPhrase}');
   }
-  
+
   return datos;
-  
+}
 Future<bool> sendAddPetRequest(dynamic data) async {
   final path = '/S_add_pet';
   final response = await sendPostRequest(path, data);
