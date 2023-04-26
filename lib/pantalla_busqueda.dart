@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_proyecto/pantalla_detalles.dart';
+import 'package:flutter_proyecto/singleton_user.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'inicio.dart';
@@ -11,11 +13,10 @@ class DogSearchScreen extends StatefulWidget {
 
 class _DogSearchScreenState extends State<DogSearchScreen> {
   bool dataLoaded = false;
+  bool saveForLater = false;
   Image? currentAnimalPhoto;
   Map<String, dynamic> currentAnimal = {};
   double containerSize = 50.0;
-  int _currentIndex = 0;
-  SwiperController _swiperController = SwiperController();
 
   Widget PetMateLoading() {
     return Container(
@@ -54,7 +55,6 @@ class _DogSearchScreenState extends State<DogSearchScreen> {
   @override
   void initState() {
     super.initState();
-    _swiperController = SwiperController();
     var firstPet = {
       'user_id': 1,
       'animal_id': null,
@@ -74,10 +74,8 @@ class _DogSearchScreenState extends State<DogSearchScreen> {
 
     Map<String, dynamic> response = await getNextPet(pet);
     setState(() {
-      // OJO, USER_ID HARDCODED
-      currentAnimal['user_id'] = 1;
-      // TIENE QUE LLEGARTE EL USER ID DE LA PANTALLA ANTERIOR
-
+      currentAnimal['user_id'] = UserSession().userId;
+      // para pruebas: currentAnimal['user_id'] = 1;
       currentAnimal['age'] = response['age'];
       currentAnimal['animal_id'] = response['animal_id'];
       currentAnimal['name'] = response['name'];
@@ -102,14 +100,19 @@ class _DogSearchScreenState extends State<DogSearchScreen> {
         currentAnimalPhoto = getImage(response['photo']);
         dataLoaded = true;
       });
-
-    // Reinicia el tamaño del contenedor después de 200 milisegundos
-
     });
   }
 
-  void _handleDetails() {
-    // Navigate to the details screen for the current image
+  void _handleDetails(BuildContext context, int pet_id) {
+    // Navigate to the details screen for the current pet
+    DetailScreen detailScreen = DetailScreen(pet_id);
+    // Navegar a la pantalla de detalles del animal
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => detailScreen,
+      ),
+    );
   }
 
   void _showMessage(BuildContext context, String message, Color color) {
@@ -122,6 +125,7 @@ class _DogSearchScreenState extends State<DogSearchScreen> {
       ),
     );
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -151,6 +155,20 @@ class _DogSearchScreenState extends State<DogSearchScreen> {
                       ),
                     ),
                     Positioned(
+                      top: 10.0,
+                      right: 15.0,
+                      child: IconButton(
+                        icon: saveForLater == false ? Icon(Icons.bookmark_border_outlined, size: 50, ) :  Icon(Icons.bookmark, size: 50),
+                        color: Colors.black,
+                        onPressed: () {
+                          // TODO: implementar la logica para el 10 (guardar animal en la bd para luego)
+                          setState((){
+                            saveForLater = !saveForLater;
+                          });
+                        },
+                      ),
+                    ),
+                    Positioned(
                       bottom: 0,
                       left: 0,
                       right: 0,
@@ -171,9 +189,9 @@ class _DogSearchScreenState extends State<DogSearchScreen> {
                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: [
                                   AnimatedContainer(
-                                    duration: Duration(milliseconds: 200), // Duración de la animación en milisegundos
-                                    width: containerSize, // Ancho inicial del contenedor
-                                    height: containerSize, // Alto inicial del contenedor
+                                    duration: Duration(milliseconds: 200),
+                                    width: containerSize,
+                                    height: containerSize,
                                     decoration: const BoxDecoration(
                                       shape: BoxShape.circle,
                                       color: Colors.blue,
@@ -205,15 +223,17 @@ class _DogSearchScreenState extends State<DogSearchScreen> {
                                     ),
                                   ),
                                   AnimatedContainer(
-                                    duration: const Duration(milliseconds: 200), // Duración de la animación en milisegundos
-                                    width: containerSize, // Ancho inicial del contenedor
-                                    height: containerSize, // Alto inicial del contenedor
+                                    duration: const Duration(milliseconds: 200),
+                                    width: containerSize,
+                                    height: containerSize,
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
                                       color: Colors.grey[300],
                                     ),
                                     child: IconButton(
-                                      onPressed: _handleDetails,
+                                      onPressed: () {
+                                        _handleDetails(context, currentAnimal['animal_id']);
+                                      },
                                       icon: const Icon(
                                         Icons.info,
                                         size: 32.0,
@@ -221,9 +241,9 @@ class _DogSearchScreenState extends State<DogSearchScreen> {
                                     ),
                                   ),
                                   AnimatedContainer(
-                                    duration: const Duration(milliseconds: 200), // Duración de la animación en milisegundos
-                                    width: containerSize, // Ancho inicial del contenedor
-                                    height: containerSize, // Alto inicial del contenedor
+                                    duration: const Duration(milliseconds: 200),
+                                    width: containerSize,
+                                    height: containerSize,
                                     decoration: const BoxDecoration(
                                       shape: BoxShape.circle,
                                       color: Colors.red,
@@ -271,14 +291,15 @@ class _DogSearchScreenState extends State<DogSearchScreen> {
       ),
 
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: 0, // Establece el índice del elemento seleccionado actualmente
+        currentIndex: 0,
         onTap: (index) {
-          // Agrega aquí la lógica para manejar el cambio de pantalla según el índice seleccionado
+          // COMO CONECTARLO: haz un switch de index, cada index (0,1,2,3) es un boton, esta ya asignado empezando por el home
+          // entonces haz el push a la pantalla que quieras! :)
         },
-        fixedColor: Colors.black, // Establece el color de fondo de los botones
-        selectedFontSize: 14, // Aumenta el tamaño del texto de los botones seleccionados
+        fixedColor: Colors.black,
+        selectedFontSize: 14,
         iconSize: 24, // Establece el tamaño de los íconos de los botones
-        type: BottomNavigationBarType.fixed, // Fuerza la alineación de los botones
+        type: BottomNavigationBarType.fixed,
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),

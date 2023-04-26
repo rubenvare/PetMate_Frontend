@@ -73,8 +73,32 @@ Future<Map<String, dynamic>> getNextPet(dynamic data) async {
   final response = await sendPostRequest(path, data);
   var datos = json.decode(response.body);
   if (response.statusCode != 200) {
-    print('Error en la solicitud: ${response.reasonPhrase}');
+    print('Error en la solicitud de siguiente animal: ${response.reasonPhrase}');
   }
 
   return datos;
+}
+
+Future<Map<String, dynamic>> getPetDetails(dynamic data) async {
+  final path = '/show_pet';
+  final response = await sendPostRequest(path, data);
+  var detalles = json.decode(response.body);
+  if (response.statusCode != 200) {
+    return {'error': 'ERROR OBTENIENDO INFORMACIÓN DEL ANIMAL'};
+  }
+  else {
+    return detalles;
+  }
+}
+
+Future<Map<String, dynamic>> getProfileInfo(dynamic data) async {
+  final path = '/show_profile';
+  final response = await sendPostRequest(path, data);
+  var info = json.decode(response.body);
+  if (response.statusCode != 200) {
+    return {'error': 'ERROR OBTENIENDO INFORMACIÓN DEL ANIMAL'};
+  }
+  else {
+    return info;
+  }
 }
