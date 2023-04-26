@@ -68,6 +68,18 @@ Future<void> sendShowProfileDataRequest(dynamic data) async {
   }
 }
 
+Future<bool> sendAddPetRequest(dynamic data) async {
+  final path = '/S_add_pet';
+  final response = await sendPostRequest(path, data);
+  if (response.statusCode != 200) {
+    print('Error en la solicitud: ${response.reasonPhrase}');
+    return Future<bool>.value(false);
+  } else {
+    return Future<bool>.value(true);
+    final responseBody = json.decode(response.body);
+}
+}
+
 Future<Map<String, dynamic>> getNextPet(dynamic data) async {
   final path = '/A_next_pet';
   final response = await sendPostRequest(path, data);
@@ -100,5 +112,6 @@ Future<Map<String, dynamic>> getProfileInfo(dynamic data) async {
   }
   else {
     return info;
+
   }
 }
