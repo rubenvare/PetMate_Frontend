@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_proyecto/inicio.dart';
+import 'package:flutter_proyecto/pantalla_busqueda.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class PantallaProtectoraItems extends StatefulWidget {
@@ -97,34 +98,7 @@ class PantallaProtectoraItemsState extends State<PantallaProtectoraItems> {
           ),
         ],
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: 0, // Establece el índice del elemento seleccionado actualmente
-        onTap: (index) {
-          // Agrega aquí la lógica para manejar el cambio de pantalla según el índice seleccionado
-        },
-        fixedColor: Colors.black, // Establece el color de fondo de los botones
-        selectedFontSize: 14, // Aumenta el tamaño del texto de los botones seleccionados
-        iconSize: 24, // Establece el tamaño de los íconos de los botones
-        type: BottomNavigationBarType.fixed, // Fuerza la alineación de los botones
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Inicio',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.edit),
-            label: 'Editar',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.message),
-            label: 'Mensajes',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Perfil',
-          ),
-        ],
-      ),
+      bottomNavigationBar: PetMateNavBar(),
     );
   }
 }
