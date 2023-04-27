@@ -1,27 +1,49 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_proyecto/pantalla_busqueda.dart';
 import 'inicio.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'http_functions.dart';
 
 class VisualizarAnimales extends StatefulWidget {
+  int userId;
+
+  VisualizarAnimales(this.userId);
+
   @override
-  State<VisualizarAnimales> createState() => VisualizarAnimalesState();
+  State<VisualizarAnimales> createState() => VisualizarAnimalesState(userId);
 }
 
 class VisualizarAnimalesState extends State<VisualizarAnimales> {
+  int userId;
+  Map<String, dynamic> datos = {};
+
+  VisualizarAnimalesState(this.userId);
+
+  @override
+  void initState() {
+    super.initState();
+    getDatos(userId);
+  }
+
+  Future<void> getDatos(int userId) async {
+    Map<String, dynamic> response = await showPets({'user_id': userId});
+    setState(() {
+      datos = response;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PetMateAppBar(),
-      body: Center(
-          child: Container(
+      body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         color: const Color(0xFFC4A484),
-        child: SingleChildScrollView(
-            child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(children: <Widget>[
+        child: Column(
+        children: [
+          Row(
+            children: <Widget>[
               Padding(
                   padding: const EdgeInsets.symmetric(
                       horizontal: 30.0, vertical: 20.0),
@@ -29,7 +51,7 @@ class VisualizarAnimalesState extends State<VisualizarAnimales> {
                     children: [
                       ElevatedButton(
                         onPressed: () {
-                          print("protectora");
+                          
                         },
                         style: ElevatedButton.styleFrom(
                             minimumSize: const Size(165, 35),
@@ -46,7 +68,7 @@ class VisualizarAnimalesState extends State<VisualizarAnimales> {
                       ),
                       ElevatedButton(
                         onPressed: () {
-                          print("mascotas");
+                          print(datos);
                         },
                         style: ElevatedButton.styleFrom(
                             minimumSize: const Size(165, 35),
@@ -71,121 +93,55 @@ class VisualizarAnimalesState extends State<VisualizarAnimales> {
                       fit: BoxFit.contain,
                     ),
                   ))
-            ]),
-            const SizedBox(height: 20),
-            Column(
-              children: List.generate(5, (index) {
-                return GestureDetector(
-                  onTap: () {
-                    print("entrada ${index + 1}");
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Colors.black,
-                      ),
-                    ),
-                    child: SizedBox(
-                      height: 100,
-                      child: Stack(
-                        children: [
-                          Positioned(
-                            left: 30,
-                            top: 45,
-                            child: Text("Perro ${index + 1}",
-                                style: GoogleFonts.quicksand(
-                                    fontSize: 14.0,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w900,
-                                    letterSpacing: 2.0)),
-                          ),
-                          Positioned(
-                            right: 0,
-                            child: SizedBox(
-                              height: 100,
-                              child: Image.network(
-                                  'https://static.fundacion-affinity.org/cdn/farfuture/PVbbIC-0M9y4fPbbCsdvAD8bcjjtbFc0NSP3lRwlWcE/mtime:1643275542/sites/default/files/los-10-sonidos-principales-del-perro.jpg',
-                                  fit: BoxFit.cover),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                );
-              }),
-            ),
-            const SizedBox(height: 30),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    print('logout');
-                  },
-                  style: ElevatedButton.styleFrom(
-                      minimumSize: const Size(150, 35),
-                      backgroundColor: Colors.brown),
-                  child: Text("LOGOUT",
-                      style: GoogleFonts.quicksand(
-                          fontSize: 14.0,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w900,
-                          letterSpacing: 2.0)),
-                ),
-                const SizedBox(width: 30),
-                ElevatedButton(
-                    onPressed: () {
-                      print('submit');
+            ]
+          ),
+          Expanded(
+            child: ListView.builder(
+                itemCount: datos.length,
+                itemBuilder: (context, index) {
+                  final data = datos.values.elementAt(index);
+                  Image? animalPhoto = getImage(data['photo']);
+                  ImageProvider<Object>? imageProvider = animalPhoto.image; 
+                  return GestureDetector(
+                    onTap: () {
+                      print("hola soy " + data['name']);
                     },
-                    style: ElevatedButton.styleFrom(
-                        minimumSize: const Size(150, 35),
-                        backgroundColor: Colors.brown),
-                    child: Text('SUBMIT',
-                    style: GoogleFonts.quicksand(
-                                    fontSize: 14.0,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w900,
-                                    letterSpacing: 2.0
-                                )))
-              ],
-            ),
-            const SizedBox(height: 30)
-          ],
-        )),
-      )),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex:
-            0, // Establece el índice del elemento seleccionado actualmente
-        onTap: (index) {
-          // Agrega aquí la lógica para manejar el cambio de pantalla según el índice seleccionado
-        },
-        fixedColor: Colors.black, // Establece el color de fondo de los botones
-        selectedFontSize:
-            14, // Aumenta el tamaño del texto de los botones seleccionados
-        iconSize: 24, // Establece el tamaño de los íconos de los botones
-        type: BottomNavigationBarType
-            .fixed, // Fuerza la alineación de los botones
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Inicio',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.edit),
-            label: 'Editar',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.message),
-            label: 'Mensajes',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Perfil',
-          ),
+                    child: Container(
+                      padding: EdgeInsets.all(16.0),
+                      margin: EdgeInsets.all(16.0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8.0),
+                        border: Border.all(color: Colors.black),
+                      ),
+                      child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          children: [
+                            Text(data['name'],
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 24.0
+                            ),)
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            CircleAvatar(
+                              backgroundImage: imageProvider,
+                            )
+                          ],
+                        )
+                      ],
+                    ),
+                    )
+                  );
+                }
+              ),)
         ],
       ),
+      ),
+      bottomNavigationBar: PetMateNavBar(),
     );
   }
 }

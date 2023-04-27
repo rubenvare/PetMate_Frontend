@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_proyecto/visualizar_animales.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_proyecto/pantalla_busqueda.dart';
 import 'package:flutter_proyecto/pantalla_protectora.dart';
@@ -6,7 +7,7 @@ import 'package:flutter_proyecto/routing_constants.dart';
 import 'router.dart' as router;
 void main() {
   // el flag activado quita la etiqueta de Debug cuando ejecutas, aunque en el main no lo hace...
-  runApp(MaterialApp(home: PantallaProtectoraItems("",""), debugShowCheckedModeBanner: false));
+  runApp(MaterialApp(home: MyApp(), debugShowCheckedModeBanner: false));
 }
 
 class MyApp extends StatelessWidget {
