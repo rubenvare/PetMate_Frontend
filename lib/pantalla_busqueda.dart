@@ -81,8 +81,8 @@ class _DogSearchScreenState extends State<DogSearchScreen> {
 
     Map<String, dynamic> response = await getNextPet(pet);
     setState(() {
-      currentAnimal['user_id'] = UserSession().userId;
-      // para pruebas: currentAnimal['user_id'] = 1;
+      //currentAnimal['user_id'] = UserSession().userId;
+      currentAnimal['user_id'] = 1;
       currentAnimal['age'] = response['age'];
       currentAnimal['animal_id'] = response['animal_id'];
       currentAnimal['name'] = response['name'];
@@ -197,7 +197,14 @@ class _DogSearchScreenState extends State<DogSearchScreen> {
                       backgroundColor:
                       Colors.brown),
                   onPressed: () {
-                    _handleFilters(context);
+                    setState(() {
+                      // esto soluciona el error de que los filtros no cambiaban nunca cuando no encontrabas coincidencias
+                      currentFilters['age'] = null;
+                      currentFilters['size'] = null;
+                      currentFilters['species'] = null;
+                      currentFilters['color'] = null;
+                      _handleFilters(context);
+                    });
                   },
                   child: const Text('CAMBIAR FILTROS'))
             ],
