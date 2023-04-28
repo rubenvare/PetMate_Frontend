@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_proyecto/inicio.dart';
 import 'package:flutter_proyecto/pantalla_add_pet.dart';
+import 'package:flutter_proyecto/pantalla_filtro.dart';
 import 'package:flutter_proyecto/pantalla_protectora.dart';
 import 'package:flutter_proyecto/pantalla_registro.dart';
 import 'package:flutter_proyecto/pantalla_busqueda.dart';

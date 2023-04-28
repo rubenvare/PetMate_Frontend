@@ -236,7 +236,7 @@ class _DetailScreenState extends State<DetailScreen> {
                     Icon(Icons.info_outlined),
                     Text('  Edad:  '
                         , style: GoogleFonts.quicksand(fontSize: 20.0, fontWeight: FontWeight.w900)),
-                    Text('${details['age']}'
+                    Text('${details['age']} años'
                         , style: GoogleFonts.quicksand(
                             fontSize: 20.0, fontWeight: FontWeight.bold)),
                   ],),
