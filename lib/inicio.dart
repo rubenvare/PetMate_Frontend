@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_proyecto/pantalla_registro.dart';
 import 'package:flutter_proyecto/router.dart';
 import 'package:flutter_proyecto/routing_constants.dart';
 import 'package:flutter_proyecto/singleton_user.dart';
@@ -164,7 +165,7 @@ class InicioSesionState extends State<InicioSesion> {
                             )
                         ),
                         SizedBox(height: 10,),
-                        ElevatedButton( onPressed: () {Navigator.pushNamed(context, VisualizarAnimalesRoute);},
+                        ElevatedButton( onPressed: () {Navigator.pushNamed(context, RegistroRoute);},
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.brown,
                             ),

@@ -16,6 +16,8 @@ class VisualizarAnimales extends StatefulWidget {
 class VisualizarAnimalesState extends State<VisualizarAnimales> {
   int userId;
   Map<String, dynamic> datos = {};
+  Map<String, dynamic> shelter = {};
+  Image? shelterLogo;
 
   VisualizarAnimalesState(this.userId);
 
@@ -30,6 +32,10 @@ class VisualizarAnimalesState extends State<VisualizarAnimales> {
     setState(() {
       datos = response;
     });
+    Map<String, dynamic> shelterResponse = await getProfileInfo({'user_id': userId, 'type': 'S'});
+    setState(() {
+      shelterLogo = getImage(shelterResponse['photo']);
+    });
   }
 
   @override
@@ -41,18 +47,15 @@ class VisualizarAnimalesState extends State<VisualizarAnimales> {
         height: MediaQuery.of(context).size.height,
         color: const Color(0xFFC4A484),
         child: Column(
-        children: [
-          Row(
-            children: <Widget>[
+          children: [
+            Row(children: <Widget>[
               Padding(
                   padding: const EdgeInsets.symmetric(
                       horizontal: 30.0, vertical: 20.0),
                   child: Column(
                     children: [
                       ElevatedButton(
-                        onPressed: () {
-                          
-                        },
+                        onPressed: () {},
                         style: ElevatedButton.styleFrom(
                             minimumSize: const Size(165, 35),
                             backgroundColor: Colors.brown),
@@ -85,61 +88,55 @@ class VisualizarAnimalesState extends State<VisualizarAnimales> {
               Padding(
                   padding: const EdgeInsets.symmetric(
                       horizontal: 30.0, vertical: 20.0),
-                  child: SizedBox(
+                  child: Container(
                     width: 100,
-                    height: 100,
-                    child: Image.network(
-                      'https://www.huellascallejeras.com/wp-content/uploads/2016/05/logo-definitivo-web-blanco.png',
-                      fit: BoxFit.contain,
-                    ),
+                    child: shelterLogo,
                   ))
-            ]
-          ),
-          Expanded(
-            child: ListView.builder(
-                itemCount: datos.length,
-                itemBuilder: (context, index) {
-                  final data = datos.values.elementAt(index);
-                  Image? animalPhoto = getImage(data['photo']);
-                  ImageProvider<Object>? imageProvider = animalPhoto.image; 
-                  return GestureDetector(
-                    onTap: () {
-                      print("hola soy " + data['name']);
-                    },
-                    child: Container(
-                      padding: EdgeInsets.all(16.0),
-                      margin: EdgeInsets.all(16.0),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8.0),
-                        border: Border.all(color: Colors.black),
-                      ),
-                      child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          children: [
-                            Text(data['name'],
-                            style: const TextStyle(
-                              color: Colors.black,
-                              fontSize: 24.0
-                            ),)
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            CircleAvatar(
-                              backgroundImage: imageProvider,
-                            )
-                          ],
-                        )
-                      ],
-                    ),
-                    )
-                  );
-                }
-              ),)
-        ],
-      ),
+            ]),
+            Expanded(
+              child: ListView.builder(
+                  itemCount: datos.values.length,
+                  itemBuilder: (context, index) {
+                    final data = datos.values.elementAt(index);
+                    Image? animalPhoto = getImage(data['photo']);
+                    ImageProvider<Object>? imageProvider = animalPhoto.image;
+                    return GestureDetector(
+                        onTap: () {
+                          print("hola soy " + data['name']);
+                        },
+                        child: Container(
+                          padding: EdgeInsets.all(16.0),
+                          margin: EdgeInsets.all(16.0),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8.0),
+                            border: Border.all(color: Colors.black),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Column(
+                                children: [
+                                  Text(
+                                    data['name'],
+                                    style: const TextStyle(
+                                        color: Colors.black, fontSize: 24.0),
+                                  )
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  CircleAvatar(
+                                    backgroundImage: imageProvider,
+                                  )
+                                ],
+                              )
+                            ],
+                          ),
+                        ));
+                  }),
+            )
+          ],
+        ),
       ),
       bottomNavigationBar: PetMateNavBar(),
     );
