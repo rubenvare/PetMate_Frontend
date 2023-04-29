@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_proyecto/pantalla_busqueda.dart';
+import 'package:flutter_proyecto/pantalla_perfil_protectora.dart';
 import 'inicio.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'http_functions.dart';
@@ -55,7 +56,9 @@ class VisualizarAnimalesState extends State<VisualizarAnimales> {
                   child: Column(
                     children: [
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => PerfilProtectora(userId)));
+                        },
                         style: ElevatedButton.styleFrom(
                             minimumSize: const Size(165, 35),
                             backgroundColor: Colors.brown),
@@ -71,7 +74,7 @@ class VisualizarAnimalesState extends State<VisualizarAnimales> {
                       ),
                       ElevatedButton(
                         onPressed: () {
-                          print(datos);
+                          
                         },
                         style: ElevatedButton.styleFrom(
                             minimumSize: const Size(165, 35),
