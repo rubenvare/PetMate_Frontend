@@ -23,6 +23,7 @@ class _RegistroAdoptanteState extends State<RegistroAdoptante> {
   bool switchAnimales = false;
   bool switchTerraza = false;
   bool switchJardin = false;
+  bool switchAnimalsbefore = false;
   String size = '';
 
   RegExp regExp = RegExp(r'(^[0-9]*$)');
@@ -133,6 +134,24 @@ class _RegistroAdoptanteState extends State<RegistroAdoptante> {
                                   activeColor: Colors.white,
                                 ),
                                 Text('Terraza en casa',
+                                    style: GoogleFonts.quicksand(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w700,
+                                    ))
+                              ]),
+                              const SizedBox(height: 5),
+                              Row(children: <Widget>[
+                                Switch(
+                                  value: switchAnimalsbefore,
+                                  onChanged: (bool value) {
+                                    setState(() {
+                                      switchAnimalsbefore = value;
+                                    });
+                                  },
+                                  activeTrackColor: Colors.brown,
+                                  activeColor: Colors.white,
+                                ),
+                                Text('Animales anteriormente',
                                     style: GoogleFonts.quicksand(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w700,
