@@ -9,6 +9,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   late XFile _imageFile;
+  late int id = 1;
 
   Future<void> _selectImageFromGallery() async {
     final picker = ImagePicker();
@@ -36,7 +37,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ElevatedButton(
               onPressed: () {
                           //1     //2          //3
-                postImage('users', _imageFile, 'bocadillo_de_queso'); //1 --> debe ser users(shelter y usuarios) o animals, sino da error
+                postImage('users', _imageFile, id.toString()); //1 --> debe ser users(shelter y usuarios) o animals, sino da error
                                                                       //2 --> es la imagen que se pasa
                                                                       //3 --> el nombre de la imagen, será el id, se pasará y habrá que ponerlo
             }, 

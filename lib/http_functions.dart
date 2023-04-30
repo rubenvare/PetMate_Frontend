@@ -87,14 +87,14 @@ Future<Map<String,dynamic>> showPets(dynamic data) async {
 
   return datos;
 }
-Future<bool> sendAddPetRequest(dynamic data) async {
+Future<Map<String, dynamic>> sendAddPetRequest(dynamic data) async {
   final path = '/S_add_pet';
   final response = await sendPostRequest(path, data);
+  var datos = json.decode(response.body);
   if (response.statusCode != 200) {
-    print('Error en la solicitud: ${response.reasonPhrase}');
-    return Future<bool>.value(false);
+    return {'error': 'ERROR OBTENIENDO INFORMACIÓN DEL ANIMAL'};
   } else {
-    return Future<bool>.value(true);
+    return datos;
     final responseBody = json.decode(response.body);
 }
 }
