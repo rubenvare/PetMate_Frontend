@@ -51,8 +51,10 @@ class PantallaProtectoraItemsState extends State<PantallaProtectoraItems> {
               itemBuilder: (context, index) {
                 String key = animalsLiked.keys.elementAt(index);
                 Map<String, dynamic> elemento = animalsLiked[key];
+                Image photoUser = getImage(elemento["user_photo"]);
+                Image photoAnimal = getImage(elemento["animal_photo"]);
                 return GestureDetector(
-                  onTap: () => _mostrarPopUp(context, elemento),
+                  onTap: () => _mostrarPopUp(context, elemento, photoUser, photoAnimal),
                   child: Container(
                     padding: EdgeInsets.all(16.0),
                     margin: EdgeInsets.all(16.0),
@@ -82,15 +84,13 @@ class PantallaProtectoraItemsState extends State<PantallaProtectoraItems> {
                           ]
                         ),
                         Row(
-                          children: const [
+                          children:  [
                             CircleAvatar(
-                              backgroundImage: NetworkImage(
-                                  'https://picsum.photos/id/64/200/300'),
+                              backgroundImage: photoUser.image,
                             ),
                             SizedBox(width: 8.0),
                           CircleAvatar(
-                            backgroundImage: NetworkImage(
-                                'https://picsum.photos/id/237/200/300'),
+                            backgroundImage: photoAnimal.image,
                           ),
                           ],
                         ),
@@ -126,7 +126,7 @@ class PantallaProtectoraItemsState extends State<PantallaProtectoraItems> {
 }
 
 
-void _mostrarPopUp(BuildContext context, Map<String,dynamic> elemento) {
+void _mostrarPopUp(BuildContext context, Map<String,dynamic> elemento, Image photoUser, Image photoAnimal) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -139,9 +139,7 @@ void _mostrarPopUp(BuildContext context, Map<String,dynamic> elemento) {
               children: [
                 CircleAvatar(
                   radius: 25,
-                  backgroundImage: NetworkImage(
-                      'https://picsum.photos/id/64/200/300'),
-                ),
+                  backgroundImage: photoUser.image),
                 SizedBox(width: 16),
                 Expanded(
                   child: Text(
@@ -160,9 +158,7 @@ void _mostrarPopUp(BuildContext context, Map<String,dynamic> elemento) {
               children: [
                 CircleAvatar(
                   radius: 25,
-                  backgroundImage: NetworkImage(
-                      'https://picsum.photos/id/237/200/300'),
-                ),
+                  backgroundImage: photoAnimal.image),
                 SizedBox(width: 16),
                 Expanded(
                   child: Text(
