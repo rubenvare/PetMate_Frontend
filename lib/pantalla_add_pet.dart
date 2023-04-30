@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_proyecto/singleton_user.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_proyecto/inicio.dart';
 import 'http_functions.dart';
 import 'router.dart';
+import 'package:image_picker/image_picker.dart';
+
 
 class AddPet extends StatefulWidget {
   @override
@@ -22,11 +25,21 @@ class AddPetState extends State<AddPet> {
   String? dropdownValue3;
   late String name;
   late String breed;
-  late String tone;
-  late String size;
-  late int age;
+  late int tone;
+  late int size;
+  late String age;
   late String description;
-  String photo = "";
+  late XFile _imageFile;
+
+  Future<void> _selectImageFromGallery() async {
+    final picker = ImagePicker();
+    final pickedImage = await picker.pickImage(source: ImageSource.gallery);
+    if (pickedImage != null) {
+      setState(() {
+        _imageFile = pickedImage;
+      });
+    }
+  }
 
   RegExp regExp = RegExp(r'(^[A-z]*$)');
   @override
@@ -68,10 +81,7 @@ class AddPetState extends State<AddPet> {
                             child: SizedBox(
                               width: 80,
                               height: 80,
-                              child: Image.network(
-                                'https://static.eldiario.es/clip/4b05608f-487e-4d02-aa28-01dc1dc30135_16-9-discover-aspect-ratio_default_0.jpg',
-                                fit: BoxFit.contain,
-                              ),
+                              child: ElevatedButton(onPressed: _selectImageFromGallery, child: Text("Imagen")),
                             ))
                       ]),
 
@@ -227,7 +237,18 @@ class AddPetState extends State<AddPet> {
                                       else {
                                         setState(() {
                                           dropdownError2 = false;
-                                          tone = value!;
+                                          switch(value) {
+                                            case 'Claro':
+                                              tone = 0;
+                                              break;
+                                            case 'Neutro':
+                                              tone = 1;
+                                              break;
+                                            case 'Oscuro':
+                                              tone = 2;
+                                              break;
+                                          }
+
                                         });
                                         return null;
                                       }})
@@ -283,7 +304,17 @@ class AddPetState extends State<AddPet> {
                                       else {
                                         setState(() {
                                           dropdownError3 = false;
-                                          size = value!;
+                                          switch(value) {
+                                            case 'Pequeño':
+                                              size = 0;
+                                              break;
+                                            case 'Mediano':
+                                              size = 1;
+                                              break;
+                                            case 'Grande':
+                                              size = 2;
+                                              break;
+                                          }
                                         });
                                         return null;
                                       }})
@@ -315,7 +346,8 @@ class AddPetState extends State<AddPet> {
                                 if (yearOfBirth < 1900 || yearOfBirth > DateTime.now().year) {
                                   return 'Por favor, ingresa un año válido';
                                 }
-                                age = yearOfBirth;
+                                //age = yearOfBirth;
+                                age = '03-2017';
                                 return null;
                               },
                             ),
@@ -362,93 +394,56 @@ class AddPetState extends State<AddPet> {
                               onPressed: () async {
                                 if (formkey.currentState?.validate() ?? false ) {
                                   var data = {
-                                    'user_id': 8,
+                                    'user_id': 11,
+                                     //UserSession().userId, a modificar cuando se cree usuario
                                     'name': name,
-                                    'photo': photo,
                                     'species': breed,
-                                    'age': age,
+                                    'birth': age,
                                     'color': tone,
                                     'size': size,
-                                    'description' : description
+                                    'description': description
                                   };
-                                  if(await sendAddPetRequest(data)) {
-                                    showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return AlertDialog(
-                                            icon: const Icon(Icons.pets_rounded),
-                                            title: const Text(
-                                                'Mascota añadida correctamente'),
-                                            titleTextStyle: GoogleFonts.quicksand(
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w700,
-                                                color: Colors.black),
-                                            backgroundColor:
-                                            const Color(0xFFC4A484),
-                                            shape: const RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(20))),
-                                            actions: <Widget>[
-                                              Column(
-                                                mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                                children: [
-                                                  ElevatedButton(
-                                                      style: ElevatedButton
-                                                          .styleFrom(
-                                                          backgroundColor:
-                                                          Colors.brown),
-                                                      onPressed: () {
-                                                        Navigator.of(context)
-                                                            .pop();
-                                                      },
-                                                      child: const Text('Cerrar'))
-                                                ],
-                                              )
-                                            ],
-                                          );
-                                        });
-                                  } else {
-                                    showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return AlertDialog(
-                                            icon: const Icon(Icons.pets_rounded),
-                                            title: const Text(
-                                                'Error en añadir la mascota'),
-                                            titleTextStyle: GoogleFonts.quicksand(
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w700,
-                                                color: Colors.black),
-                                            backgroundColor:
-                                            const Color(0xFFC4A484),
-                                            shape: const RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(20))),
-                                            actions: <Widget>[
-                                              Column(
-                                                mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                                children: [
-                                                  ElevatedButton(
-                                                      style: ElevatedButton
-                                                          .styleFrom(
-                                                          backgroundColor:
-                                                          Colors.brown),
-                                                      onPressed: () {
-                                                        Navigator.of(context)
-                                                            .pop();
-                                                      },
-                                                      child: const Text('Cerrar'))
-                                                ],
-                                              )
-                                            ],
-                                          );
-                                        });
-                                  }
-                                } else {
-                                  return;
-                                }
+                                  var id = await sendAddPetRequest(data);
+                                  postImage('animals', _imageFile,
+                                      id.values.toString().replaceAll(
+                                          RegExp(r"[\(\)]"), ""));
+                                  showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          icon: const Icon(Icons.pets_rounded),
+                                          title: const Text(
+                                              'Mascota añadida correctamente'),
+                                          titleTextStyle: GoogleFonts.quicksand(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w700,
+                                              color: Colors.black),
+                                          backgroundColor:
+                                          const Color(0xFFC4A484),
+                                          shape: const RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(20))),
+                                          actions: <Widget>[
+                                            Column(
+                                              mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                              children: [
+                                                ElevatedButton(
+                                                    style: ElevatedButton
+                                                        .styleFrom(
+                                                        backgroundColor:
+                                                        Colors.brown),
+                                                    onPressed: () {
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                    },
+                                                    child: const Text('Cerrar'))
+                                              ],
+                                            )
+                                          ],
+                                        );
+                                      });
+                                };
                               },
                               style: ElevatedButton.styleFrom(
                                   backgroundColor: Colors.brown),
