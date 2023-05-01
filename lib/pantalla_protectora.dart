@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_proyecto/inicio.dart';
 import 'package:flutter_proyecto/pantalla_busqueda.dart';
+import 'package:flutter_proyecto/pantalla_detalles_protectora.dart';
 import 'package:flutter_proyecto/singleton_user.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -127,6 +128,7 @@ class PantallaProtectoraItemsState extends State<PantallaProtectoraItems> {
 
 
 void _mostrarPopUp(BuildContext context, Map<String,dynamic> elemento, Image photoUser, Image photoAnimal) {
+  Map<String, dynamic> data = {};
   showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -148,7 +150,9 @@ void _mostrarPopUp(BuildContext context, Map<String,dynamic> elemento, Image pho
                   ),
                 ),
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => DetailScreenShelter(elemento['user_id'], "A")));
+                  },
                   icon: Icon(Icons.info_outline),
                 ),
               ],
@@ -167,7 +171,9 @@ void _mostrarPopUp(BuildContext context, Map<String,dynamic> elemento, Image pho
                   ),
                 ),
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => DetailScreenShelter(elemento['animal_id'], "B")));
+                  },
                   icon: Icon(Icons.info_outline),
                 ),
               ],
@@ -178,18 +184,41 @@ void _mostrarPopUp(BuildContext context, Map<String,dynamic> elemento, Image pho
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 16),
             ),
+            Center(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  IconButton(
+                    onPressed: () async {
+                      data = {
+                        "user_id": UserSession().userId,
+                        "animal_id": elemento["animal_id"],
+                        "action": 1,
+                      };
+                      if(await resolveLikeReceived(data)){
+                        Navigator.pop(context);
+                      }
+                    },
+                    icon: Icon(Icons.check),
+                  ),
+                  IconButton(
+                    onPressed: () async {
+                      data = {
+                        "user_id": UserSession().userId,
+                        "animal_id": elemento["animal_id"],
+                        "action": 0,
+                      };
+                      if(await resolveLikeReceived(data)){
+                        Navigator.pop(context);
+                      }
+                    },
+                    icon: Icon(Icons.close),
+                  ),
+                ],
+              ),
+            )
           ],
         ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: Text('Cancelar'),
-          ),
-          ElevatedButton(
-            onPressed: () {},
-            child: Text('Aceptar'),
-          ),
-        ],
       );
     },
   );

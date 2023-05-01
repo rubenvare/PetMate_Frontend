@@ -138,3 +138,15 @@ Future<Map<String,dynamic>> showLikesReceived(dynamic data) async {
     return info;
   }
 }
+
+Future<bool> resolveLikeReceived(dynamic data) async {
+  final path = '/S_resolve_like_received';
+  final response = await sendPostRequest(path, data);
+  if (response.statusCode != 200) {
+    return false;
+  }
+  else {
+    return true;
+  }
+}
+

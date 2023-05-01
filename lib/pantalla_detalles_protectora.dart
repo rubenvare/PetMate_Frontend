@@ -3,6 +3,8 @@ import 'package:flutter_proyecto/http_functions.dart';
 import 'package:flutter_proyecto/singleton_user.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'inicio.dart';
+
 class DetailScreenShelter extends StatefulWidget {
   
   final int id;
@@ -20,6 +22,7 @@ class DetailScreenShelter extends StatefulWidget {
 
 class DetailScreenShelterState extends State<DetailScreenShelter> {
   Map<String, dynamic> content = {};
+
   @override
   void initState(){
     super.initState();
@@ -49,7 +52,7 @@ class DetailScreenShelterState extends State<DetailScreenShelter> {
   }
   @override
   Widget build(BuildContext context) {
-    return widget.type == "A" ? ContentAnimal(content) : ContentAdopter(content);
+    return widget.type == "A" ? ContentAdopter(content) : ContentAnimal(content);
   }
 }
 
@@ -61,93 +64,96 @@ class ContentAdopter extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-        children: [
-          SizedBox(height: 40.0,),
-          Text('DATOS DEL ADOPTANTE'
-              , style: GoogleFonts.quicksand(fontSize: 25.0, fontWeight: FontWeight.w900)),
-          SizedBox(height: 20.0,),
-          Row(children: [
-            SizedBox(width: 10.0),
-            Icon(Icons.mail_outline),
-            SizedBox(width: 10.0),
-            Text(content['email']
-                , style: GoogleFonts.quicksand(fontSize: 20.0, fontWeight: FontWeight.bold)),
-          ],),
+    return Scaffold(
+      appBar: PetMateAppBar(),
+      body: Center(
+        child: Column(
+            children: [
+              SizedBox(height: 40.0,),
+              Text('DATOS DEL ADOPTANTE'
+                  , style: GoogleFonts.quicksand(fontSize: 25.0, fontWeight: FontWeight.w900)),
+              SizedBox(height: 20.0,),
+              Row(children: [
+                SizedBox(width: 10.0),
+                Icon(Icons.mail_outline),
+                SizedBox(width: 10.0),
+                Text(content['email']
+                    , style: GoogleFonts.quicksand(fontSize: 20.0, fontWeight: FontWeight.bold)),
+              ],),
 
-          SizedBox(height: 20.0,),
+              SizedBox(height: 20.0,),
 
-          Row(children: [
-            SizedBox(width: 10.0),
-            Icon(Icons.person_outline),
-            SizedBox(width: 10.0),
-            Text(content['username']
-                , style: GoogleFonts.quicksand(fontSize: 20.0, fontWeight: FontWeight.bold)),
-          ],),
+              Row(children: [
+                SizedBox(width: 10.0),
+                Icon(Icons.person_outline),
+                SizedBox(width: 10.0),
+                Text(content['username']
+                    , style: GoogleFonts.quicksand(fontSize: 20.0, fontWeight: FontWeight.bold)),
+              ],),
 
-          SizedBox(height: 20.0,),
-          Row( children: [
-            SizedBox(width: 10.0),
-            Icon(Icons.house_outlined),
-            SizedBox(width: 10.0),
-            Text('${content["living_space"]} m2'
-                , style: GoogleFonts.quicksand(fontSize: 20.0, fontWeight: FontWeight.bold)),
-          ],
-          ),
-          SizedBox(height: 20.0,),
-          Row( children: [
-            SizedBox(width: 10.0),
-            Icon(Icons.access_time),
-            SizedBox(width: 10.0),
-            Text('${content["available_time"]} h'
-                , style: GoogleFonts.quicksand(fontSize: 20.0, fontWeight: FontWeight.bold)),
-          ],
-          ),
-          SizedBox(height: 20.0,),
-          Row( children: [
-            SizedBox(width: 10.0),
-            Icon(Icons.balcony_outlined),
-            SizedBox(width: 10.0),
-            Text('${content["available_time"]} h'
-                , style: GoogleFonts.quicksand(fontSize: 20.0, fontWeight: FontWeight.bold)),
-          ],
-          ),
-          SizedBox(height: 20.0,),
-          Row( children: [
-            SizedBox(width: 10.0),
-            Icon(Icons.grass_outlined),
-            SizedBox(width: 10.0),
-            Text('${content["available_time"]} h'
-                , style: GoogleFonts.quicksand(fontSize: 20.0, fontWeight: FontWeight.bold)),
-          ],
-          ),
-          SizedBox(height: 20.0,),
-          Row( children: [
-            SizedBox(width: 10.0),
-            Icon(Icons.pets_outlined),
-            SizedBox(width: 10.0),
-            Text('${content["available_time"]} h'
-                , style: GoogleFonts.quicksand(fontSize: 20.0, fontWeight: FontWeight.bold)),
-          ],
-          ),
-          SizedBox(height: 20.0,),
-          Column(children: [
-            Row( children: [
-              SizedBox(width: 10.0),
-              Icon(Icons.description_outlined),
-              Text('  '),
-              Expanded(child: Text(content['description']
-                  , style: GoogleFonts.quicksand(fontSize: 20.0, fontWeight: FontWeight.bold)))
+              SizedBox(height: 20.0,),
+              Row( children: [
+                SizedBox(width: 10.0),
+                Icon(Icons.house_outlined),
+                SizedBox(width: 10.0),
+                Text('${content["living_space"]} m2'
+                    , style: GoogleFonts.quicksand(fontSize: 20.0, fontWeight: FontWeight.bold)),
+              ],
+              ),
+              SizedBox(height: 20.0,),
+              Row( children: [
+                SizedBox(width: 10.0),
+                Icon(Icons.access_time),
+                SizedBox(width: 10.0),
+                Text('${content["available_time"]} h'
+                    , style: GoogleFonts.quicksand(fontSize: 20.0, fontWeight: FontWeight.bold)),
+              ],
+              ),
+              SizedBox(height: 20.0,),
+              Row( children: [
+                SizedBox(width: 10.0),
+                Icon(Icons.balcony_outlined),
+                SizedBox(width: 10.0),
+                Icon(content["terrace"] ? Icons.check : Icons.close),
+              ],
+              ),
+              SizedBox(height: 20.0,),
+              Row( children: [
+                SizedBox(width: 10.0),
+                Icon(Icons.grass_outlined),
+                SizedBox(width: 10.0),
+                Icon(content["garden"] ? Icons.check : Icons.close),
+              ],
+              ),
+              SizedBox(height: 20.0,),
+              Row( children: [
+                SizedBox(width: 10.0),
+                Icon(Icons.pets_outlined),
+                SizedBox(width: 10.0),
+                Icon(content["animals_home"] ? Icons.check : Icons.close),
+              ],
+              ),
+              SizedBox(height: 20.0,),
+              Column(children: [
+                Row( children: [
+                  SizedBox(width: 10.0),
+                  Icon(Icons.description_outlined),
+                  Text('  '),
+                  Expanded(child: Text(content['description']
+                      , style: GoogleFonts.quicksand(fontSize: 20.0, fontWeight: FontWeight.bold)))
 
-            ],),
-          ],),
-        ]
+                ],),
+              ],),
+            ]
+        ),
+      ),
     );
   }
 }
 
 class ContentAnimal extends StatelessWidget {
-  ContentAnimal(Map<String, dynamic> content, {super.key});
+  final Map<String, dynamic> content;
+  ContentAnimal(this.content, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -164,7 +170,7 @@ class ContentAnimal extends StatelessWidget {
           Text('  Nombre:  '
               , style: GoogleFonts.quicksand(fontSize: 20.0, fontWeight: FontWeight.w900)),
 
-          Text('${details['name']}'
+          Text('${content['name']}'
               , style: GoogleFonts.quicksand(
                   fontSize: 20.0, fontWeight: FontWeight.bold)),
         ],),
@@ -175,7 +181,7 @@ class ContentAnimal extends StatelessWidget {
           Text('  Especie:  '
               , style: GoogleFonts.quicksand(fontSize: 20.0, fontWeight: FontWeight.w900)),
 
-          Text('${details['species']}'
+          Text('${content['species']}'
               , style: GoogleFonts.quicksand(
                   fontSize: 20.0, fontWeight: FontWeight.bold)),
         ],),
@@ -185,7 +191,7 @@ class ContentAnimal extends StatelessWidget {
           Icon(Icons.palette_outlined),
           Text('  Color:  '
               , style: GoogleFonts.quicksand(fontSize: 20.0, fontWeight: FontWeight.w900)),
-          Text('${color}'
+          Text('a'
               , style: GoogleFonts.quicksand(
                   fontSize: 20.0, fontWeight: FontWeight.bold)),
         ],),
@@ -195,7 +201,7 @@ class ContentAnimal extends StatelessWidget {
           Icon(Icons.straighten_outlined),
           Text('  Tamaño:  '
               , style: GoogleFonts.quicksand(fontSize: 20.0, fontWeight: FontWeight.w900)),
-          Text('${size}'
+          Text('b'
               , style: GoogleFonts.quicksand(
                   fontSize: 20.0, fontWeight: FontWeight.bold)),
         ],),
@@ -205,7 +211,7 @@ class ContentAnimal extends StatelessWidget {
           Icon(Icons.info_outlined),
           Text('  Edad:  '
               , style: GoogleFonts.quicksand(fontSize: 20.0, fontWeight: FontWeight.w900)),
-          Text('${details['age']} años'
+          Text('${content['age']} años'
               , style: GoogleFonts.quicksand(
                   fontSize: 20.0, fontWeight: FontWeight.bold)),
         ],),
@@ -215,7 +221,7 @@ class ContentAnimal extends StatelessWidget {
             SizedBox(width: 10.0),
             Icon(Icons.description_outlined),
             Text('  '),
-            Expanded(child: Text('${details['description']}'
+            Expanded(child: Text('${content['description']}'
                 , style: GoogleFonts.quicksand(
                     fontSize: 20.0, fontWeight: FontWeight.bold)),)
 
