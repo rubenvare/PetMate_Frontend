@@ -13,7 +13,9 @@ class PantallaFiltro extends StatefulWidget {
 }
 
 class PantallaFiltroState extends State<PantallaFiltro> {
-
+  List<String> years = [];
+  List<String> months = [];
+  String? selectedMonth, selectedYear;
   Map<String, dynamic> filters_from_previous_screen = {};
   Map<String, dynamic> filters_from_current_screen = {};
   TextEditingController _controller = TextEditingController();
@@ -23,8 +25,31 @@ class PantallaFiltroState extends State<PantallaFiltro> {
   @override
   void initState() {
     super.initState();
+    selectedYear = "";
+    selectedMonth = "";
+    years.add("Sin preferencia");
+    months.add("Sin preferencia");
+    // inicializar listas de año y mes
+    for (int i = DateTime.now().year; i >= DateTime.now().year - 25; i--) {
+      years.add(i.toString());
+    }
+
+    for (int i = 1; i < 13; i++) {
+      if (i < 10) {
+        months.add('0$i');
+      } else {
+        months.add(i.toString());
+      }
+    }
+
     filters_from_current_screen = {...filters_from_previous_screen};
-    _controller = TextEditingController(text: filters_from_current_screen['age'] == null ? '' : '${filters_from_current_screen['age']}');
+
+    // Si ya había algo en los filtros de edad previamente, lo mantenemos en la pantalla de filtros
+    if (filters_from_previous_screen['birth'] != null) {
+      selectedMonth = filters_from_previous_screen['birth'].split('-')[0];
+      selectedYear = filters_from_previous_screen['birth'].split('-')[1];
+    }
+
     switch(filters_from_current_screen['color']) {
       case 0:
         filters_from_current_screen['color'] = 'Claro';
@@ -112,6 +137,15 @@ class PantallaFiltroState extends State<PantallaFiltro> {
       default:
         filters_from_current_screen['size'] = null;
         break;
+    }
+
+    // tratamos el string de edad (birth)
+    if (selectedYear == "" || selectedMonth == "" || selectedYear == "Sin preferencia" || selectedMonth == "Sin preferencia") {
+      filters_from_current_screen['birth'] = null;
+    } else {
+      if (selectedYear != "" && selectedMonth != "") {
+        filters_from_current_screen['birth'] = "${selectedMonth}-${selectedYear}";
+      }
     }
   }
 
@@ -281,31 +315,84 @@ class PantallaFiltroState extends State<PantallaFiltro> {
                                       .toList(),)
                           ),
                           const SizedBox(height: 20),
-                          TextFormField(
-                            controller: _controller,
-                            decoration: InputDecoration(
-                              border: const OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.brown),
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: Colors.black),
+                              borderRadius: BorderRadius.circular(5),),
+                            child:
+                            DropdownButtonFormField<String>(
+                              decoration: InputDecoration(
+                                labelText: 'Mes de nacimiento',
+                                labelStyle: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                ),
+                                border: InputBorder.none,
                               ),
-                              focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.brown),
-                                  borderRadius: BorderRadius.circular(5)
-                              ),
-                              labelText: "Edad",
-                              labelStyle: GoogleFonts.quicksand(
+                              dropdownColor: Colors.brown,
+                              onChanged: (String? changedValue) {
+                                selectedMonth = changedValue!;
+                                setState(() {
+                                  selectedMonth;
+                                });
+                              },
+                              isExpanded: true,
+                              style: GoogleFonts.quicksand(
+                                color: Colors.black,
                                 fontSize: 16,
                                 fontWeight: FontWeight.w700,
-                                color: Colors.black,
                               ),
+                              value: selectedMonth == "" ?  'Sin preferencia' : selectedMonth,
+                              items: months
+                                  .map((item) => DropdownMenuItem(
+                                child: Text(item),
+                                value: item,
+                              ))
+                                  .toList(),
                             ),
-                            cursorColor: Colors.brown,
-
-                            onChanged: (value) {
-                              filters_from_current_screen['age'] = int.parse(value!);
-                            },
-                            inputFormatters: [
-                              FilteringTextInputFormatter.digitsOnly,
-                            ],
+                          ),
+                          SizedBox(height: 20),
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: Colors.black),
+                              borderRadius: BorderRadius.circular(5),),
+                            child:
+                            DropdownButtonFormField<String>(
+                              decoration: InputDecoration(
+                                labelText: 'Año de nacimiento',
+                                labelStyle: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                ),
+                                border: InputBorder.none,
+                              ),
+                              dropdownColor: Colors.brown,
+                              onChanged: (String? changedValue) {
+                                selectedYear = changedValue!;
+                                setState(() {
+                                  selectedYear;
+                                });
+                              },
+                              isExpanded: true,
+                              style: GoogleFonts.quicksand(
+                                color: Colors.black,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700,
+                              ),
+                              value: selectedYear == "" ? 'Sin preferencia' : selectedYear,
+                              items: years
+                                  .map((item) => DropdownMenuItem(
+                                child: Text(item),
+                                value: item,
+                              ))
+                                  .toList(),
+                            ),
                           ),
                           const SizedBox(height: 20),
                           ElevatedButton(

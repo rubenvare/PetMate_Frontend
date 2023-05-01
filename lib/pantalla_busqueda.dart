@@ -69,7 +69,7 @@ class _DogSearchScreenState extends State<DogSearchScreen> {
       'filters': {
         'species': null,
         'size': null,
-        'age': null,
+        'birth': null,
         'color': null
       }
     };
@@ -81,16 +81,16 @@ class _DogSearchScreenState extends State<DogSearchScreen> {
 
     Map<String, dynamic> response = await getNextPet(pet);
     setState(() {
-      currentAnimal['user_id'] = UserSession().userId;
-      // para pruebas: currentAnimal['user_id'] = 1;
-      currentAnimal['age'] = response['age'];
+      // currentAnimal['user_id'] = UserSession().userId;
+      currentAnimal['user_id'] = 1;
+      currentAnimal['birth'] = response['birth'];
       currentAnimal['animal_id'] = response['animal_id'];
       currentAnimal['name'] = response['name'];
       currentAnimal['photo'] = response['photo'];
       currentAnimal['shelter_id'] = response['shelter_id'];
       currentFilters['color'] = null;
       currentFilters['size'] = null;
-      currentFilters['age'] = null;
+      currentFilters['birth'] = null;
       currentFilters['species'] = null;
       currentAnimalPhoto = getImage(response['photo']);
       dataLoaded = true;
@@ -107,7 +107,7 @@ class _DogSearchScreenState extends State<DogSearchScreen> {
         } else {
           emptyAnimalList = false;
           containerSize = 50.0;
-          currentAnimal['age'] = response['age'];
+          currentAnimal['birth'] = response['birth'];
           currentAnimal['animal_id'] = response['animal_id'];
           currentAnimal['name'] = response['name'];
           currentAnimal['photo'] = response['photo'];
@@ -199,7 +199,7 @@ class _DogSearchScreenState extends State<DogSearchScreen> {
                   onPressed: () {
                     setState(() {
                       // esto soluciona el error de que los filtros no cambiaban nunca cuando no encontrabas coincidencias
-                      currentFilters['age'] = null;
+                      currentFilters['birth'] = null;
                       currentFilters['size'] = null;
                       currentFilters['species'] = null;
                       currentFilters['color'] = null;
