@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_proyecto/http_functions.dart';
 import 'package:flutter_proyecto/pantalla_busqueda.dart';
-import 'package:flutter_proyecto/singleton_user.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import 'inicio.dart';
 
 class DetailScreenShelter extends StatefulWidget {
@@ -47,10 +45,41 @@ class DetailScreenShelterState extends State<DetailScreenShelter> {
   }
   Future<void> initAsync(data) async {
     Map<String, dynamic> response = widget.type == "A" ? await getProfileInfo(data) : await getPetDetails(data);
-    var a = 2;
+
     setState(() {
       response.forEach((key, value) {
-        content[key] = value;
+        if (key == "color"){
+          switch(value) {
+            case 0:
+              content[key] = 'Claro';
+              break;
+            case 1:
+              content[key] = 'Neutro';
+              break;
+            case 2:
+              content[key] = 'Oscuro';
+              break;
+            default:
+              break;
+          }
+        } else if (key == "size"){
+          switch(value) {
+            case 0:
+              content[key] = 'Pequeño';
+              break;
+            case 1:
+              content[key] = 'Mediano';
+              break;
+            case 2:
+              content[key] = 'Grande';
+              break;
+            default:
+              break;
+          }
+        } else {
+          content[key] = value;
+        }
+
       });
     });
   }
@@ -189,7 +218,7 @@ Column _mostrarAnimal(BuildContext context, Map<String,dynamic> content){
         Icon(Icons.palette_outlined),
         Text('  Color:  '
             , style: GoogleFonts.quicksand(fontSize: 20.0, fontWeight: FontWeight.w900)),
-        Text('a'
+        Text(content['color']
             , style: GoogleFonts.quicksand(
                 fontSize: 20.0, fontWeight: FontWeight.bold)),
       ],),
@@ -199,7 +228,7 @@ Column _mostrarAnimal(BuildContext context, Map<String,dynamic> content){
         Icon(Icons.straighten_outlined),
         Text('  Tamaño:  '
             , style: GoogleFonts.quicksand(fontSize: 20.0, fontWeight: FontWeight.w900)),
-        Text('b'
+        Text(content["size"]
             , style: GoogleFonts.quicksand(
                 fontSize: 20.0, fontWeight: FontWeight.bold)),
       ],),
