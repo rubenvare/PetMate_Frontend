@@ -134,3 +134,14 @@ Future<Map<String, dynamic>> getProfileInfo(dynamic data) async {
 
   }
 }
+
+Future<Map<String, dynamic>> sendModifyUserRequest(dynamic data) async {
+  final path = '/update_profile';
+  final response = await sendPostRequest(path, data);
+  var datos = json.decode(response.body);
+  if (response.statusCode != 200) {
+    return {'error': 'ERROR OBTENIENDO INFORMACIÓN DEL ADOPTANTE'};
+  } else {
+      return datos;
+  }
+}

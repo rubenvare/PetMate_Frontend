@@ -45,7 +45,7 @@ class ModifyUserState extends State<ModifyUser> {
   }
 
   void initAsync() async {
-    Map<String, dynamic> user_info = await getProfileInfo({'user_id': 11, 'type': 'S' });
+    Map<String, dynamic> user_info = await getProfileInfo({'user_id': 11, 'type': 'A' });
     setState(() {
       user['name'] = user_info['username'];
       user['photo'] = user_info['photo'];
@@ -442,7 +442,7 @@ class ModifyUserState extends State<ModifyUser> {
                                     'animals_home': user['animals_home'],
                                     'pet_before': user['pet_before']
                                   };
-                                  var id = await sendAddPetRequest(data);
+                                  var id = await sendModifyUserRequest(data);
                                   postImage('animals', _imageFile,
                                       id.values.toString().replaceAll(
                                           RegExp(r"[\(\)]"), ""));
@@ -452,7 +452,7 @@ class ModifyUserState extends State<ModifyUser> {
                                         return AlertDialog(
                                           icon: const Icon(Icons.pets_rounded),
                                           title: const Text(
-                                              'Mascota añadida correctamente'),
+                                              'Usuario modificado correctamente'),
                                           titleTextStyle: GoogleFonts.quicksand(
                                               fontSize: 16,
                                               fontWeight: FontWeight.w700,
