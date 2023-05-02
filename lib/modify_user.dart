@@ -6,7 +6,10 @@ import 'http_functions.dart';
 import 'router.dart';
 import 'package:image_picker/image_picker.dart';
 
-
+/*
+TO DO
+Modificar el userId de la llamada de getProfileInfo mas la de la variable data que ahora esta hardcodeada
+ */
 class ModifyUser extends StatefulWidget {
   @override
   State<ModifyUser> createState() => ModifyUserState();
@@ -14,28 +17,22 @@ class ModifyUser extends StatefulWidget {
 
 class ModifyUserState extends State<ModifyUser> {
   final formkey = GlobalKey<FormState>();
+  Map<String, dynamic> user = {};
   bool nameError = false;
-  bool emailError = false;
+  bool descriptionError = false;
   bool passwordError = false;
   bool confirmPasswordError = false;
   bool houseError = false;
   bool timeError = false;
 
-  late String name;
-  late String email;
   late String password;
   late String confirmPassword;
-  late String size;
-  late String time;
-
-  bool switchAnimales = false;
-  bool switchTerraza = false;
-  bool switchJardin = false;
-  bool switchAnimalsbefore = false;
+  late XFile _imageFile;
+  late Image? userPicture;
   bool obscurePassword = true;
   bool obscureConfirmPassword = true;
 
-  late XFile _imageFile;
+
 
   Future<void> _selectImageFromGallery() async {
     final picker = ImagePicker();
@@ -47,10 +44,29 @@ class ModifyUserState extends State<ModifyUser> {
     }
   }
 
+  void initAsync() async {
+    Map<String, dynamic> user_info = await getProfileInfo({'user_id': 11, 'type': 'S' });
+    setState(() {
+      user['name'] = user_info['username'];
+      user['photo'] = user_info['photo'];
+      user['description'] = user_info['description'];
+      user['size'] = user_info['living_space'];
+      user['time'] = user_info['available_time'];
+      user['terrace'] = user_info['terrace'];
+      user['garden'] = user_info['garden'];
+      user['animals_home'] = user_info['animals_home'];
+      user['animals_before'] = user_info['animals_before'];
+      userPicture = getImage(user['photo']);
+    });
+  }
 
   RegExp regExp = RegExp(r'(^[A-z]*$)');
   RegExp regExp2 = RegExp(r'(^[0-9]*$)');
   @override
+  void initState() {
+    super.initState();
+    initAsync();
+  }
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const PetMateAppBar(),
@@ -101,7 +117,7 @@ class ModifyUserState extends State<ModifyUser> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             TextFormField(
-                              initialValue: name,
+                              initialValue: user['name'],
                                 decoration: InputDecoration(
                                   border: const OutlineInputBorder(
                                       borderSide:
@@ -134,46 +150,12 @@ class ModifyUserState extends State<ModifyUser> {
                                   } else {
                                     setState(() {
                                       nameError = false;
-                                      name = value!;
+                                      user['name'] = value!;
                                     });
                                     return null;
                                   }
                                 }),
-                            const SizedBox(height: 20),
-                            TextFormField(
-                              onSaved: (value) => email = value!,
-                              validator: (value) {
-                                if (value?.isEmpty ?? true) {
-                                  setState(() {
-                                    emailError = true;
-                                  });
-                                  return "Rellene el campo de correo";
-                                } else {
-                                  setState(() {
-                                    emailError = false;
-                                  });
-                                  return null;
-                                }
-                              },
-                              initialValue: email,
-                              decoration: InputDecoration(
-                                labelText: "Correo electrónico",
-                                labelStyle: GoogleFonts.quicksand(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700,
-                                    color: emailError
-                                        ? Colors.red
-                                        : Colors.black),
-                                border: const OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.brown),
-                                ),
-                                focusedBorder: const OutlineInputBorder(
-                                    borderSide:
-                                    BorderSide(color: Colors.brown)),
-                              ),
-                              cursorColor: Colors.brown,
-                              keyboardType: TextInputType.emailAddress,
-                            ),
+
                             const SizedBox(height: 20),
                             TextFormField(
                               onSaved: (value) => password = value!,
@@ -263,7 +245,7 @@ class ModifyUserState extends State<ModifyUser> {
                             ),
                             const SizedBox(height: 20),
                             TextFormField(
-                                initialValue: size,
+                                initialValue: user['size'],
                                 decoration: InputDecoration(
                                   border: const OutlineInputBorder(
                                       borderSide:
@@ -296,7 +278,7 @@ class ModifyUserState extends State<ModifyUser> {
                                     setState(() {
                                       houseError = false;
                                     });
-                                    size = value;
+                                    user['size'] = value;
                                     return null;
                                   }
                                 }),
@@ -304,10 +286,10 @@ class ModifyUserState extends State<ModifyUser> {
                             Column(children: <Widget>[
                               Row(children: <Widget>[
                                 Switch(
-                                  value: switchAnimales,
+                                  value: user['animals_home'],
                                   onChanged: (bool value) {
                                     setState(() {
-                                      switchAnimales = value;
+                                      user['animals_home'] = value;
                                     });
                                   },
                                   activeTrackColor: Colors.brown,
@@ -322,10 +304,10 @@ class ModifyUserState extends State<ModifyUser> {
                               const SizedBox(height: 5),
                               Row(children: <Widget>[
                                 Switch(
-                                  value: switchTerraza,
+                                  value: user['terrace'],
                                   onChanged: (bool value) {
                                     setState(() {
-                                      switchTerraza = value;
+                                      user['terrace'] = value;
                                     });
                                   },
                                   activeTrackColor: Colors.brown,
@@ -340,10 +322,10 @@ class ModifyUserState extends State<ModifyUser> {
                               const SizedBox(height: 5),
                               Row(children: <Widget>[
                                 Switch(
-                                  value: switchAnimalsbefore,
+                                  value: user['animals_before'],
                                   onChanged: (bool value) {
                                     setState(() {
-                                      switchAnimalsbefore = value;
+                                      user['animals_before'] = value;
                                     });
                                   },
                                   activeTrackColor: Colors.brown,
@@ -358,10 +340,10 @@ class ModifyUserState extends State<ModifyUser> {
                               const SizedBox(height: 5),
                               Row(children: <Widget>[
                                 Switch(
-                                  value: switchJardin,
+                                  value: user['garden'],
                                   onChanged: (bool value) {
                                     setState(() {
-                                      switchJardin = value;
+                                      user['garden'] = value;
                                     });
                                   },
                                   activeTrackColor: Colors.brown,
@@ -379,7 +361,7 @@ class ModifyUserState extends State<ModifyUser> {
 
                             const SizedBox(height: 40),
                             TextFormField(
-                                initialValue: time,
+                                initialValue: user['time'],
                                 decoration: InputDecoration(
                                   border: const OutlineInputBorder(
                                       borderSide:
@@ -411,11 +393,38 @@ class ModifyUserState extends State<ModifyUser> {
                                   } else {
                                     setState(() {
                                       timeError = false;
-                                      time = value;
+                                      user['time'] = value;
                                     });
                                     return null;
                                   }
                                 }),
+                            const SizedBox(height: 20),
+                            TextFormField(
+                              onSaved: (value) => user['description'] = value!,
+                              validator: (value) {
+                                setState(() {
+                                  descriptionError = false;
+                                });
+                              },
+                              initialValue: user['description'],
+                              decoration: InputDecoration(
+                                labelText: "Descripción",
+                                labelStyle: GoogleFonts.quicksand(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w700,
+                                    color: descriptionError
+                                        ? Colors.red
+                                        : Colors.black),
+                                border: const OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.brown),
+                                ),
+                                focusedBorder: const OutlineInputBorder(
+                                    borderSide:
+                                    BorderSide(color: Colors.brown)),
+                              ),
+                              cursorColor: Colors.brown,
+                              keyboardType: TextInputType.emailAddress,
+                            ),
                             const SizedBox(height: 20),
                             ElevatedButton(
                               onPressed: () async {
@@ -423,15 +432,15 @@ class ModifyUserState extends State<ModifyUser> {
                                   var data = {
                                     'user_id': 11,
                                     //UserSession().userId, a modificar cuando se cree usuario
-                                    'username': name,
-                                    'email': email,
-                                    'password': password,
-                                    'living_space' : size,
-                                    'available_time': time,
-                                    'terrace': switchTerraza,
-                                    'garden': switchJardin,
-                                    'animals_home': switchAnimales,
-                                    'pet_before': switchAnimalsbefore
+                                    'username': user['name'],
+                                    'description': user['description'],
+                                    //'password': password,
+                                    'living_space' : user['size'],
+                                    'available_time': user['time'],
+                                    'terrace': user['terrace'],
+                                    'garden': user['garden'],
+                                    'animals_home': user['animals_home'],
+                                    'pet_before': user['pet_before']
                                   };
                                   var id = await sendAddPetRequest(data);
                                   postImage('animals', _imageFile,
