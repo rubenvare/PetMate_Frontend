@@ -55,241 +55,299 @@ class PerfilProtectoraState extends State<PerfilProtectora> {
     return Scaffold(
       appBar: PetMateAppBar(),
       body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        color: const Color(0xFFC4A484),
-        child: Column(
-          children: [
-            Row(children: <Widget>[
-              Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 30.0, vertical: 20.0),
-                  child: Column(
-                    children: [
-                      ElevatedButton(
-                        onPressed: () {
-                          print(datos);
-                        },
-                        style: ElevatedButton.styleFrom(
-                            minimumSize: const Size(165, 35),
-                            backgroundColor: Colors.brown),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                          child: Text("PROTECTORA",
-                              style: GoogleFonts.quicksand(
-                                  fontSize: 14.0,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w900,
-                                  letterSpacing: 2.0)),
-                        ),
-                      ),
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      VisualizarAnimales(userId)));
-                        },
-                        style: ElevatedButton.styleFrom(
-                            minimumSize: const Size(165, 35),
-                            backgroundColor: Colors.brown),
-                        child: Text("MASCOTAS",
-                            style: GoogleFonts.quicksand(
-                                fontSize: 14.0,
-                                color: Colors.white,
-                                fontWeight: FontWeight.w900,
-                                letterSpacing: 2.0)),
-                      ),
-                    ],
-                  )),
-              Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 30.0, vertical: 20.0),
-                  child: Container(
-                    width: 100,
-                    child: shelterLogo,
-                  ))
-            ]),
-            Center(
-              child: SingleChildScrollView(
-                child: Form(
-                    key: formkey,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        TextFormField(
-                            decoration: InputDecoration(
-                              border: const OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.brown)),
-                              focusedBorder: const OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.brown)),
-                              labelText: datos['username'],
-                              labelStyle: GoogleFonts.quicksand(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w700,
-                                  color: nameError ? Colors.red : Colors.black),
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          color: const Color(0xFFC4A484),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Row(children: <Widget>[
+                  Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 30.0, vertical: 20.0),
+                      child: Column(
+                        children: [
+                          ElevatedButton(
+                            onPressed: () {
+                              print(datos);
+                            },
+                            style: ElevatedButton.styleFrom(
+                                minimumSize: const Size(165, 35),
+                                backgroundColor: Colors.brown),
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10.0),
+                              child: Text("PROTECTORA",
+                                  style: GoogleFonts.quicksand(
+                                      fontSize: 14.0,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w900,
+                                      letterSpacing: 2.0)),
                             ),
-                            cursorColor: Colors.brown,
-                            keyboardType: TextInputType.name,
-                            validator: (value) {
-                              if (value?.isEmpty ?? true) {
-                                setState(() {
-                                  nameError = true;
-                                });
-                                return 'Este campo es obligatorio';
-                              } else if (!regExp.hasMatch(value!)) {
-                                setState(() {
-                                  nameError = true;
-                                });
-                                return 'Este campo requiere de números';
-                              } else {
-                                setState(() {
-                                  nameError = false;
-                                });
-                                return null;
-                              }
-                            }),
-                        const SizedBox(height: 20),
-                        TextFormField(
-                          decoration: InputDecoration(
-                            border: const OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.brown)),
-                            focusedBorder: const OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.brown)),
-                            labelText: datos['email'],
-                            labelStyle: GoogleFonts.quicksand(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w700,
-                                color: nameError ? Colors.red : Colors.black),
                           ),
-                          cursorColor: Colors.brown,
-                          keyboardType: TextInputType.emailAddress,
-                          validator: (value) {
-                            if (value == null || value.isEmpty == true) {
-                              setState(() {
-                                errorMailEmpty = true;
-                              });
-                              return 'Este campo es obligatorio';
-                            } else {
-                              if (!coincideMail.hasMatch(value)) {
-                                setState(() {
-                                  errorMailRegExp = true;
-                                });
-                                return 'por favor, sigue el formato user@domain.com';
-                              } else {
-                                return null;
-                              }
-                            }
-                          },
-                        ),
-                        const SizedBox(height: 20),
-                        TextFormField(
-                            decoration: InputDecoration(
-                              border: const OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.brown)),
-                              focusedBorder: const OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.brown)),
-                              labelText: datos['phone'].toString(),
-                              labelStyle: GoogleFonts.quicksand(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w700,
-                                  color: nameError ? Colors.red : Colors.black),
-                            ),
-                            cursorColor: Colors.brown,
-                            keyboardType: TextInputType.phone,
-                            validator: (value) {
-                              if (value?.isEmpty ?? true) {
-                                setState(() {
-                                  numError = true;
-                                });
-                                return 'Este campo es obligatorio';
-                              } else if (!regExp.hasMatch(value!)) {
-                                setState(() {
-                                  numError = true;
-                                });
-                                return 'Este campo requiere de números';
-                              } else {
-                                setState(() {
-                                  numError = false;
-                                });
-                                return null;
-                              }
-                            }),
+                          ElevatedButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          VisualizarAnimales(userId)));
+                            },
+                            style: ElevatedButton.styleFrom(
+                                minimumSize: const Size(165, 35),
+                                backgroundColor: Colors.brown),
+                            child: Text("MASCOTAS",
+                                style: GoogleFonts.quicksand(
+                                    fontSize: 14.0,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w900,
+                                    letterSpacing: 2.0)),
+                          ),
+                        ],
+                      )),
+                  Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 30.0, vertical: 20.0),
+                      child: Container(
+                        width: 100,
+                        child: shelterLogo,
+                      ))
+                ]),
+                Center(
+                  child: SingleChildScrollView(
+                    child: Form(
+                        key: formkey,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            TextFormField(
+                                decoration: InputDecoration(
+                                  border: const OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.brown)),
+                                  focusedBorder: const OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.brown)),
+                                  labelText: 'Nombre',
+                                  hintText: datos['username'],
+                                  labelStyle: GoogleFonts.quicksand(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w700,
+                                      color: nameError
+                                          ? Colors.red
+                                          : Colors.black),
+                                ),
+                                cursorColor: Colors.brown,
+                                keyboardType: TextInputType.name,
+                                validator: (value) {
+                                  if (value?.isEmpty ?? true) {
+                                    setState(() {
+                                      nameError = true;
+                                    });
+                                    return 'Este campo es obligatorio';
+                                  } else if (!regExp.hasMatch(value!)) {
+                                    setState(() {
+                                      nameError = true;
+                                    });
+                                    return 'Este campo requiere de números';
+                                  } else {
+                                    setState(() {
+                                      nameError = false;
+                                    });
+                                    return null;
+                                  }
+                                }),
                             const SizedBox(height: 20),
                             TextFormField(
-                            decoration: InputDecoration(
-                              border: const OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.brown)),
-                              focusedBorder: const OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.brown)),
-                              labelText: datos['location'],
-                              labelStyle: GoogleFonts.quicksand(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w700,
-                                  color: nameError ? Colors.red : Colors.black),
+                              decoration: InputDecoration(
+                                border: const OutlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: Colors.brown)),
+                                focusedBorder: const OutlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: Colors.brown)),
+                                labelText: 'Correo',
+                                hintText: datos['email'],
+                                labelStyle: GoogleFonts.quicksand(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w700,
+                                    color:
+                                        nameError ? Colors.red : Colors.black),
+                              ),
+                              cursorColor: Colors.brown,
+                              keyboardType: TextInputType.emailAddress,
+                              validator: (value) {
+                                if (value == null || value.isEmpty == true) {
+                                  setState(() {
+                                    errorMailEmpty = true;
+                                  });
+                                  return 'Este campo es obligatorio';
+                                } else {
+                                  if (!coincideMail.hasMatch(value)) {
+                                    setState(() {
+                                      errorMailRegExp = true;
+                                    });
+                                    return 'por favor, sigue el formato user@domain.com';
+                                  } else {
+                                    return null;
+                                  }
+                                }
+                              },
                             ),
-                            cursorColor: Colors.brown,
-                            keyboardType: TextInputType.name,
-                            validator: (value) {
-                              if (value?.isEmpty ?? true) {
-                                setState(() {
-                                  nameError = true;
-                                });
-                                return 'Este campo es obligatorio';
-                              } else if (!regExp.hasMatch(value!)) {
-                                setState(() {
-                                  nameError = true;
-                                });
-                                return 'Este campo requiere de números';
-                              } else {
-                                setState(() {
-                                  nameError = false;
-                                });
-                                return null;
-                              }
-                            }),
                             const SizedBox(height: 20),
                             TextFormField(
-                            decoration: InputDecoration(
-                              border: const OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.brown)),
-                              focusedBorder: const OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.brown)),
-                              labelText: "Nombre",
-                              labelStyle: GoogleFonts.quicksand(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w700,
-                                  color: nameError ? Colors.red : Colors.black),
-                            ),
-                            cursorColor: Colors.brown,
-                            keyboardType: TextInputType.name,
-                            validator: (value) {
-                              if (value?.isEmpty ?? true) {
-                                setState(() {
-                                  nameError = true;
-                                });
-                                return 'Este campo es obligatorio';
-                              } else if (!regExp.hasMatch(value!)) {
-                                setState(() {
-                                  nameError = true;
-                                });
-                                return 'Este campo requiere de números';
-                              } else {
-                                setState(() {
-                                  nameError = false;
-                                });
-                                return null;
-                              }
-                            }),
-                      ],
-                    )),
-              ),
-            )
-          ],
-        ),
-      ),
+                                decoration: InputDecoration(
+                                  border: const OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.brown)),
+                                  focusedBorder: const OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.brown)),
+                                  labelText: 'Teléfono',
+                                  hintText: '+${datos['phone']}',
+                                  labelStyle: GoogleFonts.quicksand(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w700,
+                                      color: nameError
+                                          ? Colors.red
+                                          : Colors.black),
+                                ),
+                                cursorColor: Colors.brown,
+                                keyboardType: TextInputType.phone,
+                                validator: (value) {
+                                  if (value?.isEmpty ?? true) {
+                                    setState(() {
+                                      numError = true;
+                                    });
+                                    return 'Este campo es obligatorio';
+                                  } else if (!regExp.hasMatch(value!)) {
+                                    setState(() {
+                                      numError = true;
+                                    });
+                                    return 'Este campo requiere de números';
+                                  } else {
+                                    setState(() {
+                                      numError = false;
+                                    });
+                                    return null;
+                                  }
+                                }),
+                            const SizedBox(height: 20),
+                            TextFormField(
+                                decoration: InputDecoration(
+                                  border: const OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.brown)),
+                                  focusedBorder: const OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.brown)),
+                                  labelText: 'Población',
+                                  hintText: datos['location'],
+                                  labelStyle: GoogleFonts.quicksand(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w700,
+                                      color: nameError
+                                          ? Colors.red
+                                          : Colors.black),
+                                ),
+                                cursorColor: Colors.brown,
+                                keyboardType: TextInputType.name,
+                                validator: (value) {
+                                  if (value?.isEmpty ?? true) {
+                                    setState(() {
+                                      nameError = true;
+                                    });
+                                    return 'Este campo es obligatorio';
+                                  } else if (!regExp.hasMatch(value!)) {
+                                    setState(() {
+                                      nameError = true;
+                                    });
+                                    return 'Este campo requiere de números';
+                                  } else {
+                                    setState(() {
+                                      nameError = false;
+                                    });
+                                    return null;
+                                  }
+                                }),
+                            const SizedBox(height: 20),
+                            TextFormField(
+                                decoration: InputDecoration(
+                                  border: const OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.brown)),
+                                  focusedBorder: const OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.brown)),
+                                  labelText: 'Descripción',
+                                  hintText: datos['description'],
+                                  labelStyle: GoogleFonts.quicksand(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w700,
+                                      color: nameError
+                                          ? Colors.red
+                                          : Colors.black),
+                                ),
+                                cursorColor: Colors.brown,
+                                keyboardType: TextInputType.name,
+                                validator: (value) {
+                                  if (value?.isEmpty ?? true) {
+                                    setState(() {
+                                      nameError = true;
+                                    });
+                                    return 'Este campo es obligatorio';
+                                  } else if (!regExp.hasMatch(value!)) {
+                                    setState(() {
+                                      nameError = true;
+                                    });
+                                    return 'Este campo requiere de números';
+                                  } else {
+                                    setState(() {
+                                      nameError = false;
+                                    });
+                                    return null;
+                                  }
+                                }),
+                            const SizedBox(height: 20),
+                            Center(
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                          minimumSize: const Size(165, 35),
+                                          backgroundColor: Colors.brown),
+                                      onPressed: () {},
+                                      child: Text("CERRAR SESIÓN",
+                                          style: GoogleFonts.quicksand(
+                                              fontSize: 14.0,
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w900,
+                                              letterSpacing: 2.0))),
+                                  const SizedBox(width: 30),
+                                  ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                        minimumSize: const Size(165, 35),
+                                        backgroundColor: Colors.brown),
+                                    onPressed: () {},
+                                    child: Text("ENVIAR",
+                                        style: GoogleFonts.quicksand(
+                                            fontSize: 14.0,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w900,
+                                            letterSpacing: 2.0)),
+                                  )
+                                ],
+                              ))
+                          ],
+                        )),
+                  ),
+                )
+              ],
+            ),
+          )),
       bottomNavigationBar: PetMateNavBar(),
     );
   }
