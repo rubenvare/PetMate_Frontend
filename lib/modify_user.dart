@@ -25,7 +25,7 @@ class ModifyUserState extends State<ModifyUser> {
   bool houseError = false;
   bool timeError = false;
 
-  late String password;
+  String password = "";
   late String confirmPassword;
   late XFile _imageFile;
   late Image? userPicture;
@@ -158,14 +158,9 @@ class ModifyUserState extends State<ModifyUser> {
 
                             const SizedBox(height: 20),
                             TextFormField(
-                              onSaved: (value) => password = value!,
+
                               validator: (value) {
-                                if (value?.isEmpty ?? true) {
-                                  setState(() {
-                                    passwordError = true;
-                                  });
-                                  return "Rellene el campo de contraseña";
-                                } else {
+                                if (value?.isEmpty ?? false) {
                                   setState(() {
                                     passwordError = false;
                                     password = value!;
@@ -175,7 +170,6 @@ class ModifyUserState extends State<ModifyUser> {
                               },
 
                               obscureText: obscurePassword,
-                              initialValue: password,
                               decoration: InputDecoration(
                                 labelText: "Contraseña",
                                 labelStyle: GoogleFonts.quicksand(
@@ -202,12 +196,7 @@ class ModifyUserState extends State<ModifyUser> {
                             TextFormField(
                               onSaved: (value) => confirmPassword = value!,
                               validator: (value) {
-                                if (value?.isEmpty ?? true) {
-                                  setState(() {
-                                    confirmPasswordError = true;
-                                  });
-                                  return "Rellene el campo de confirmar contraseña";
-                                } else if (value != password) {
+                                if (value != password) {
                                   setState(() {
                                     confirmPasswordError = true;
                                   });
@@ -380,7 +369,7 @@ class ModifyUserState extends State<ModifyUser> {
                                 cursorColor: Colors.black,
                                 keyboardType: TextInputType.number,
                                 validator: (value) {
-                                  if (value?.isEmpty ?? true) {
+                                  if (value?.isEmpty ?? false) {
                                     setState(() {
                                       timeError = true;
                                     });
