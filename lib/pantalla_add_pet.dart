@@ -23,11 +23,14 @@ class AddPetState extends State<AddPet> {
   String? dropdownValue2;
   bool dropdownError3 = false;
   String? dropdownValue3;
+
+
   late String name;
   late String breed;
   late int tone;
   late int size;
-  late String age;
+  late String selectedMonth, selectedYear;
+  late String birth;
   late String description;
   late XFile _imageFile;
 
@@ -328,6 +331,37 @@ class AddPetState extends State<AddPet> {
                                 focusedBorder: const OutlineInputBorder(
                                     borderSide:
                                     BorderSide(color: Colors.brown)),
+                                labelText: "Mes de nacimiento",
+                                labelStyle: GoogleFonts.quicksand(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w700,
+                                    color: NumberError
+                                        ? Colors.red
+                                        : Colors.black),
+                              ),
+                              cursorColor: Colors.brown,
+                              keyboardType: TextInputType.number,
+                              validator: (value) {
+                                final int? yearOfMonth = int.tryParse(value ?? '');
+                                if (yearOfMonth == null) {
+                                  return 'Este campo es requerido';
+                                }
+                                if (yearOfMonth > 1 || yearOfMonth < 12) {
+                                  return 'Por favor, ingresa un año válido';
+                                }
+                                selectedMonth = value!;
+                                return null;
+                              },
+                            ),
+                            const SizedBox(height: 20),
+                            TextFormField(
+                              decoration: InputDecoration(
+                                border: const OutlineInputBorder(
+                                    borderSide:
+                                    BorderSide(color: Colors.brown)),
+                                focusedBorder: const OutlineInputBorder(
+                                    borderSide:
+                                    BorderSide(color: Colors.brown)),
                                 labelText: "Año de nacimiento",
                                 labelStyle: GoogleFonts.quicksand(
                                     fontSize: 16,
@@ -346,8 +380,7 @@ class AddPetState extends State<AddPet> {
                                 if (yearOfBirth < 1900 || yearOfBirth > DateTime.now().year) {
                                   return 'Por favor, ingresa un año válido';
                                 }
-                                //age = yearOfBirth;
-                                age = '03-2017';
+                                selectedYear = value!;
                                 return null;
                               },
                             ),
@@ -393,12 +426,13 @@ class AddPetState extends State<AddPet> {
                             ElevatedButton(
                               onPressed: () async {
                                 if (formkey.currentState?.validate() ?? false ) {
+                                  birth = "${selectedMonth}-${selectedYear}";
                                   var data = {
                                     'user_id': 11,
-                                     //UserSession().userId, a modificar cuando se cree usuario
+                                    //UserSession().userId, a modificar cuando se cree usuario
                                     'name': name,
                                     'species': breed,
-                                    'birth': age,
+                                    'birth': birth,
                                     'color': tone,
                                     'size': size,
                                     'description': description
