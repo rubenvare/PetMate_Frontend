@@ -45,7 +45,7 @@ class ModifyUserState extends State<ModifyUser> {
   }
 
   void initAsync() async {
-    Map<String, dynamic> user_info = await getProfileInfo({'user_id': 11, 'type': 'A' });
+    Map<String, dynamic> user_info = await getProfileInfo({'user_id': 7, 'type': 'A' });
     setState(() {
       user['name'] = user_info['username'];
       user['photo'] = user_info['photo'];
@@ -234,7 +234,7 @@ class ModifyUserState extends State<ModifyUser> {
                             ),
                             const SizedBox(height: 20),
                             TextFormField(
-                                initialValue: user['size'],
+                                initialValue: "${user['size']}",
                                 decoration: InputDecoration(
                                   border: const OutlineInputBorder(
                                       borderSide:
@@ -350,7 +350,7 @@ class ModifyUserState extends State<ModifyUser> {
 
                             const SizedBox(height: 40),
                             TextFormField(
-                                initialValue: user['time'],
+                                initialValue: "${user['time']}",
                                 decoration: InputDecoration(
                                   border: const OutlineInputBorder(
                                       borderSide:
