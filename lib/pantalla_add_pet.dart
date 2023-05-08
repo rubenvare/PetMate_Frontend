@@ -344,10 +344,10 @@ class AddPetState extends State<AddPet> {
                               validator: (value) {
                                 final int? yearOfMonth = int.tryParse(value ?? '');
                                 if (yearOfMonth == null) {
-                                  return 'Este campo es requerido';
+                                  return 'Este campo es obligatorio';
                                 }
-                                if (yearOfMonth > 1 || yearOfMonth < 12) {
-                                  return 'Por favor, ingresa un año válido';
+                                if (yearOfMonth < 1 || yearOfMonth > 12) {
+                                  return 'Por favor, ingresa un mes válido';
                                 }
                                 selectedMonth = value!;
                                 return null;
