@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_proyecto/pantalla_busqueda.dart';
 import 'package:flutter_proyecto/visualizar_animales.dart';
+import 'package:image_picker/image_picker.dart';
 import 'inicio.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'http_functions.dart';
@@ -19,7 +20,7 @@ class PerfilProtectoraState extends State<PerfilProtectora> {
 
   Map<String, dynamic> datos = {};
   Map<String, dynamic> shelter = {};
-
+  late XFile _imageFile;
   Image? shelterLogo;
 
   final formkey = GlobalKey<FormState>();
@@ -28,8 +29,16 @@ class PerfilProtectoraState extends State<PerfilProtectora> {
   bool errorMailRegExp = false;
   bool errorMailEmpty = false;
   bool numError = false;
+  bool locationError = false;
+
+  late String username;
+  late String? password;
+  late String description;
+  late String phone;
+  late String location;
 
   RegExp regExp = RegExp(r'(^[A-z]*$)');
+  RegExp regExpNum = RegExp(r'(^[0-9]*$)');
   RegExp coincideMail = RegExp(
       r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
 
@@ -49,6 +58,19 @@ class PerfilProtectoraState extends State<PerfilProtectora> {
       shelterLogo = getImage(shelterResponse['photo']);
     });
   }
+
+  Future<void> _selectImageFromGallery() async {
+    final picker = ImagePicker();
+    final pickedImage = await picker.pickImage(source: ImageSource.gallery);
+    if (pickedImage != null) {
+      final image = Image.memory(await pickedImage.readAsBytes());
+      setState(() {
+        _imageFile = pickedImage;
+        shelterLogo = image;
+      });
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -108,9 +130,15 @@ class PerfilProtectoraState extends State<PerfilProtectora> {
                   Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 30.0, vertical: 20.0),
-                      child: Container(
-                        width: 100,
-                        child: shelterLogo,
+                      child: GestureDetector(
+                        onTap: () {
+                          _selectImageFromGallery();
+                        },
+                        child: Container(
+                          width: 100,
+                          height: 100,
+                          child: shelterLogo,
+                        )
                       ))
                 ]),
                 Center(
@@ -153,6 +181,7 @@ class PerfilProtectoraState extends State<PerfilProtectora> {
                                     return 'Este campo requiere de números';
                                   } else {
                                     setState(() {
+                                      username = value;
                                       nameError = false;
                                     });
                                     return null;
@@ -167,8 +196,7 @@ class PerfilProtectoraState extends State<PerfilProtectora> {
                                 focusedBorder: const OutlineInputBorder(
                                     borderSide:
                                         BorderSide(color: Colors.brown)),
-                                labelText: 'Correo',
-                                hintText: datos['email'],
+                                labelText: 'Contraseña',
                                 labelStyle: GoogleFonts.quicksand(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w700,
@@ -180,18 +208,12 @@ class PerfilProtectoraState extends State<PerfilProtectora> {
                               validator: (value) {
                                 if (value == null || value.isEmpty == true) {
                                   setState(() {
-                                    errorMailEmpty = true;
+                                    password = null;
                                   });
-                                  return 'Este campo es obligatorio';
                                 } else {
-                                  if (!coincideMail.hasMatch(value)) {
-                                    setState(() {
-                                      errorMailRegExp = true;
-                                    });
-                                    return 'por favor, sigue el formato user@domain.com';
-                                  } else {
-                                    return null;
-                                  }
+                                  setState(() {
+                                    password = value;
+                                  });
                                 }
                               },
                             ),
@@ -209,7 +231,7 @@ class PerfilProtectoraState extends State<PerfilProtectora> {
                                   labelStyle: GoogleFonts.quicksand(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w700,
-                                      color: nameError
+                                      color: numError
                                           ? Colors.red
                                           : Colors.black),
                                 ),
@@ -221,13 +243,14 @@ class PerfilProtectoraState extends State<PerfilProtectora> {
                                       numError = true;
                                     });
                                     return 'Este campo es obligatorio';
-                                  } else if (!regExp.hasMatch(value!)) {
+                                  } else if (!regExpNum.hasMatch(value!)) {
                                     setState(() {
                                       numError = true;
                                     });
                                     return 'Este campo requiere de números';
                                   } else {
                                     setState(() {
+                                      phone = value;
                                       numError = false;
                                     });
                                     return null;
@@ -247,7 +270,7 @@ class PerfilProtectoraState extends State<PerfilProtectora> {
                                   labelStyle: GoogleFonts.quicksand(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w700,
-                                      color: nameError
+                                      color: locationError
                                           ? Colors.red
                                           : Colors.black),
                                 ),
@@ -256,17 +279,18 @@ class PerfilProtectoraState extends State<PerfilProtectora> {
                                 validator: (value) {
                                   if (value?.isEmpty ?? true) {
                                     setState(() {
-                                      nameError = true;
+                                      locationError = true;
                                     });
                                     return 'Este campo es obligatorio';
                                   } else if (!regExp.hasMatch(value!)) {
                                     setState(() {
-                                      nameError = true;
+                                      locationError = true;
                                     });
                                     return 'Este campo requiere de números';
                                   } else {
                                     setState(() {
-                                      nameError = false;
+                                      location = value;
+                                      locationError = false;
                                     });
                                     return null;
                                   }
@@ -284,30 +308,21 @@ class PerfilProtectoraState extends State<PerfilProtectora> {
                                   hintText: datos['description'],
                                   labelStyle: GoogleFonts.quicksand(
                                       fontSize: 16,
-                                      fontWeight: FontWeight.w700,
-                                      color: nameError
-                                          ? Colors.red
-                                          : Colors.black),
+                                      fontWeight: FontWeight.w700),
                                 ),
                                 cursorColor: Colors.brown,
                                 keyboardType: TextInputType.name,
                                 validator: (value) {
                                   if (value?.isEmpty ?? true) {
                                     setState(() {
-                                      nameError = true;
+                                      description = '';
                                     });
-                                    return 'Este campo es obligatorio';
-                                  } else if (!regExp.hasMatch(value!)) {
-                                    setState(() {
-                                      nameError = true;
-                                    });
-                                    return 'Este campo requiere de números';
                                   } else {
                                     setState(() {
-                                      nameError = false;
+                                      description = value!;
                                     });
-                                    return null;
                                   }
+                                  return null;
                                 }),
                             const SizedBox(height: 20),
                             Center(
@@ -331,7 +346,25 @@ class PerfilProtectoraState extends State<PerfilProtectora> {
                                     style: ElevatedButton.styleFrom(
                                         minimumSize: const Size(165, 35),
                                         backgroundColor: Colors.brown),
-                                    onPressed: () {},
+                                    onPressed: () async {
+                                      if (formkey.currentState?.validate() ?? false ) {
+                                        var attributes = {
+                                          'phone': phone,
+                                          'location': location
+                                        };
+                                        var data = {
+                                          'user_id': 12,
+                                          'password': password,
+                                          'username': username,
+                                          'description': description,
+                                          'type': 'S',
+                                          'attributes': attributes
+                                        };
+                                        await sendUpdateShelterRequest(data);
+                                        print("hola");
+                                        postImage('users', _imageFile, data['user_id'].toString());
+                                      }
+                                    },
                                     child: Text("ENVIAR",
                                         style: GoogleFonts.quicksand(
                                             fontSize: 14.0,
