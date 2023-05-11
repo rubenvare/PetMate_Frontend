@@ -191,7 +191,7 @@ void _mostrarPopUp(BuildContext context, Map<String,dynamic> elemento, Image pho
                   IconButton(
                     onPressed: () async {
                       data = {
-                        "user_id": UserSession().userId,
+                        "user_id": elemento["user_id"],
                         "animal_id": elemento["animal_id"],
                         "action": 1,
                       };
@@ -204,9 +204,9 @@ void _mostrarPopUp(BuildContext context, Map<String,dynamic> elemento, Image pho
                   IconButton(
                     onPressed: () async {
                       data = {
-                        "user_id": UserSession().userId,
+                        "user_id": elemento["user_id"],
                         "animal_id": elemento["animal_id"],
-                        "action": 0,
+                        "action": 2,
                       };
                       if(await resolveLikeReceived(data)){
                         Navigator.pop(context);
