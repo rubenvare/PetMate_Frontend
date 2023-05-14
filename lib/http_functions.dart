@@ -150,3 +150,32 @@ Future<bool> resolveLikeReceived(dynamic data) async {
   }
 }
 
+Future<List<dynamic>> getChatRecord(dynamic data) async {
+  final path= '/show_chat_record';
+  final response = await sendPostRequest(path, data);
+  var info = jsonDecode(response.body);
+  if (response.statusCode != 200) {
+    return ['ERROR OBTENIENDO CHATS'];
+  }
+  else {
+    return info;
+  }
+}
+
+Future<List<dynamic>> getConversation(dynamic data) async {
+  final path = '/show_chat';
+  final response = await sendPostRequest(path, data);
+  var info = jsonDecode(response.body);
+  if (response.statusCode != 200) {
+    return [{'error':'ERROR OBTENIENDO CHAT'} ];
+  }
+  else {
+    return info;
+  }
+}
+
+Future<void> addToChat(dynamic data) async {
+  final path = '/add_to_chat';
+  final response = await sendPostRequest(path, data);
+  var info = jsonDecode(response.body);
+}

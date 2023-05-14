@@ -1,0 +1,239 @@
+import 'dart:async';
+import 'dart:developer';
+import 'package:intl/intl.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_proyecto/pantalla_detalles.dart';
+import 'package:flutter_proyecto/pantalla_filtro.dart';
+import 'package:flutter_proyecto/singleton_user.dart';
+import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'inicio.dart';
+import 'http_functions.dart';
+
+// esta pantalla viene a ser una conversacion individual entre dos usuarios.
+// no es la pantalla de listado de conversaciones
+
+// antes de subir el codigo: cambia user_id y type, y descomenta ifs
+class ConversationScreen extends StatefulWidget {
+  ConversationScreen(this.user_id, this.animal_id, {Key? key}) : super(key: key);
+  int user_id = 0, animal_id = 0;
+  @override
+  State<ConversationScreen> createState() => _ConversationScreenState(user_id, animal_id);
+}
+
+class _ConversationScreenState extends State<ConversationScreen> {
+  //este user_id es el del OTRO usuario: si eres adopter, le pasarás el de la protectora del animal.
+  int user_id = 0, animal_id = 0;
+  var myImage, otherUserImage, petInfo;
+  List<dynamic> messages = []; // Lista para almacenar los mensajes del chat
+  TextEditingController textController = TextEditingController(); // Controlador del campo de texto
+  bool isButtonEnabled = false; // Estado del botón de enviar
+  bool dataLoaded = false;
+  late Timer timer;
+
+  _ConversationScreenState(this.user_id, this.animal_id);
+    @override
+    void initState(){
+      super.initState();
+      var data = {
+        'user_id': UserSession().type == 'S' ? this.user_id : UserSession().userId,
+        'animal_id': animal_id
+      };
+      initAsync(data);
+      startDataUpdateTimer(); // Inicia el temporizador para actualizar los datos cada segundo
+
+    }
+
+    Future<void> initAsync(data) async {
+      messages = await getConversation(data);
+      petInfo = await getPetDetails({'animal_id': animal_id});
+      petInfo['photo'] = await getImage(petInfo['photo']);
+      Map<String, dynamic> response = await getProfileInfo({'user_id': UserSession().userId, 'type': UserSession().type});
+      myImage = await getImage(response['photo']);
+      if (UserSession().type == 'S') {
+        response = await getProfileInfo({'user_id': user_id, 'type': 'A'});
+      } else {
+        response = await getProfileInfo({'user_id': user_id, 'type': 'S'});
+      }
+      otherUserImage = await getImage(response['photo']);
+      dataLoaded = true;
+
+    }
+  Future<void> obtainData() async{
+    // Lógica para obtener los datos del JSON
+    // Actualiza la lista 'messages' con los nuevos mensajes
+    var data = {
+      'user_id': UserSession().type == 'S' ? this.user_id : UserSession().userId,
+      'animal_id': animal_id
+    };
+    var newData = await getConversation(data);
+    setState(() {
+      messages = newData;
+    });
+  }
+
+  void startDataUpdateTimer() {
+    // Temporizador para actualizar los datos cada segundo
+    const oneSec = const Duration(seconds: 1);
+    timer = Timer.periodic(oneSec, (Timer timer) {
+      obtainData();
+
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    // Detener el timer al salir de la pantalla
+    timer.cancel();
+  }
+
+  void sendMessage() {
+    // Lógica para enviar el mensaje
+    String message = textController.text;
+    int adopterId = 0;
+    int writer = 0;
+    // ... código adicional para enviar el mensaje ...
+    if (UserSession().type == 'S'){
+      adopterId = user_id;
+      writer = 1;
+    } else if (UserSession().type == 'A') {
+      adopterId = UserSession().userId;
+    }
+    var data = {
+      'user_id': adopterId,
+      'animal_id': animal_id,
+      'writer': writer,
+      'date': DateFormat('HH:mm dd/MM/yy').format(DateTime.now()),
+      'message': message
+    };
+    addToChat(data);
+    // Limpia el campo de texto y deshabilita el botón de enviar
+    textController.clear();
+    setState(() {
+      isButtonEnabled = false;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return !dataLoaded ? Center(child: CircularProgressIndicator()) : Builder(builder: (context) =>
+        Scaffold(
+          appBar: AppBar(toolbarHeight: 70,
+            title: Text(
+              '${petInfo['name']}',
+              style:
+              GoogleFonts.quicksand(fontSize: 35.0, color: Colors.white),
+            ),
+            centerTitle: true,
+            backgroundColor: Colors.brown,
+            actions: [
+              Padding(padding: EdgeInsets.all(20.0), child: petInfo['photo'])
+            ],
+            leading: Builder(
+              builder: (BuildContext context) {
+                if (Navigator.of(context)
+                    .canPop()) { // Si puede hacer pop te mostrará el icono
+                  return BackButton(onPressed: () => Navigator.pop(context));
+                } else {
+                  return const SizedBox.shrink(); // si no, devuelve un espacio vacío
+                }
+              },
+            ),
+          ),
+          body: Column(
+            children: [
+              SizedBox(height: 20.0,),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: messages.length,
+                  itemBuilder: (context, index) {
+                    Map<String, dynamic> message = messages[index];
+                    bool isWriterLeft;
+                    if (UserSession().type == 'S') {
+                      isWriterLeft = message['writer'] == 1;
+                    } else {
+                      isWriterLeft = message['writer'] == 0;
+                    }
+
+                    return ListTile(
+                      title: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+                        decoration: BoxDecoration(
+                          color: isWriterLeft ? Colors.green[200] : Colors.grey[300],
+                          borderRadius: BorderRadius.circular(20.0),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start ,
+                          children: [
+                            Text(
+                              message['message'],
+                              style: TextStyle(fontSize: 16.0, color: Colors.black87),
+                            ),
+                            SizedBox(height: 5.0),
+                            Text(
+                              message['date'],
+                              style: TextStyle(fontSize: 12.0, color: Colors.black54),
+                            ),
+                          ],
+                        ),
+                      ),
+                      leading: !isWriterLeft && otherUserImage != null
+                          ? CircleAvatar(
+                        backgroundImage: otherUserImage.image,
+                      )
+                          : null,
+                      trailing: isWriterLeft && myImage != null
+                          ? CircleAvatar(
+                        backgroundImage: myImage.image,
+                      )
+                          : null,
+                    );
+                  },
+                ),
+              ),
+              Divider(),
+              Container(
+                height: 60.0,
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.grey[200],
+                          borderRadius: BorderRadius.circular(30.0),
+                        ),
+                        child: TextField(
+                          cursorColor: Colors.brown,
+                          controller: textController,
+                          onChanged: (value) {
+                            setState(() {
+                              isButtonEnabled = value.isNotEmpty;
+                            });
+                          },
+                          maxLines: null,
+                          textInputAction: TextInputAction.newline,
+                          decoration: InputDecoration(
+                            hintText: 'Escribe un mensaje',
+                            border: InputBorder.none,
+                            contentPadding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 14.0),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 10),
+                    FloatingActionButton(
+                      onPressed: isButtonEnabled ? sendMessage : null,
+                      backgroundColor: isButtonEnabled ? Colors.brown : Colors.grey,
+                      child: Icon(Icons.send),
+                    ),
+                  ],
+                ),
+              ),
+
+            ],
+          ),
+        )
+        );
+  }
+}
