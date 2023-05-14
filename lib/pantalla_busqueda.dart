@@ -440,10 +440,11 @@ class _PetMateNavBarState extends State<PetMateNavBar> {
             break;
         }
       }, // Establece el color de fondo de los botones
-      selectedFontSize: 14, // Aumenta el tamaño del texto de los botones seleccionados
-      iconSize: 24, // Establece el tamaño de los íconos de los botones
-      type: BottomNavigationBarType.fixed, // Fuerza la alineación de los botones
+      selectedFontSize: 14,
+      iconSize: 24,
+      type: BottomNavigationBarType.fixed,
       selectedItemColor: Colors.black, // Color del ícono seleccionado
+      unselectedItemColor: Colors.black, // Color del ícono no seleccionado
       items: const [
         BottomNavigationBarItem(
           icon: Icon(Icons.home),

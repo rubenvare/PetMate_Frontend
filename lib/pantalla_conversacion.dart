@@ -1,19 +1,14 @@
 import 'dart:async';
-import 'dart:developer';
+import 'package:flutter_proyecto/pantalla_detalles.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_proyecto/pantalla_detalles.dart';
-import 'package:flutter_proyecto/pantalla_filtro.dart';
 import 'package:flutter_proyecto/singleton_user.dart';
-import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'inicio.dart';
 import 'http_functions.dart';
 
 // esta pantalla viene a ser una conversacion individual entre dos usuarios.
 // no es la pantalla de listado de conversaciones
 
-// antes de subir el codigo: cambia user_id y type, y descomenta ifs
 class ConversationScreen extends StatefulWidget {
   ConversationScreen(this.user_id, this.animal_id, {Key? key}) : super(key: key);
   int user_id = 0, animal_id = 0;
@@ -89,11 +84,9 @@ class _ConversationScreenState extends State<ConversationScreen> {
   }
 
   void sendMessage() {
-    // Lógica para enviar el mensaje
     String message = textController.text;
     int adopterId = 0;
     int writer = 0;
-    // ... código adicional para enviar el mensaje ...
     if (UserSession().type == 'S'){
       adopterId = user_id;
       writer = 1;
@@ -119,24 +112,40 @@ class _ConversationScreenState extends State<ConversationScreen> {
   Widget build(BuildContext context) {
     return !dataLoaded ? Center(child: CircularProgressIndicator()) : Builder(builder: (context) =>
         Scaffold(
-          appBar: AppBar(toolbarHeight: 70,
+          appBar: AppBar(
+            toolbarHeight: 70,
             title: Text(
               '${petInfo['name']}',
-              style:
-              GoogleFonts.quicksand(fontSize: 35.0, color: Colors.white),
+              style: GoogleFonts.quicksand(fontSize: 35.0, color: Colors.white),
             ),
             centerTitle: true,
             backgroundColor: Colors.brown,
             actions: [
-              Padding(padding: EdgeInsets.all(20.0), child: petInfo['photo'])
+              Padding(
+                padding: EdgeInsets.all(7.0),
+                child: InkWell(
+                  onTap: () {
+                    DetailScreen detalles = DetailScreen(animal_id);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => detalles,
+                      ),
+                    );
+                  },
+                  child: CircleAvatar(
+                    radius: 37,
+                    backgroundImage: petInfo['photo'].image,
+                  ),
+                ),
+              ),
             ],
             leading: Builder(
               builder: (BuildContext context) {
-                if (Navigator.of(context)
-                    .canPop()) { // Si puede hacer pop te mostrará el icono
+                if (Navigator.of(context).canPop()) {
                   return BackButton(onPressed: () => Navigator.pop(context));
                 } else {
-                  return const SizedBox.shrink(); // si no, devuelve un espacio vacío
+                  return const SizedBox.shrink();
                 }
               },
             ),
@@ -168,12 +177,12 @@ class _ConversationScreenState extends State<ConversationScreen> {
                           children: [
                             Text(
                               message['message'],
-                              style: TextStyle(fontSize: 16.0, color: Colors.black87),
+                              style: GoogleFonts.quicksand(fontSize: 16.0, color: Colors.black87, fontWeight: FontWeight.w600),
                             ),
                             SizedBox(height: 5.0),
                             Text(
                               message['date'],
-                              style: TextStyle(fontSize: 12.0, color: Colors.black54),
+                              style: GoogleFonts.quicksand(fontSize: 12.0, color: Colors.black54),
                             ),
                           ],
                         ),
@@ -230,7 +239,6 @@ class _ConversationScreenState extends State<ConversationScreen> {
                   ],
                 ),
               ),
-
             ],
           ),
         )
