@@ -23,7 +23,7 @@ class AddPetState extends State<AddPet> {
   String? dropdownValue2;
   bool dropdownError3 = false;
   String? dropdownValue3;
-
+  bool imageError = false;
 
   late String name;
   late String breed;
@@ -32,16 +32,25 @@ class AddPetState extends State<AddPet> {
   late String selectedMonth, selectedYear;
   late String birth;
   late String description;
+  Image? shelterLogo;
   late XFile _imageFile;
 
   Future<void> _selectImageFromGallery() async {
     final picker = ImagePicker();
     final pickedImage = await picker.pickImage(source: ImageSource.gallery);
     if (pickedImage != null) {
+      final image = Image.memory(await pickedImage.readAsBytes());
       setState(() {
         _imageFile = pickedImage;
+        shelterLogo = image;
       });
     }
+  }
+  String? _imageValidator() {
+    if (shelterLogo == null) {
+      return 'Por favor, seleccione una imagen';
+    }
+    return null;
   }
 
   RegExp regExp = RegExp(r'(^[A-z]*$)');
@@ -65,7 +74,7 @@ class AddPetState extends State<AddPet> {
                       Row(children: <Widget>[
                         Padding(
                             padding: const EdgeInsets.symmetric(
-                                horizontal: 30.0, vertical: 20.0),
+                                horizontal: 20.0, vertical: 20.0),
                             child: Column(
                               children: [
                                 Text(
@@ -79,13 +88,53 @@ class AddPetState extends State<AddPet> {
                               ],
                             )),
                         Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 0, vertical: 20.0),
-                            child: SizedBox(
-                              width: 80,
-                              height: 80,
-                              child: ElevatedButton(onPressed: _selectImageFromGallery, child: Text("Imagen")),
-                            ))
+                          padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 20.0),
+                          child: GestureDetector(
+                            onTap: () {
+                              _selectImageFromGallery();
+                            },
+                            child: Container(
+                              width: 100,
+                              height: 100,
+                              decoration: shelterLogo != null
+                                  ? null
+                                  : BoxDecoration(
+                                border: Border.all(
+                                  color: imageError ? Colors.red : Colors.black,
+                                  width: 2.0,
+                                ),
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                              child: Center(
+                                child: shelterLogo != null
+                                    ? shelterLogo
+                                    : Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'Añadir imagen',
+                                      style: TextStyle(
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    if (imageError)
+                                      Text(
+                                        'La imagen es obligatoria',
+                                        style: TextStyle(
+                                          fontSize: 12.0,
+                                          color: Colors.red,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        )
+
                       ]),
 
                       const SizedBox(height: 20),
@@ -426,6 +475,12 @@ class AddPetState extends State<AddPet> {
                             ElevatedButton(
                               onPressed: () async {
                                 if (formkey.currentState?.validate() ?? false ) {
+                                  if (_imageValidator() != null) {
+                                    setState(() {
+                                      imageError = true;
+                                    });
+                                    return;
+                                  }
                                   birth = "${selectedMonth}-${selectedYear}";
                                   var data = {
                                     'user_id': 11,
