@@ -34,7 +34,7 @@ class PerfilProtectoraState extends State<PerfilProtectora> {
   late String username;
   late String? password;
   late String description;
-  late String phone;
+  late int phone;
   late String location;
 
   RegExp regExp = RegExp(r'(^[A-z]*$)');
@@ -48,6 +48,7 @@ class PerfilProtectoraState extends State<PerfilProtectora> {
   void initState() {
     super.initState();
     getDatos(userId);
+    _imageFile = XFile('');
   }
 
   Future<void> getDatos(int userId) async {
@@ -70,7 +71,6 @@ class PerfilProtectoraState extends State<PerfilProtectora> {
       });
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -131,15 +131,14 @@ class PerfilProtectoraState extends State<PerfilProtectora> {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 30.0, vertical: 20.0),
                       child: GestureDetector(
-                        onTap: () {
-                          _selectImageFromGallery();
-                        },
-                        child: Container(
-                          width: 100,
-                          height: 100,
-                          child: shelterLogo,
-                        )
-                      ))
+                          onTap: () {
+                            _selectImageFromGallery();
+                          },
+                          child: Container(
+                            width: 100,
+                            height: 100,
+                            child: shelterLogo,
+                          )))
                 ]),
                 Center(
                   child: SingleChildScrollView(
@@ -171,9 +170,8 @@ class PerfilProtectoraState extends State<PerfilProtectora> {
                                 validator: (value) {
                                   if (value?.isEmpty ?? true) {
                                     setState(() {
-                                      nameError = true;
+                                      username = datos['username'];
                                     });
-                                    return 'Este campo es obligatorio';
                                   } else if (!regExp.hasMatch(value!)) {
                                     setState(() {
                                       nameError = true;
@@ -231,18 +229,16 @@ class PerfilProtectoraState extends State<PerfilProtectora> {
                                   labelStyle: GoogleFonts.quicksand(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w700,
-                                      color: numError
-                                          ? Colors.red
-                                          : Colors.black),
+                                      color:
+                                          numError ? Colors.red : Colors.black),
                                 ),
                                 cursorColor: Colors.brown,
                                 keyboardType: TextInputType.phone,
                                 validator: (value) {
                                   if (value?.isEmpty ?? true) {
                                     setState(() {
-                                      numError = true;
+                                      phone = datos['phone'];
                                     });
-                                    return 'Este campo es obligatorio';
                                   } else if (!regExpNum.hasMatch(value!)) {
                                     setState(() {
                                       numError = true;
@@ -250,7 +246,7 @@ class PerfilProtectoraState extends State<PerfilProtectora> {
                                     return 'Este campo requiere de números';
                                   } else {
                                     setState(() {
-                                      phone = value;
+                                      phone = value as int;
                                       numError = false;
                                     });
                                     return null;
@@ -279,14 +275,13 @@ class PerfilProtectoraState extends State<PerfilProtectora> {
                                 validator: (value) {
                                   if (value?.isEmpty ?? true) {
                                     setState(() {
-                                      locationError = true;
+                                      location = datos['location'];
                                     });
-                                    return 'Este campo es obligatorio';
                                   } else if (!regExp.hasMatch(value!)) {
                                     setState(() {
                                       locationError = true;
                                     });
-                                    return 'Este campo requiere de números';
+                                    return 'Este campo requiere de letras';
                                   } else {
                                     setState(() {
                                       location = value;
@@ -315,7 +310,7 @@ class PerfilProtectoraState extends State<PerfilProtectora> {
                                 validator: (value) {
                                   if (value?.isEmpty ?? true) {
                                     setState(() {
-                                      description = '';
+                                      description = datos['description'];
                                     });
                                   } else {
                                     setState(() {
@@ -326,54 +321,103 @@ class PerfilProtectoraState extends State<PerfilProtectora> {
                                 }),
                             const SizedBox(height: 20),
                             Center(
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                          minimumSize: const Size(165, 35),
-                                          backgroundColor: Colors.brown),
-                                      onPressed: () {},
-                                      child: Text("CERRAR SESIÓN",
-                                          style: GoogleFonts.quicksand(
-                                              fontSize: 14.0,
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w900,
-                                              letterSpacing: 2.0))),
-                                  const SizedBox(width: 30),
-                                  ElevatedButton(
+                                child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                ElevatedButton(
                                     style: ElevatedButton.styleFrom(
                                         minimumSize: const Size(165, 35),
                                         backgroundColor: Colors.brown),
-                                    onPressed: () async {
-                                      if (formkey.currentState?.validate() ?? false ) {
-                                        var attributes = {
-                                          'phone': phone,
-                                          'location': location
-                                        };
-                                        var data = {
-                                          'user_id': 12,
-                                          'password': password,
-                                          'username': username,
-                                          'description': description,
-                                          'type': 'S',
-                                          'attributes': attributes
-                                        };
-                                        await sendUpdateShelterRequest(data);
-                                        print("hola");
-                                        postImage('users', _imageFile, data['user_id'].toString());
-                                      }
-                                    },
-                                    child: Text("ENVIAR",
+                                    onPressed: () {},
+                                    child: Text("CERRAR SESIÓN",
                                         style: GoogleFonts.quicksand(
                                             fontSize: 14.0,
                                             color: Colors.white,
                                             fontWeight: FontWeight.w900,
-                                            letterSpacing: 2.0)),
-                                  )
-                                ],
-                              ))
+                                            letterSpacing: 2.0))),
+                                const SizedBox(width: 30),
+                                ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                      minimumSize: const Size(165, 35),
+                                      backgroundColor: Colors.brown),
+                                  onPressed: () async {
+                                    if (formkey.currentState?.validate() ??
+                                        false) {
+                                      var data = {
+                                        'user_id': 12,
+                                        'password': password,
+                                        'username': username,
+                                        'description': description,
+                                        'type': 'S',
+                                        'phone': phone,
+                                        'location': location
+                                      };
+                                      var id =
+                                          await sendUpdateShelterRequest(data);
+                                      if (_imageFile.path != '') {
+                                        postImage('users', _imageFile,
+                                            data['user_id'].toString());
+                                        _imageFile = XFile('');
+                                      }
+                                      showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return AlertDialog(
+                                              icon: const Icon(
+                                                  Icons.pets_rounded),
+                                              title: const Text(
+                                                  'Perfil actualizado correctamente'),
+                                              titleTextStyle:
+                                                  GoogleFonts.quicksand(
+                                                      fontSize: 16,
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                      color: Colors.black),
+                                              backgroundColor:
+                                                  const Color(0xFFC4A484),
+                                              shape:
+                                                  const RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.all(
+                                                              Radius.circular(
+                                                                  20))),
+                                              actions: <Widget>[
+                                                Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  children: [
+                                                    ElevatedButton(
+                                                        style: ElevatedButton
+                                                            .styleFrom(
+                                                                backgroundColor:
+                                                                    Colors
+                                                                        .brown),
+                                                        onPressed: () {
+                                                          setState(() {
+                                                            
+                                                          });
+                                                          Navigator.of(context)
+                                                              .pop();
+                                                        },
+                                                        child: const Text(
+                                                            'Cerrar'))
+                                                  ],
+                                                )
+                                              ],
+                                            );
+                                          });
+                                    }
+                                  },
+                                  child: Text("ENVIAR",
+                                      style: GoogleFonts.quicksand(
+                                          fontSize: 14.0,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w900,
+                                          letterSpacing: 2.0)),
+                                )
+                              ],
+                            ))
                           ],
                         )),
                   ),
