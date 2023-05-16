@@ -25,6 +25,7 @@ class ModifyUserState extends State<ModifyUser> {
   bool houseError = false;
   bool timeError = false;
 
+
   String password = "";
   late String confirmPassword;
   late XFile _imageFile;
@@ -38,13 +39,15 @@ class ModifyUserState extends State<ModifyUser> {
     final picker = ImagePicker();
     final pickedImage = await picker.pickImage(source: ImageSource.gallery);
     if (pickedImage != null) {
+      final image = Image.memory(await pickedImage.readAsBytes());
       setState(() {
         _imageFile = pickedImage;
+        userPicture = image;
       });
     }
   }
 
-  void initAsync() async {
+  Future<void> initAsync() async {
     Map<String, dynamic> user_info = await getProfileInfo({'user_id': 7, 'type': 'A' });
     setState(() {
       user['name'] = user_info['username'];
@@ -100,13 +103,44 @@ class ModifyUserState extends State<ModifyUser> {
                               ],
                             )),
                         Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 0, vertical: 20.0),
-                            child: SizedBox(
-                              width: 80,
-                              height: 80,
-                              child: ElevatedButton(onPressed: _selectImageFromGallery, child: Text("Imagen")),
-                            ))
+                          padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 20.0),
+                          child: GestureDetector(
+                            onTap: () {
+                              _selectImageFromGallery();
+                            },
+                            child: Container(
+                              width: 100,
+                              height: 100,
+                              decoration: userPicture != null
+                                  ? null
+                                  : BoxDecoration(
+                                border: Border.all(
+                                  color: Colors.black,
+                                  width: 2.0,
+                                ),
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                              child: Center(
+                                child: userPicture != null
+                                    ? userPicture
+                                    : Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'Añadir imagen',
+                                      style: TextStyle(
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        )
+
                       ]),
 
                       const SizedBox(height: 20),
@@ -125,8 +159,8 @@ class ModifyUserState extends State<ModifyUser> {
                                   focusedBorder: const OutlineInputBorder(
                                       borderSide:
                                       BorderSide(color: Colors.brown)),
-                                  labelText: "Nombre",
-
+                                  labelText: 'Nombre',
+                                  hintText: user['name'],
                                   labelStyle: GoogleFonts.quicksand(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w700,
@@ -137,12 +171,7 @@ class ModifyUserState extends State<ModifyUser> {
                                 cursorColor: Colors.brown,
                                 keyboardType: TextInputType.text,
                                 validator: (value) {
-                                  if (value?.isEmpty ?? true) {
-                                    setState(() {
-                                      nameError = true;
-                                    });
-                                    return 'Este campo es obligatorio';
-                                  } else if (!regExp.hasMatch(value!)) {
+                                  if (!regExp.hasMatch(value!)) {
                                     setState(() {
                                       nameError = true;
                                     });
@@ -234,7 +263,7 @@ class ModifyUserState extends State<ModifyUser> {
                             ),
                             const SizedBox(height: 20),
                             TextFormField(
-                                initialValue: "${user['size']}",
+                                //initialValue: "${user['size']}",
                                 decoration: InputDecoration(
                                   border: const OutlineInputBorder(
                                       borderSide:
@@ -243,6 +272,7 @@ class ModifyUserState extends State<ModifyUser> {
                                       borderSide:
                                       BorderSide(color: Colors.brown)),
                                   labelText: "Tamaño de la casa en m2*",
+                                  hintText: "${user['size']}",
                                   labelStyle: GoogleFonts.quicksand(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w700,
@@ -253,12 +283,7 @@ class ModifyUserState extends State<ModifyUser> {
                                 cursorColor: Colors.brown,
                                 keyboardType: TextInputType.number,
                                 validator: (value) {
-                                  if (value?.isEmpty ?? true) {
-                                    setState(() {
-                                      houseError = true;
-                                    });
-                                    return 'Este campo es obligatorio';
-                                  } else if (!regExp2.hasMatch(value!)) {
+                                  if (!regExp2.hasMatch(value!)) {
                                     setState(() {
                                       houseError = true;
                                     });
@@ -350,7 +375,7 @@ class ModifyUserState extends State<ModifyUser> {
 
                             const SizedBox(height: 40),
                             TextFormField(
-                                initialValue: "${user['time']}",
+
                                 decoration: InputDecoration(
                                   border: const OutlineInputBorder(
                                       borderSide:
@@ -359,6 +384,7 @@ class ModifyUserState extends State<ModifyUser> {
                                       borderSide:
                                       BorderSide(color: Colors.brown)),
                                   labelText: "Tiempo disponible en horas/día*",
+                                  hintText: "${user['time']}",
                                   labelStyle: GoogleFonts.quicksand(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w700,
@@ -369,12 +395,7 @@ class ModifyUserState extends State<ModifyUser> {
                                 cursorColor: Colors.black,
                                 keyboardType: TextInputType.number,
                                 validator: (value) {
-                                  if (value?.isEmpty ?? false) {
-                                    setState(() {
-                                      timeError = true;
-                                    });
-                                    return 'Este campo es obligatorio';
-                                  } else if (!regExp2.hasMatch(value!)) {
+                                  if (!regExp2.hasMatch(value!)) {
                                     setState(() {
                                       timeError = true;
                                     });
@@ -395,9 +416,9 @@ class ModifyUserState extends State<ModifyUser> {
                                   descriptionError = false;
                                 });
                               },
-                              initialValue: user['description'],
                               decoration: InputDecoration(
                                 labelText: "Descripción",
+                                hintText: user['description'],
                                 labelStyle: GoogleFonts.quicksand(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w700,
@@ -418,12 +439,14 @@ class ModifyUserState extends State<ModifyUser> {
                             ElevatedButton(
                               onPressed: () async {
                                 if (formkey.currentState?.validate() ?? false ) {
+
                                   var data = {
                                     'user_id': 11,
                                     //UserSession().userId, a modificar cuando se cree usuario
+                                    'type': "A",
                                     'username': user['name'],
                                     'description': user['description'],
-                                    //'password': password,
+                                    'password': password,
                                     'living_space' : user['size'],
                                     'available_time': user['time'],
                                     'terrace': user['terrace'],
@@ -432,9 +455,12 @@ class ModifyUserState extends State<ModifyUser> {
                                     'pet_before': user['pet_before']
                                   };
                                   var id = await sendModifyUserRequest(data);
-                                  postImage('animals', _imageFile,
-                                      id.values.toString().replaceAll(
-                                          RegExp(r"[\(\)]"), ""));
+                                  if(userPicture != null)
+                                  {
+                                    postImage('animals', _imageFile,
+                                        id.values.toString().replaceAll(
+                                            RegExp(r"[\(\)]"), ""));
+                                  }
                                   showDialog(
                                       context: context,
                                       builder: (BuildContext context) {
