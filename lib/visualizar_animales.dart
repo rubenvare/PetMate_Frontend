@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_proyecto/pantalla_busqueda.dart';
 import 'package:flutter_proyecto/pantalla_perfil_protectora.dart';
+import 'editar_animal.dart';
 import 'inicio.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'http_functions.dart';
@@ -105,7 +106,7 @@ class VisualizarAnimalesState extends State<VisualizarAnimales> {
                     ImageProvider<Object>? imageProvider = animalPhoto.image;
                     return GestureDetector(
                         onTap: () {
-                          print("hola soy " + data['name']);
+                          Navigator.push(context,MaterialPageRoute(builder: (context) => PerfilAnimal(data['animal_id'], imageProvider)));
                         },
                         child: Container(
                           padding: EdgeInsets.all(16.0),
