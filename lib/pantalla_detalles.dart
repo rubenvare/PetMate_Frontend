@@ -19,7 +19,7 @@ class _DetailScreenState extends State<DetailScreen> {
   bool dataLoaded = false;
   int pet_id;
   Image? shelterPicture;
-  String? color, size, age;
+  String? color, size, birth;
 
   _DetailScreenState(this.pet_id);
 
@@ -37,7 +37,7 @@ class _DetailScreenState extends State<DetailScreen> {
       details['species'] = response['species'];
       details['color'] = response['color'];
       details['size'] = response['size'];
-      details['age'] = response['age'];
+      details['birth'] = response['birth'];
       details['description'] = response['description'];
       details['image'] = response['image'];
       details['shelter_id'] = response['shelter_id'];
@@ -234,9 +234,9 @@ class _DetailScreenState extends State<DetailScreen> {
                   Row( children: [
                     SizedBox(width: 10.0),
                     Icon(Icons.info_outlined),
-                    Text('  Edad:  '
+                    Text('  Nacimiento:  '
                         , style: GoogleFonts.quicksand(fontSize: 20.0, fontWeight: FontWeight.w900)),
-                    Text('${details['age']} años'
+                    Text('${details['birth']}'
                         , style: GoogleFonts.quicksand(
                             fontSize: 20.0, fontWeight: FontWeight.bold)),
                   ],),
@@ -261,11 +261,12 @@ class _DetailScreenState extends State<DetailScreen> {
                     Text('DATOS DE LA PROTECTORA'
                         , style: GoogleFonts.quicksand(fontSize: 25.0, fontWeight: FontWeight.w900)),
                     SizedBox(height: 20.0,),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.2,
-                      // cuando se añadan fotos de protectoras al server: child: Center(child: shelterPicture),
-                      child: getImage('${shelter['photo']}'),
-                    ),
+                    // controla si hi ha foto o no. si no hi ha, llavors no mostris el requadre
+                    shelter['photo'] == null ? SizedBox(height: 0,) :
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.2,
+                        child: getImage('${shelter['photo']}'),
+                      ),
                     SizedBox(height: 20.0,),
                     Row(children: [
                       SizedBox(width: 10.0),

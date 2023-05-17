@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_proyecto/inicio.dart';
 import 'package:flutter_proyecto/pantalla_busqueda.dart';
+import 'package:flutter_proyecto/pantalla_detalles_protectora.dart';
+import 'package:flutter_proyecto/singleton_user.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import 'http_functions.dart';
 
 class PantallaProtectoraItems extends StatefulWidget {
 
@@ -16,10 +20,18 @@ class PantallaProtectoraItems extends StatefulWidget {
 
 class PantallaProtectoraItemsState extends State<PantallaProtectoraItems> {
   
-  final List<PantallaProtectoraItems> elementos = [
-    const PantallaProtectoraItems("Maria", "Haku"),
-    const PantallaProtectoraItems("Laura", "Antonio"),
-  ];
+  Map<String, dynamic> animalsLiked = {};
+
+  @override
+  void initState(){
+    super.initState();
+    dynamic data = {
+      "user_id":UserSession().userId
+    };
+
+    initAsync(data);
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,11 +48,14 @@ class PantallaProtectoraItemsState extends State<PantallaProtectoraItems> {
           )),
           Expanded(
             child: ListView.builder(
-              itemCount: elementos.length,
+              itemCount: animalsLiked.length,
               itemBuilder: (context, index) {
-                final elemento = elementos[index];
+                String key = animalsLiked.keys.elementAt(index);
+                Map<String, dynamic> elemento = animalsLiked[key];
+                Image photoUser = getImage(elemento["user_photo"]);
+                Image photoAnimal = getImage(elemento["animal_photo"]);
                 return GestureDetector(
-                  onTap: () => _mostrarPopUp(context, elemento),
+                  onTap: () => _mostrarPopUp(context, elemento, photoUser, photoAnimal),
                   child: Container(
                     padding: EdgeInsets.all(16.0),
                     margin: EdgeInsets.all(16.0),
@@ -55,14 +70,14 @@ class PantallaProtectoraItemsState extends State<PantallaProtectoraItems> {
                         Column(
                           children:[
                             Text(
-                              elemento.nombreAdoptante,
+                              elemento['username'],
                               style: const TextStyle(
                                 color: Colors.black,
                                 fontSize: 24.0,
                               ),
                             ),
                             Text(
-                                elemento.nombreAnimal,
+                                elemento['name'],
                                 style: const TextStyle(
                                   color: Colors.black,
                                   fontSize: 12.0,
@@ -70,15 +85,13 @@ class PantallaProtectoraItemsState extends State<PantallaProtectoraItems> {
                           ]
                         ),
                         Row(
-                          children: const [
+                          children:  [
                             CircleAvatar(
-                              backgroundImage: NetworkImage(
-                                  'https://picsum.photos/id/64/200/300'),
+                              backgroundImage: photoUser.image,
                             ),
                             SizedBox(width: 8.0),
                           CircleAvatar(
-                            backgroundImage: NetworkImage(
-                                'https://picsum.photos/id/237/200/300'),
+                            backgroundImage: photoAnimal.image,
                           ),
                           ],
                         ),
@@ -101,10 +114,21 @@ class PantallaProtectoraItemsState extends State<PantallaProtectoraItems> {
       bottomNavigationBar: PetMateNavBar(),
     );
   }
+
+  Future<void> initAsync(data) async {
+    Map<String, dynamic> response = await showLikesReceived(data);
+
+    setState(() {
+      response.forEach((key, value) {
+        animalsLiked[key] = value;
+      });
+    });
+  }
 }
 
 
-void _mostrarPopUp(BuildContext context, PantallaProtectoraItems elemento) {
+void _mostrarPopUp(BuildContext context, Map<String,dynamic> elemento, Image photoUser, Image photoAnimal) {
+  Map<String, dynamic> data = {};
   showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -117,18 +141,18 @@ void _mostrarPopUp(BuildContext context, PantallaProtectoraItems elemento) {
               children: [
                 CircleAvatar(
                   radius: 25,
-                  backgroundImage: NetworkImage(
-                      'https://picsum.photos/id/64/200/300'),
-                ),
+                  backgroundImage: photoUser.image),
                 SizedBox(width: 16),
                 Expanded(
                   child: Text(
-                    elemento.nombreAdoptante,
+                    elemento['username'],
                     style: TextStyle(fontSize: 16),
                   ),
                 ),
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => DetailScreenShelter(elemento['user_id'], "A")));
+                  },
                   icon: Icon(Icons.info_outline),
                 ),
               ],
@@ -138,18 +162,18 @@ void _mostrarPopUp(BuildContext context, PantallaProtectoraItems elemento) {
               children: [
                 CircleAvatar(
                   radius: 25,
-                  backgroundImage: NetworkImage(
-                      'https://picsum.photos/id/237/200/300'),
-                ),
+                  backgroundImage: photoAnimal.image),
                 SizedBox(width: 16),
                 Expanded(
                   child: Text(
-                    elemento.nombreAnimal,
+                    elemento['name'],
                     style: TextStyle(fontSize: 16),
                   ),
                 ),
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => DetailScreenShelter(elemento['animal_id'], "B")));
+                  },
                   icon: Icon(Icons.info_outline),
                 ),
               ],
@@ -160,18 +184,41 @@ void _mostrarPopUp(BuildContext context, PantallaProtectoraItems elemento) {
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 16),
             ),
+            Center(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  IconButton(
+                    onPressed: () async {
+                      data = {
+                        "user_id": elemento["user_id"],
+                        "animal_id": elemento["animal_id"],
+                        "action": 1,
+                      };
+                      if(await resolveLikeReceived(data)){
+                        Navigator.pop(context);
+                      }
+                    },
+                    icon: Icon(Icons.check),
+                  ),
+                  IconButton(
+                    onPressed: () async {
+                      data = {
+                        "user_id": elemento["user_id"],
+                        "animal_id": elemento["animal_id"],
+                        "action": 2,
+                      };
+                      if(await resolveLikeReceived(data)){
+                        Navigator.pop(context);
+                      }
+                    },
+                    icon: Icon(Icons.close),
+                  ),
+                ],
+              ),
+            )
           ],
         ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: Text('Cancelar'),
-          ),
-          ElevatedButton(
-            onPressed: () {},
-            child: Text('Aceptar'),
-          ),
-        ],
       );
     },
   );
