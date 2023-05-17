@@ -1,9 +1,9 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_proyecto/pantalla_detalles.dart';
 import 'package:flutter_proyecto/pantalla_filtro.dart';
 import 'package:flutter_proyecto/pantalla_resumen_mensajes.dart';
+
+import 'package:flutter_proyecto/routing_constants.dart';
 import 'package:flutter_proyecto/singleton_user.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -412,12 +412,14 @@ class _PetMateNavBarState extends State<PetMateNavBar> {
     return BottomNavigationBar(
       currentIndex: _currentIndex,
       onTap: (index) {
+
         setState(() {
           _currentIndex = index;
         });
-        switch (index) {
+        switch (index){
           case 0:
-          // use pushReplacement to avoid adding current screen to stack
+            /* LO QUE YO TENIA:
+                      // use pushReplacement to avoid adding current screen to stack
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
@@ -425,7 +427,14 @@ class _PetMateNavBarState extends State<PetMateNavBar> {
               ),
             );
             break;
+            */
+            UserSession().type == "S"
+                ? Navigator.pushNamed(context, PantallaProtectoraRoute)
+                : Navigator.pushNamed(context, PantallaAdoptanteRoute);
+            break;
           case 1:
+            break;
+          case 2:
           // use pushReplacement to avoid adding current screen to stack
             MessageSummaryScreen messages = MessageSummaryScreen();
             Navigator.pushReplacement(
@@ -434,8 +443,6 @@ class _PetMateNavBarState extends State<PetMateNavBar> {
                 builder: (context) => messages,
               ),
             );
-            break;
-          case 2:
             break;
         }
       },

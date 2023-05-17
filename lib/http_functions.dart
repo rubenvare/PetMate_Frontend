@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:ui';
+import 'package:image_picker/image_picker.dart';
 
 import 'package:flutter_proyecto/singleton_user.dart';
 
@@ -7,6 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_proyecto/global.dart';
 
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 
 Future<http.Response> sendPostRequest(String path, dynamic data) async {
@@ -23,6 +25,12 @@ Future<http.Response> sendPostRequest(String path, dynamic data) async {
 Image getImage(String urlRequest)  {
   var respuesta = Image.network('$baseImage$urlRequest');
   return respuesta;
+}
+
+Future<void> postImage(String type, XFile image, String name) async {
+  final request = http.MultipartRequest('POST', Uri.parse('$baseUrl/PUSH_IMAGE/$type'));
+  request.files.add(await http.MultipartFile.fromPath('image', image.path, filename: '$name.jpg'));
+  await request.send();
 }
 
 Future<bool> sendLoginRequest(dynamic data) async {
@@ -57,6 +65,31 @@ Future<bool> sendRegisterRequest(dynamic data) async {
   }
 }
 
+Future<bool> retirePet(dynamic data) async {
+  final path = '/S_retire_pet';
+  final response = await sendPostRequest(path, data);
+  if (response.statusCode != 200) {
+    print('Error en la solicitud: ${response.reasonPhrase}');
+    return Future<bool>.value(false);
+  } else {
+    final responseBody = json.decode(response.body);
+    return Future<bool>.value(true);
+    // Aquí puedes procesar la respuesta como sea necesario
+  }
+}
+
+Future<bool> sendUpdateAnimalRequest(dynamic data) async {
+  final path = '/S_update_pet';
+  final response = await sendPostRequest(path, data);
+  if (response.statusCode != 200) {
+    print('Error en la solicitud: ${response.reasonPhrase}');
+    return Future<bool>.value(false);
+  } else {
+    return Future<bool>.value(true);
+    final responseBody = json.decode(response.body);
+  }
+}
+
 Future<void> sendShowProfileDataRequest(dynamic data) async {
   final path = '/showProfileData';
   final response = await sendPostRequest(path, data);
@@ -74,21 +107,32 @@ Future<Map<String,dynamic>> showPets(dynamic data) async {
   final response = await sendPostRequest(path, data);
   var datos = json.decode(response.body);
   if (response.statusCode != 200) {
-    print('Error en la solicitud: ${response.reasonPhrase}');
+    return {'error': 'ERROR OBTENIENDO INFORMACIÓN DEL ANIMAL'};
+  } else {
+    return datos;
   }
-
-  return datos;
 }
-Future<bool> sendAddPetRequest(dynamic data) async {
-  final path = '/S_add_pet';
+
+Future<Map<String,dynamic>> showPet(dynamic data) async {
+  final path = '/S_show_pet';
   final response = await sendPostRequest(path, data);
+  var datos = json.decode(response.body);
   if (response.statusCode != 200) {
     print('Error en la solicitud: ${response.reasonPhrase}');
-    return Future<bool>.value(false);
-  } else {
-    return Future<bool>.value(true);
-    final responseBody = json.decode(response.body);
+  }
+  return datos;
 }
+
+Future<Map<String, dynamic>> sendAddPetRequest(dynamic data) async {
+  final path = '/S_add_pet';
+  final response = await sendPostRequest(path, data);
+  var datos = json.decode(response.body);
+  if (response.statusCode != 200) {
+    return {'error': 'ERROR OBTENIENDO INFORMACIÓN DEL ANIMAL'};
+  } else {
+    return datos;
+    final responseBody = json.decode(response.body);
+  }
 }
 
 Future<Map<String, dynamic>> getNextPet(dynamic data) async {
@@ -189,3 +233,17 @@ Future<void> deleteIndividualMessage(dynamic data) async {
   final path = '/delete_message';
   final response = await sendPostRequest(path, data);
 }
+
+Future<Map<String, dynamic>> sendUpdateShelterRequest(dynamic data) async {
+  final path = '/update_profile';
+  final response = await sendPostRequest(path, data);
+  var datos = json.decode(response.body);
+  if (response.statusCode != 200) {
+    return {'error': 'ERROR OBTENIENDO INFORMACIÓN DEL SHELTER'};
+  } else {
+    return datos;
+    final responseBody = json.decode(response.body);
+  }
+}
+
+
