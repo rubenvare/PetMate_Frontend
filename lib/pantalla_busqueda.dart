@@ -412,10 +412,7 @@ class PetMateNavBar extends StatelessWidget {
           case 1:
             break;
           case 2:
-            UserSession().type == "S"
-                ? Navigator.pushNamed(context, PantallaProtectoraPerfilRoute);
-                : Navigator.pushNamed(context, ModifyUserRoute);
-
+            Navigator.pushNamed(context, PantallaProtectoraPerfilRoute);
         // Agrega aquí la lógica para manejar el cambio de pantalla según el índice seleccionado
         }
       },
