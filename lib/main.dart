@@ -9,7 +9,7 @@ import 'package:flutter_proyecto/visualizar_animales.dart';
 import 'router.dart' as router;
 void main() {
   // el flag activado quita la etiqueta de Debug cuando ejecutas, aunque en el main no lo hace...
-  runApp(MaterialApp(home: PerfilProtectora(12), debugShowCheckedModeBanner: false));
+  runApp(MaterialApp(home: MyApp(), debugShowCheckedModeBanner: false));
 }
 
 class MyApp extends StatelessWidget {

@@ -58,7 +58,7 @@ class VisualizarAnimalesState extends State<VisualizarAnimales> {
                     children: [
                       ElevatedButton(
                         onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => PerfilProtectora(userId)));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => PerfilProtectora()));
                         },
                         style: ElevatedButton.styleFrom(
                             minimumSize: const Size(165, 35),

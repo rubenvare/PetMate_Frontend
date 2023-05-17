@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_proyecto/pantalla_busqueda.dart';
+import 'package:flutter_proyecto/singleton_user.dart';
 import 'package:flutter_proyecto/visualizar_animales.dart';
 import 'package:image_picker/image_picker.dart';
 import 'inicio.dart';
@@ -8,15 +9,14 @@ import 'http_functions.dart';
 import 'package:flutter_proyecto/router.dart';
 
 class PerfilProtectora extends StatefulWidget {
-  int userId;
-  PerfilProtectora(this.userId);
+
+  PerfilProtectora();
 
   @override
-  State<PerfilProtectora> createState() => PerfilProtectoraState(userId);
+  State<PerfilProtectora> createState() => PerfilProtectoraState();
 }
 
 class PerfilProtectoraState extends State<PerfilProtectora> {
-  int userId;
 
   Map<String, dynamic> datos = {};
   Map<String, dynamic> shelter = {};
@@ -42,12 +42,11 @@ class PerfilProtectoraState extends State<PerfilProtectora> {
   RegExp coincideMail = RegExp(
       r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
 
-  PerfilProtectoraState(this.userId);
 
   @override
   void initState() {
     super.initState();
-    getDatos(userId);
+    getDatos(UserSession().userId);
     _imageFile = XFile('');
   }
 
@@ -113,7 +112,7 @@ class PerfilProtectoraState extends State<PerfilProtectora> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          VisualizarAnimales(userId)));
+                                          VisualizarAnimales(UserSession().userId)));
                             },
                             style: ElevatedButton.styleFrom(
                                 minimumSize: const Size(165, 35),

@@ -26,7 +26,7 @@ Route<dynamic> generateRoute(RouteSettings settings){
     case PantallaAddAnimalRoute:
       return MaterialPageRoute(builder: (context) => AddPet());
     case PantallaProtectoraPerfilRoute:
-      return MaterialPageRoute(builder: (context) => PerfilProtectora(UserSession().userId));
+      return MaterialPageRoute(builder: (context) => PerfilProtectora());
     default:
       return MaterialPageRoute(builder: (context) => InicioSesion());
   }
