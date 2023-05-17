@@ -32,7 +32,7 @@ class ModifyUserState extends State<ModifyUser> {
   late Image? userPicture;
   bool obscurePassword = true;
   bool obscureConfirmPassword = true;
-
+  bool dataLoaded = false;
 
 
   Future<void> _selectImageFromGallery() async {
@@ -60,6 +60,7 @@ class ModifyUserState extends State<ModifyUser> {
       user['animals_home'] = user_info['animals_home'];
       user['animals_before'] = user_info['animals_before'];
       userPicture = getImage(user['photo']);
+      dataLoaded = true;
     });
   }
 
@@ -71,7 +72,7 @@ class ModifyUserState extends State<ModifyUser> {
     initAsync();
   }
   Widget build(BuildContext context) {
-    return Scaffold(
+   return  dataLoaded ? Center(child: CircularProgressIndicator()) : Scaffold(
       appBar: const PetMateAppBar(),
       body: Center(
         child: Container(
