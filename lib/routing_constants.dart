@@ -6,5 +6,6 @@ const String PantallaAdoptanteRoute = "/pantalla_adoptante";
 const String VisualizarAnimalesRoute = "/visualizar_animales";
 const String PantallaProtectoraRoute = "/pantalla_protectora";
 const String PantallaAddAnimalRoute = "/añadir_animal";
-const String PantallaPerfilProtectoraRoute = "/pantalla_perfil_protectora";
+const String PantallaProtectoraPerfilRoute = "/pantalla_protectora_perfil";
+
 
