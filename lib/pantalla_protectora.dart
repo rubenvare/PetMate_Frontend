@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_proyecto/inicio.dart';
 import 'package:flutter_proyecto/pantalla_busqueda.dart';
 import 'package:flutter_proyecto/pantalla_detalles_protectora.dart';
+import 'package:flutter_proyecto/routing_constants.dart';
 import 'package:flutter_proyecto/singleton_user.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -105,7 +106,7 @@ class PantallaProtectoraItemsState extends State<PantallaProtectoraItems> {
           Container(
             margin: EdgeInsets.only(bottom: 16.0),
             child: ElevatedButton (
-              onPressed: () { null; },
+              onPressed: () { Navigator.pushNamed(context, PantallaAddAnimalRoute); },
               child: Text("+"),
             ),
           ),

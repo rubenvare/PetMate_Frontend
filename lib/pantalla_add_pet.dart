@@ -53,7 +53,7 @@ class AddPetState extends State<AddPet> {
     return null;
   }
 
-  RegExp regExp = RegExp(r'(^[A-z]*$)');
+  RegExp regExp = RegExp(r'(^[A-z, ]*$)');
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -483,8 +483,8 @@ class AddPetState extends State<AddPet> {
                                   }
                                   birth = "${selectedMonth}-${selectedYear}";
                                   var data = {
-                                    'user_id': 11,
-                                    //UserSession().userId, a modificar cuando se cree usuario
+                                    'user_id': UserSession().userId,
+                                    //, a modificar cuando se cree usuario
                                     'name': name,
                                     'species': breed,
                                     'birth': birth,
