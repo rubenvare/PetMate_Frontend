@@ -428,13 +428,14 @@ class _PetMateNavBarState extends State<PetMateNavBar> {
             );
             break;
             */
+
+          // NO HACE FALTA ESTA COMPROBACIÓN, YA HAY UNA CLASE DEDICADA A ESTO (PetMateShelterNavBar)
+          // Por algun motivo he probado este codigo antes (protectora y adopter con este navbar) y no ha ido bien..
             UserSession().type == "S"
                 ? Navigator.pushNamed(context, PantallaProtectoraRoute)
                 : Navigator.pushNamed(context, PantallaAdoptanteRoute);
             break;
           case 1:
-            break;
-          case 2:
           // use pushReplacement to avoid adding current screen to stack
             MessageSummaryScreen messages = MessageSummaryScreen();
             Navigator.pushReplacement(
@@ -443,6 +444,9 @@ class _PetMateNavBarState extends State<PetMateNavBar> {
                 builder: (context) => messages,
               ),
             );
+            break;
+          case 2:
+
             break;
         }
       },

@@ -171,7 +171,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
                       Icon(Icons.forum_rounded, color: Colors.brown, size: 48.0),
                       SizedBox(height: 10.0),
                       Text(
-                        "No tienes mensajes disponibles",
+                        "Esta conversación no tiene mensajes",
                         style: GoogleFonts.quicksand(color: Colors.brown, fontWeight: FontWeight.w700),
                       ),
                     ],
