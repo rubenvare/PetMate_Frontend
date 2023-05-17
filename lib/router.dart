@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_proyecto/inicio.dart';
 import 'package:flutter_proyecto/pantalla_add_pet.dart';
 import 'package:flutter_proyecto/pantalla_filtro.dart';
+import 'package:flutter_proyecto/pantalla_perfil_protectora.dart';
 import 'package:flutter_proyecto/pantalla_protectora.dart';
 import 'package:flutter_proyecto/pantalla_registro.dart';
 import 'package:flutter_proyecto/pantalla_busqueda.dart';
@@ -24,6 +25,8 @@ Route<dynamic> generateRoute(RouteSettings settings){
       return MaterialPageRoute(builder: (context) => PantallaProtectoraItems("null", "null"));
     case PantallaAddAnimalRoute:
       return MaterialPageRoute(builder: (context) => AddPet());
+    case PantallaProtectoraPerfilRoute:
+      return MaterialPageRoute(builder: (context) => PerfilProtectora(UserSession().userId));
     default:
       return MaterialPageRoute(builder: (context) => InicioSesion());
   }
