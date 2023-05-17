@@ -179,3 +179,13 @@ Future<void> addToChat(dynamic data) async {
   final response = await sendPostRequest(path, data);
   var info = jsonDecode(response.body);
 }
+
+Future<void> deleteChatRecord(dynamic data) async {
+  final path = '/delete_chat';
+  final response = await sendPostRequest(path, data);
+}
+
+Future<void> deleteIndividualMessage(dynamic data) async {
+  final path = '/delete_message';
+  final response = await sendPostRequest(path, data);
+}

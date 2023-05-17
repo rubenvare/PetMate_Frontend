@@ -10,20 +10,17 @@ import 'inicio.dart';
 import 'http_functions.dart';
 
 class MessageSummaryScreen extends StatefulWidget {
-  int user_id = 0;
-  String type = '';
-  MessageSummaryScreen(this.user_id, this.type, {Key? key}) : super(key: key);
+  MessageSummaryScreen({Key? key}) : super(key: key);
   @override
-  State<MessageSummaryScreen> createState() => _MessageSummaryScreenState(user_id, type);
+  State<MessageSummaryScreen> createState() => _MessageSummaryScreenState();
 }
 
 class _MessageSummaryScreenState extends State<MessageSummaryScreen> {
   StreamController<List<dynamic>> _streamController = StreamController<List<dynamic>>();
   List<dynamic> response = [];
-  int user_id = 0;
-  String type = '';
+  List<int> selectedChats = [];
 
-  _MessageSummaryScreenState(this.user_id, this.type);
+  _MessageSummaryScreenState();
 
   @override
   void initState() {
@@ -51,11 +48,15 @@ class _MessageSummaryScreenState extends State<MessageSummaryScreen> {
     while (true) {
       await Future.delayed(Duration(seconds: 1));
       List<dynamic> newData = await getChatRecordAsync({
-        'user_id': user_id,
-        'type': type,
+        'user_id': UserSession().userId,
+        'type': UserSession().type,
       });
       _streamController.add(newData);
     }
+  }
+
+  Future<void> deleteChat(data) async {
+    await deleteChatRecord(data);
   }
 
   @override
@@ -72,6 +73,23 @@ class _MessageSummaryScreenState extends State<MessageSummaryScreen> {
           } else if (snapshot.hasError) {
             return Center(
               child: Text("Error al obtener los datos"),
+            );
+          } else  if (snapshot.data?.length == 0) {
+            return Container(
+              padding: EdgeInsets.symmetric(vertical: 50.0), // Ajusta el padding superior e inferior según sea necesario
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.forum_rounded, color: Colors.brown, size: 48.0),
+                    SizedBox(height: 10.0),
+                    Text(
+                      "No tienes mensajes disponibles",
+                      style: GoogleFonts.quicksand(color: Colors.brown, fontWeight: FontWeight.w700),
+                    ),
+                  ],
+                ),
+              ),
             );
           } else {
             response = snapshot.data!;
@@ -94,6 +112,7 @@ class _MessageSummaryScreenState extends State<MessageSummaryScreen> {
                       physics: NeverScrollableScrollPhysics(),
                       itemCount: response.length,
                       itemBuilder: (context, index) {
+                        final chat = response[index];
                         return Column(
                           children: [
                             InkWell(
@@ -105,6 +124,16 @@ class _MessageSummaryScreenState extends State<MessageSummaryScreen> {
                                     builder: (context) => conversation,
                                   ),
                                 );
+                              },
+                              onLongPress: () {
+                                // Si se mantiene pulsado el chat, se selecciona/deselecciona
+                                setState(() {
+                                  if (selectedChats.contains(index)) {
+                                    selectedChats.remove(index);
+                                  } else {
+                                    selectedChats.add(index);
+                                  }
+                                });
                               },
                               borderRadius: BorderRadius.circular(10.0),
                               highlightColor: Colors.white24, // Color de resaltado al tocar el ListTile
@@ -134,6 +163,22 @@ class _MessageSummaryScreenState extends State<MessageSummaryScreen> {
                                     '${response[index]['last_message']}' == '{}' ? 'Toca para iniciar conversación' : '${response[index]['last_message']['message']}',
                                     style: GoogleFonts.quicksand(fontWeight: FontWeight.w600),
                                   ),
+                                  trailing: selectedChats.contains(index)
+                                      ? IconButton(
+                                        icon: Icon(
+                                          Icons.delete,
+                                          color: Colors.red,
+                                        ),
+                                        onPressed: () {
+                                          selectedChats.remove(index);
+                                          var data = {
+                                            'user_id': UserSession().type == 'S' ? response[index]['user_id'] : UserSession().userId,
+                                            'animal_id': response[index]['animal_id']
+                                          };
+                                          deleteChat(data);
+                                        },
+                                      )
+                                          : null,
                                 ),
                               ),
                             ),

@@ -412,9 +412,8 @@ class _PetMateNavBarState extends State<PetMateNavBar> {
     return BottomNavigationBar(
       currentIndex: _currentIndex,
       onTap: (index) {
-        // Agrega aquí la lógica para manejar el cambio de pantalla según el índice seleccionado
         setState(() {
-          _currentIndex = index; // Actualiza el índice seleccionado
+          _currentIndex = index;
         });
         switch (index) {
           case 0:
@@ -428,7 +427,7 @@ class _PetMateNavBarState extends State<PetMateNavBar> {
             break;
           case 1:
           // use pushReplacement to avoid adding current screen to stack
-            MessageSummaryScreen messages = MessageSummaryScreen(UserSession().userId, UserSession().type);
+            MessageSummaryScreen messages = MessageSummaryScreen();
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
@@ -439,12 +438,12 @@ class _PetMateNavBarState extends State<PetMateNavBar> {
           case 2:
             break;
         }
-      }, // Establece el color de fondo de los botones
+      },
       selectedFontSize: 14,
       iconSize: 24,
       type: BottomNavigationBarType.fixed,
-      selectedItemColor: Colors.black, // Color del ícono seleccionado
-      unselectedItemColor: Colors.black, // Color del ícono no seleccionado
+      selectedItemColor: Colors.black,
+      unselectedItemColor: Colors.black,
       items: const [
         BottomNavigationBarItem(
           icon: Icon(Icons.home),

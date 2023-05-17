@@ -108,6 +108,15 @@ class _ConversationScreenState extends State<ConversationScreen> {
     });
   }
 
+  void deleteMessage(index) {
+      var messageInfo = {
+        'user_id': UserSession().type == 'S' ? user_id : UserSession().userId,
+        'animal_id': animal_id,
+        'position': index
+      };
+      deleteIndividualMessage(messageInfo);
+  }
+
   @override
   Widget build(BuildContext context) {
     return !dataLoaded ? Center(child: CircularProgressIndicator()) : Builder(builder: (context) =>
@@ -150,9 +159,25 @@ class _ConversationScreenState extends State<ConversationScreen> {
               },
             ),
           ),
-          body: Column(
+          body:
+          Column(
             children: [
               SizedBox(height: 20.0,),
+              messages.isEmpty ? Expanded(
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.forum_rounded, color: Colors.brown, size: 48.0),
+                      SizedBox(height: 10.0),
+                      Text(
+                        "No tienes mensajes disponibles",
+                        style: GoogleFonts.quicksand(color: Colors.brown, fontWeight: FontWeight.w700),
+                      ),
+                    ],
+                  ),
+                ),
+              ) :
               Expanded(
                 child: ListView.builder(
                   itemCount: messages.length,
@@ -165,42 +190,84 @@ class _ConversationScreenState extends State<ConversationScreen> {
                       isWriterLeft = message['writer'] == 0;
                     }
 
-                    return ListTile(
-                      title: Container(
-                        padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
-                        decoration: BoxDecoration(
-                          color: isWriterLeft ? Colors.green[200] : Colors.grey[300],
-                          borderRadius: BorderRadius.circular(20.0),
+                    return GestureDetector(
+                      onLongPress: () {
+                        bool currentUser = false;
+                        if (UserSession().type == 'S') {
+                          if (messages[index]['writer'] == 1) {
+                            currentUser = true;
+                          }
+                        } else if (UserSession().type == 'A') {
+                          if (messages[index]['writer'] == 0) {
+                            currentUser = true;
+                          }
+                        }
+                        if (currentUser) {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text('Eliminar mensaje', style: GoogleFonts.quicksand(color: Colors.brown, fontWeight: FontWeight.w600),),
+                                content: Text('¿Deseas eliminar este mensaje?', style: GoogleFonts.quicksand(color: Colors.brown, fontWeight: FontWeight.w400),),
+                                actions: [
+                                  TextButton(
+                                    child: Text('Cancelar', style: GoogleFonts.quicksand(color: Colors.brown, fontWeight: FontWeight.w800),),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                  TextButton(
+                                    child: Text('Eliminar', style: GoogleFonts.quicksand(color: Colors.brown, fontWeight: FontWeight.w800),),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                      deleteMessage(index);
+                                    },
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        }
+                      },
+                      child: ListTile(
+                        title: Container(
+                          padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+                          decoration: BoxDecoration(
+                            color: isWriterLeft ? Colors.green[200] : Colors.grey[300],
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start ,
+                            children: [
+                              Text(
+                                message['message'],
+                                style: GoogleFonts.quicksand(fontSize: 16.0, color: Colors.black87, fontWeight: FontWeight.w600),
+                              ),
+                              SizedBox(height: 5.0),
+                              Text(
+                                message['date'],
+                                style: GoogleFonts.quicksand(fontSize: 12.0, color: Colors.black54),
+                              ),
+                            ],
+                          ),
                         ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start ,
-                          children: [
-                            Text(
-                              message['message'],
-                              style: GoogleFonts.quicksand(fontSize: 16.0, color: Colors.black87, fontWeight: FontWeight.w600),
-                            ),
-                            SizedBox(height: 5.0),
-                            Text(
-                              message['date'],
-                              style: GoogleFonts.quicksand(fontSize: 12.0, color: Colors.black54),
-                            ),
-                          ],
-                        ),
+                        leading: !isWriterLeft && otherUserImage != null
+                            ? CircleAvatar(
+                          backgroundImage: otherUserImage.image,
+                        )
+                            : null,
+                        trailing: isWriterLeft && myImage != null
+                            ? CircleAvatar(
+                          backgroundImage: myImage.image,
+                        )
+                            : null,
                       ),
-                      leading: !isWriterLeft && otherUserImage != null
-                          ? CircleAvatar(
-                        backgroundImage: otherUserImage.image,
-                      )
-                          : null,
-                      trailing: isWriterLeft && myImage != null
-                          ? CircleAvatar(
-                        backgroundImage: myImage.image,
-                      )
-                          : null,
                     );
+
                   },
                 ),
               ),
+
               Divider(),
               Container(
                 height: 60.0,

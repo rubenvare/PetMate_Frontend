@@ -250,7 +250,7 @@ class _PetMateShelterNavBarState extends State<PetMateShelterNavBar> {
             break;
           case 1:
           // use pushReplacement to avoid adding current screen to stack
-            MessageSummaryScreen messages = MessageSummaryScreen(UserSession().userId, UserSession().type);
+            MessageSummaryScreen messages = MessageSummaryScreen();
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
@@ -261,11 +261,12 @@ class _PetMateShelterNavBarState extends State<PetMateShelterNavBar> {
           case 2:
             break;
         }
-      }, // Establece el color de fondo de los botones
-      selectedFontSize: 14, // Aumenta el tamaño del texto de los botones seleccionados
-      iconSize: 24, // Establece el tamaño de los íconos de los botones
-      type: BottomNavigationBarType.fixed, // Fuerza la alineación de los botones
-      selectedItemColor: Colors.black, // Color del ícono seleccionado
+      },
+      selectedFontSize: 14,
+      iconSize: 24,
+      type: BottomNavigationBarType.fixed,
+      selectedItemColor: Colors.black,
+      unselectedItemColor: Colors.black,
       items: const [
         BottomNavigationBarItem(
           icon: Icon(Icons.home),
