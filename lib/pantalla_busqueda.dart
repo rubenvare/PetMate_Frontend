@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_proyecto/pantalla_detalles.dart';
 import 'package:flutter_proyecto/pantalla_filtro.dart';
+import 'package:flutter_proyecto/pantalla_resumen_mensajes.dart';
+
 import 'package:flutter_proyecto/routing_constants.dart';
 import 'package:flutter_proyecto/singleton_user.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
@@ -62,7 +64,7 @@ class _DogSearchScreenState extends State<DogSearchScreen> {
   void initState() {
     super.initState();
     var firstPet = {
-      'user_id': 1,
+      'user_id': UserSession().userId,
       'animal_id': null,
       'action': null,
       'filters': {
@@ -81,7 +83,7 @@ class _DogSearchScreenState extends State<DogSearchScreen> {
     Map<String, dynamic> response = await getNextPet(pet);
     setState(() {
       currentAnimal['user_id'] = UserSession().userId;
-      // para pruebas: currentAnimal['user_id'] = 1;
+      //currentAnimal['user_id'] = 1;
       currentAnimal['birth'] = response['birth'];
       currentAnimal['animal_id'] = response['animal_id'];
       currentAnimal['name'] = response['name'];
@@ -395,16 +397,37 @@ class _DogSearchScreenState extends State<DogSearchScreen> {
   }
 }
 
-class PetMateNavBar extends StatelessWidget {
+class PetMateNavBar extends StatefulWidget {
   const PetMateNavBar({Key? key}) : super(key: key);
+
+  @override
+  _PetMateNavBarState createState() => _PetMateNavBarState();
+}
+
+class _PetMateNavBarState extends State<PetMateNavBar> {
+  int _currentIndex = 0; // Establece el índice del elemento seleccionado actualmente
 
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
-      currentIndex: 0, // Establece el índice del elemento seleccionado actualmente
+      currentIndex: _currentIndex,
       onTap: (index) {
+
+        setState(() {
+          _currentIndex = index;
+        });
         switch (index){
           case 0:
+            /* LO QUE YO TENIA:
+                      // use pushReplacement to avoid adding current screen to stack
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => DogSearchScreen(),
+              ),
+            );
+            break;
+            */
             UserSession().type == "S"
                 ? Navigator.pushNamed(context, PantallaProtectoraRoute)
                 : Navigator.pushNamed(context, PantallaAdoptanteRoute);
@@ -412,14 +435,22 @@ class PetMateNavBar extends StatelessWidget {
           case 1:
             break;
           case 2:
-            Navigator.pushNamed(context, PantallaProtectoraPerfilRoute);
-        // Agrega aquí la lógica para manejar el cambio de pantalla según el índice seleccionado
+          // use pushReplacement to avoid adding current screen to stack
+            MessageSummaryScreen messages = MessageSummaryScreen();
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => messages,
+              ),
+            );
+            break;
         }
       },
-      fixedColor: Colors.black, // Establece el color de fondo de los botones
-      selectedFontSize: 14, // Aumenta el tamaño del texto de los botones seleccionados
-      iconSize: 24, // Establece el tamaño de los íconos de los botones
-      type: BottomNavigationBarType.fixed, // Fuerza la alineación de los botones
+      selectedFontSize: 14,
+      iconSize: 24,
+      type: BottomNavigationBarType.fixed,
+      selectedItemColor: Colors.black,
+      unselectedItemColor: Colors.black,
       items: const [
         BottomNavigationBarItem(
           icon: Icon(Icons.home),

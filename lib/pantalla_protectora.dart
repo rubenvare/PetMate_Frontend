@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_proyecto/inicio.dart';
 import 'package:flutter_proyecto/pantalla_busqueda.dart';
 import 'package:flutter_proyecto/pantalla_detalles_protectora.dart';
+import 'package:flutter_proyecto/pantalla_resumen_mensajes.dart';
 import 'package:flutter_proyecto/routing_constants.dart';
 import 'package:flutter_proyecto/singleton_user.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -20,7 +21,7 @@ class PantallaProtectoraItems extends StatefulWidget {
 }
 
 class PantallaProtectoraItemsState extends State<PantallaProtectoraItems> {
-  
+
   Map<String, dynamic> animalsLiked = {};
 
   @override
@@ -29,7 +30,6 @@ class PantallaProtectoraItemsState extends State<PantallaProtectoraItems> {
     dynamic data = {
       "user_id":UserSession().userId
     };
-
     initAsync(data);
 
   }
@@ -41,12 +41,12 @@ class PantallaProtectoraItemsState extends State<PantallaProtectoraItems> {
       body:Column(
         children: [
           Text("Posibles adopciones",
-          style: GoogleFonts.quicksand(
-            fontSize: 30.0,
-            color: Colors.black,
-            fontWeight: FontWeight.w900,
-            letterSpacing: 2.0,
-          )),
+              style: GoogleFonts.quicksand(
+                fontSize: 30.0,
+                color: Colors.black,
+                fontWeight: FontWeight.w900,
+                letterSpacing: 2.0,
+              )),
           Expanded(
             child: ListView.builder(
               itemCount: animalsLiked.length,
@@ -69,21 +69,21 @@ class PantallaProtectoraItemsState extends State<PantallaProtectoraItems> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Column(
-                          children:[
-                            Text(
-                              elemento['username'],
-                              style: const TextStyle(
-                                color: Colors.black,
-                                fontSize: 24.0,
-                              ),
-                            ),
-                            Text(
-                                elemento['name'],
+                            children:[
+                              Text(
+                                elemento['username'],
                                 style: const TextStyle(
                                   color: Colors.black,
-                                  fontSize: 12.0,
-                                )),
-                          ]
+                                  fontSize: 24.0,
+                                ),
+                              ),
+                              Text(
+                                  elemento['name'],
+                                  style: const TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 12.0,
+                                  )),
+                            ]
                         ),
                         Row(
                           children:  [
@@ -91,9 +91,9 @@ class PantallaProtectoraItemsState extends State<PantallaProtectoraItems> {
                               backgroundImage: photoUser.image,
                             ),
                             SizedBox(width: 8.0),
-                          CircleAvatar(
-                            backgroundImage: photoAnimal.image,
-                          ),
+                            CircleAvatar(
+                              backgroundImage: photoAnimal.image,
+                            ),
                           ],
                         ),
                       ],
@@ -112,7 +112,7 @@ class PantallaProtectoraItemsState extends State<PantallaProtectoraItems> {
           ),
         ],
       ),
-      bottomNavigationBar: PetMateNavBar(),
+      bottomNavigationBar: PetMateShelterNavBar(),
     );
   }
 
@@ -141,8 +141,8 @@ void _mostrarPopUp(BuildContext context, Map<String,dynamic> elemento, Image pho
             Row(
               children: [
                 CircleAvatar(
-                  radius: 25,
-                  backgroundImage: photoUser.image),
+                    radius: 25,
+                    backgroundImage: photoUser.image),
                 SizedBox(width: 16),
                 Expanded(
                   child: Text(
@@ -162,8 +162,8 @@ void _mostrarPopUp(BuildContext context, Map<String,dynamic> elemento, Image pho
             Row(
               children: [
                 CircleAvatar(
-                  radius: 25,
-                  backgroundImage: photoAnimal.image),
+                    radius: 25,
+                    backgroundImage: photoAnimal.image),
                 SizedBox(width: 16),
                 Expanded(
                   child: Text(
@@ -225,3 +225,63 @@ void _mostrarPopUp(BuildContext context, Map<String,dynamic> elemento, Image pho
   );
 }
 
+class PetMateShelterNavBar extends StatefulWidget {
+  const PetMateShelterNavBar({Key? key}) : super(key: key);
+
+  @override
+  _PetMateShelterNavBarState createState() => _PetMateShelterNavBarState();
+}
+
+class _PetMateShelterNavBarState extends State<PetMateShelterNavBar> {
+  int _currentIndex = 0; // Establece el índice del elemento seleccionado actualmente
+
+  @override
+  Widget build(BuildContext context) {
+    return BottomNavigationBar(
+      currentIndex: _currentIndex,
+      onTap: (index) {
+        // Agrega aquí la lógica para manejar el cambio de pantalla según el índice seleccionado
+        setState(() {
+          _currentIndex = index; // Actualiza el índice seleccionado
+        });
+        switch (index) {
+          case 0:
+          // use pushReplacement to avoid adding current screen to stack
+
+            break;
+          case 1:
+          // use pushReplacement to avoid adding current screen to stack
+            MessageSummaryScreen messages = MessageSummaryScreen();
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => messages,
+              ),
+            );
+            break;
+          case 2:
+            break;
+        }
+      },
+      selectedFontSize: 14,
+      iconSize: 24,
+      type: BottomNavigationBarType.fixed,
+      selectedItemColor: Colors.black,
+      unselectedItemColor: Colors.black,
+      items: const [
+        BottomNavigationBarItem(
+          icon: Icon(Icons.home),
+          label: 'Inicio',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.message),
+          label: 'Mensajes',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.person),
+          label: 'Perfil',
+        ),
+      ],
+    );
+  }
+}
