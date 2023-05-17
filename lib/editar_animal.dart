@@ -337,8 +337,13 @@ class PerfilAnimalState extends State<PerfilAnimal>{
                             }),
                         const SizedBox(height: 20),
                         Row(
-                          children:[
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children:[
                             ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  minimumSize: const Size(165, 35),
+                                  backgroundColor: Colors.brown),
                               onPressed: () async {
                                 if(formkey.currentState?.validate() ?? false){
 
@@ -389,12 +394,39 @@ class PerfilAnimalState extends State<PerfilAnimal>{
                                 }
                               },
                               child: Text(
-                                'Enviar'
+                                'ENVIAR',
+                                  style: GoogleFonts.quicksand(
+                                      fontSize: 14.0,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w900,
+                                      letterSpacing: 2.0),
                               ),
                             ),
-                            ElevatedButton(onPressed: () {
-
-                            }, child: Text("Eliminar animal"),),
+                            Spacer(),
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  minimumSize: const Size(165, 35),
+                                  backgroundColor: Colors.brown),
+                              onPressed: () async {
+                                var data = {
+                                  'animal_id': widget.idAnimal,
+                                  'status': 2,
+                                };
+                                if(await retirePet(data)){
+                                  Navigator.pushNamed(context, PantallaProtectoraRoute);
+                                } else {
+                                  print("esta mal");
+                                }
+                              },
+                              child: Text(
+                                  "ELIMINAR ANIMAL",
+                                  style: GoogleFonts.quicksand(
+                                      fontSize: 14.0,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w900,
+                                      letterSpacing: 2.0)
+                              ),
+                            ),
                           ]
                         )
                       ],

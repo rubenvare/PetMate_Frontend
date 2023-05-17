@@ -25,6 +25,8 @@ Image getImage(String urlRequest)  {
   return respuesta;
 }
 
+
+
 Future<bool> sendLoginRequest(dynamic data) async {
   final path = '/login';
   final response = await sendPostRequest(path, data);
@@ -54,6 +56,19 @@ Future<bool> sendRegisterRequest(dynamic data) async {
   } else {
     return Future<bool>.value(true);
     final responseBody = json.decode(response.body);
+  }
+}
+
+Future<bool> retirePet(dynamic data) async {
+  final path = '/S_retire_pet';
+  final response = await sendPostRequest(path, data);
+  if (response.statusCode != 200) {
+    print('Error en la solicitud: ${response.reasonPhrase}');
+    return Future<bool>.value(false);
+  } else {
+    final responseBody = json.decode(response.body);
+    return Future<bool>.value(true);
+    // Aquí puedes procesar la respuesta como sea necesario
   }
 }
 
