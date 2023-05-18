@@ -29,7 +29,7 @@ class ModifyUserState extends State<ModifyUser> {
   String password = "";
   late String confirmPassword;
   late XFile _imageFile;
-  late Image? userPicture;
+  Image? userPicture;
   bool obscurePassword = true;
   bool obscureConfirmPassword = true;
   bool dataLoaded = false;
@@ -48,7 +48,7 @@ class ModifyUserState extends State<ModifyUser> {
   }
 
   Future<void> initAsync() async {
-    Map<String, dynamic> user_info = await getProfileInfo({'user_id': 7, 'type': 'A' });
+    Map<String, dynamic> user_info = await getProfileInfo({'user_id': 8, 'type': 'A' });
     setState(() {
       user['name'] = user_info['username'];
       user['photo'] = user_info['photo'];
@@ -72,7 +72,8 @@ class ModifyUserState extends State<ModifyUser> {
     initAsync();
   }
   Widget build(BuildContext context) {
-   return  dataLoaded ? Center(child: CircularProgressIndicator()) : Scaffold(
+   return !dataLoaded ? Center(child: CircularProgressIndicator()) : Builder(builder: (context) =>
+       Scaffold(
       appBar: const PetMateAppBar(),
       body: Center(
         child: Container(
@@ -104,7 +105,7 @@ class ModifyUserState extends State<ModifyUser> {
                               ],
                             )),
                         Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 20.0),
+                          padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 20.0),
                           child: GestureDetector(
                             onTap: () {
                               _selectImageFromGallery();
@@ -112,7 +113,7 @@ class ModifyUserState extends State<ModifyUser> {
                             child: Container(
                               width: 100,
                               height: 100,
-                              decoration: userPicture != null
+                              decoration: userPicture?.image != null
                                   ? null
                                   : BoxDecoration(
                                 border: Border.all(
@@ -122,7 +123,7 @@ class ModifyUserState extends State<ModifyUser> {
                                 borderRadius: BorderRadius.circular(8.0),
                               ),
                               child: Center(
-                                child: userPicture != null
+                                child: userPicture?.image != null
                                     ? userPicture
                                     : Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -520,6 +521,6 @@ class ModifyUserState extends State<ModifyUser> {
               ),
             )),
       ),
-    );
+    ));
   }
 }
