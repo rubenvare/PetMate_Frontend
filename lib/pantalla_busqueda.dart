@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_proyecto/modify_user.dart';
 import 'package:flutter_proyecto/pantalla_detalles.dart';
 import 'package:flutter_proyecto/pantalla_filtro.dart';
 import 'package:flutter_proyecto/pantalla_resumen_mensajes.dart';
@@ -446,7 +447,12 @@ class _PetMateNavBarState extends State<PetMateNavBar> {
             );
             break;
           case 2:
-
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ModifyUser(),
+              ),
+            );
             break;
         }
       },

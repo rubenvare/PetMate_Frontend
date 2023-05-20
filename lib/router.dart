@@ -9,6 +9,7 @@ import 'package:flutter_proyecto/pantalla_registro.dart';
 import 'package:flutter_proyecto/pantalla_busqueda.dart';
 import 'package:flutter_proyecto/singleton_user.dart';
 import 'package:flutter_proyecto/visualizar_animales.dart';
+import 'modify_user.dart';
 import 'routing_constants.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings){
@@ -27,6 +28,8 @@ Route<dynamic> generateRoute(RouteSettings settings){
       return MaterialPageRoute(builder: (context) => AddPet());
     case PantallaProtectoraPerfilRoute:
       return MaterialPageRoute(builder: (context) => PerfilProtectora());
+    case ModifyUserRoute:
+      return MaterialPageRoute(builder: (context) => ModifyUser());
     default:
       return MaterialPageRoute(builder: (context) => InicioSesion());
   }

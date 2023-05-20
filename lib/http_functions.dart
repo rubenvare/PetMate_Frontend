@@ -247,3 +247,27 @@ Future<Map<String, dynamic>> sendUpdateShelterRequest(dynamic data) async {
 }
 
 
+Future<Map<String, dynamic>> sendModifyUserRequest(dynamic data) async {
+  final path = '/update_profile';
+  final response = await sendPostRequest(path, data);
+  var datos = json.decode(response.body);
+  if (response.statusCode != 200) {
+    return {'error': 'ERROR OBTENIENDO INFORMACIÓN DEL ADOPTANTE'};
+  } else {
+    return datos;
+  }
+}
+
+
+Future<bool> deleteHistory (dynamic data) async {
+  final path = '/A_delete_history';
+  final response = await sendPostRequest(path, data);
+  if (response.statusCode != 200) {
+    print('Error en la solicitud: ${response.reasonPhrase}');
+    return Future<bool>.value(false);
+  } else {
+    return Future<bool>.value(true);
+    final responseBody = json.decode(response.body);
+  }
+}
+
