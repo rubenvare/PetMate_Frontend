@@ -153,7 +153,6 @@ class ModifyUserState extends State<ModifyUser> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             TextFormField(
-                              initialValue: user['name'],
                                 decoration: InputDecoration(
                                   border: const OutlineInputBorder(
                                       borderSide:
@@ -438,6 +437,71 @@ class ModifyUserState extends State<ModifyUser> {
                               keyboardType: TextInputType.emailAddress,
                             ),
                             const SizedBox(height: 20),
+                            Row(
+                            children: [
+
+                            ElevatedButton(
+                              onPressed: () async {
+                                var data = {
+                                  'user_id': 11,
+                                  //UserSession().userId, a modificar cuando se cree usuario
+
+                                };
+                                var correcto = await deleteHistory(data);
+                                  if (correcto == true)
+                                  {
+                                    showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            icon: const Icon(Icons.pets_rounded),
+                                            title: const Text(
+                                                'LIKES Y DISLIKE BORRADOS CORRECTAMENTE'),
+                                            titleTextStyle: GoogleFonts.quicksand(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w700,
+                                                color: Colors.black),
+                                            backgroundColor:
+                                            const Color(0xFFC4A484),
+                                            shape: const RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(20))),
+                                            actions: <Widget>[
+                                              Column(
+                                                mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                                children: [
+                                                  ElevatedButton(
+                                                      style: ElevatedButton
+                                                          .styleFrom(
+                                                          backgroundColor:
+                                                          Colors.brown),
+                                                      onPressed: () {
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                      },
+                                                      child: const Text('Cerrar'))
+                                                ],
+                                              )
+                                            ],
+                                          );
+                                        });
+                                  };
+
+
+                              },
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.brown),
+                              child: Text(
+                                'RESETEAR LIKES',
+                                style: GoogleFonts.quicksand(
+                                    fontSize: 14,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w900,
+                                    letterSpacing: 2.0),
+                              ),
+                            ),
+                            const SizedBox(width: 50),
                             ElevatedButton(
                               onPressed: () async {
                                 if (formkey.currentState?.validate() ?? false ) {
@@ -514,7 +578,7 @@ class ModifyUserState extends State<ModifyUser> {
                             )
                           ],
                         ),
-                      ),
+                      ], ), ),
                     ],
                   ),
                 ),

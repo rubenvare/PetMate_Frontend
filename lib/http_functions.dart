@@ -49,7 +49,7 @@ Future<bool> sendLoginRequest(dynamic data) async {
     UserSession().type = responseBody["type"];
 
     return Future<bool>.value(true);
-    // Aquí puedes procesar la respuesta como sea necesario
+
   }
 }
 
@@ -121,6 +121,19 @@ Future<Map<String, dynamic>> getPetDetails(dynamic data) async {
     return detalles;
   }
 }
+
+Future<bool> deleteHistory (dynamic data) async {
+  final path = '/A_delete_history';
+  final response = await sendPostRequest(path, data);
+  if (response.statusCode != 200) {
+    print('Error en la solicitud: ${response.reasonPhrase}');
+    return Future<bool>.value(false);
+  } else {
+    return Future<bool>.value(true);
+    final responseBody = json.decode(response.body);
+  }
+}
+
 
 Future<Map<String, dynamic>> getProfileInfo(dynamic data) async {
   final path = '/show_profile';
