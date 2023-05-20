@@ -40,8 +40,7 @@ Future<bool> sendLoginRequest(dynamic data) async {
   if (response.statusCode != 200) {
     print('Error en la solicitud: ${response.reasonPhrase}');
     return Future<bool>.value(false);
-  } else if (response.statusCode == 500){
-    print('Usuario no encontrado');
+  } else if (datos.containsKey('ERROR')){
     return Future<bool>.value(false);
   } else {
     final responseBody = json.decode(response.body);
@@ -49,7 +48,7 @@ Future<bool> sendLoginRequest(dynamic data) async {
     UserSession().type = responseBody["type"];
 
     return Future<bool>.value(true);
-    // Aquí puedes procesar la respuesta como sea necesario
+
   }
 }
 
