@@ -55,6 +55,7 @@ class PerfilProtectoraState extends State<PerfilProtectora> {
         await getProfileInfo({'user_id': userId, 'type': 'S'});
     setState(() {
       datos = shelterResponse;
+
       shelterLogo = getImage(shelterResponse['photo']);
     });
   }
@@ -245,7 +246,7 @@ class PerfilProtectoraState extends State<PerfilProtectora> {
                                     return 'Este campo requiere de números';
                                   } else {
                                     setState(() {
-                                      phone = value as int;
+                                      phone = int.parse(value);
                                       numError = false;
                                     });
                                     return null;
@@ -344,7 +345,7 @@ class PerfilProtectoraState extends State<PerfilProtectora> {
                                     if (formkey.currentState?.validate() ??
                                         false) {
                                       var data = {
-                                        'user_id': 12,
+                                        'user_id': UserSession().userId,
                                         'password': password,
                                         'username': username,
                                         'description': description,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_proyecto/inicio.dart';
 import 'package:flutter_proyecto/pantalla_busqueda.dart';
 import 'package:flutter_proyecto/pantalla_detalles_protectora.dart';
+import 'package:flutter_proyecto/pantalla_perfil_protectora.dart';
 import 'package:flutter_proyecto/pantalla_resumen_mensajes.dart';
 import 'package:flutter_proyecto/routing_constants.dart';
 import 'package:flutter_proyecto/singleton_user.dart';
@@ -260,6 +261,13 @@ class _PetMateShelterNavBarState extends State<PetMateShelterNavBar> {
             );
             break;
           case 2:
+            PerfilProtectora perfil = PerfilProtectora();
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => perfil,
+              ),
+            );
             break;
         }
       },
