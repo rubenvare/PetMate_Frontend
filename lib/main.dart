@@ -5,6 +5,7 @@ import 'package:flutter_proyecto/pantalla_filtro.dart';
 import 'package:flutter_proyecto/pantalla_protectora.dart';
 import 'package:flutter_proyecto/pantalla_perfil_protectora.dart';
 import 'package:flutter_proyecto/routing_constants.dart';
+import 'package:flutter_proyecto/historial_adopciones.dart';
 import 'package:flutter_proyecto/visualizar_animales.dart';
 import 'router.dart' as router;
 void main() {

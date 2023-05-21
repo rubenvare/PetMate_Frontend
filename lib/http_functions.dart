@@ -246,4 +246,37 @@ Future<Map<String, dynamic>> sendUpdateShelterRequest(dynamic data) async {
   }
 }
 
+Future<Map<String,dynamic>> retiredRecord(dynamic data) async {
+  final path = '/S_retired_record';
+  final response = await sendPostRequest(path, data);
+  var datos = json.decode(response.body);
+  if (response.statusCode != 200) {
+    return {'error': 'ERROR OBTENIENDO INFORMACIÓN DEL ANIMAL'};
+  } else {
+    return datos;
+  }
+}
+
+Future<Map<String,dynamic>> savedRecord(dynamic data) async {
+  final path = '/A_saved_record';
+  final response = await sendPostRequest(path, data);
+  var datos = json.decode(response.body);
+  if (response.statusCode != 200) {
+    return {'error': 'ERROR OBTENIENDO INFORMACIÓN DEL ANIMAL'};
+  } else {
+    return datos;
+  }
+}
+
+Future<bool> resolveSavePet(dynamic data) async {
+  final path = '/A_resolve_save_pet';
+  final response = await sendPostRequest(path, data);
+  var datos = json.decode(response.body);
+  if (response.statusCode != 200) {
+    return Future<bool>.value(false);
+  } else {
+    return Future<bool>.value(true);
+  }
+}
+
 
