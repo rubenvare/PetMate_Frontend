@@ -17,6 +17,7 @@ class InicioSesionState extends State<InicioSesion> {
   bool errorMailRegExp = false;
   bool errorMailEmpty = false;
   bool errorPassword = false;
+  bool obscurePassword = true;
   String email = '';
   String password = '';
   RegExp coincideMail = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
@@ -94,13 +95,21 @@ class InicioSesionState extends State<InicioSesion> {
                         SizedBox(height: 40), // Agregue espacio en blanco entre los campos de texto
                         TextFormField(
                           cursorColor: Colors.brown,
-                          obscureText: true,
+                          obscureText: obscurePassword,
                           decoration: InputDecoration(
                               border: const OutlineInputBorder(
                                   borderSide: BorderSide(color: Colors.brown)
                               ),
                               focusedBorder: const OutlineInputBorder(
                                   borderSide: BorderSide(color: Colors.brown)
+                              ),
+                              suffixIcon: IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    obscurePassword = !obscurePassword;
+                                  });
+                                },
+                                icon: Icon(obscurePassword ? Icons.visibility_off : Icons.visibility, color: Colors.black),
                               ),
                               labelText: 'Contraseña',
                               labelStyle: GoogleFonts.quicksand(
@@ -164,7 +173,7 @@ class InicioSesionState extends State<InicioSesion> {
                             )
                         ),
                         SizedBox(height: 10,),
-                        ElevatedButton( onPressed: () {Navigator.pushNamed(context, VisualizarAnimalesRoute);},
+                        ElevatedButton( onPressed: () {Navigator.pushNamed(context, RegistroRoute);},
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.brown,
                             ),

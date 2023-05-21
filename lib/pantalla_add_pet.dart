@@ -484,7 +484,6 @@ class AddPetState extends State<AddPet> {
                                   birth = "${selectedMonth}-${selectedYear}";
                                   var data = {
                                     'user_id': UserSession().userId,
-                                    //, a modificar cuando se cree usuario
                                     'name': name,
                                     'species': breed,
                                     'birth': birth,

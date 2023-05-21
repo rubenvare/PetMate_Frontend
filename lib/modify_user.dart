@@ -6,10 +6,7 @@ import 'http_functions.dart';
 import 'router.dart';
 import 'package:image_picker/image_picker.dart';
 
-/*
-TO DO
-Modificar el userId de la llamada de getProfileInfo mas la de la variable data que ahora esta hardcodeada
- */
+
 class ModifyUser extends StatefulWidget {
   @override
   State<ModifyUser> createState() => ModifyUserState();
