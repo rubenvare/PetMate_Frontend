@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_proyecto/pantalla_busqueda.dart';
+import 'package:flutter_proyecto/pantalla_detalles.dart';
 import 'package:flutter_proyecto/pantalla_detalles_protectora.dart';
 import 'package:flutter_proyecto/pantalla_perfil_protectora.dart';
 import 'package:flutter_proyecto/singleton_user.dart';
@@ -21,7 +24,7 @@ class SavedPetsState extends State<SavedPets> {
   int userId;
   Map<String, dynamic> datos = {};
   Map<String, dynamic> dato = {};
-  Image? shelterLogo;
+  StreamController<Map<String, dynamic>> _streamController = StreamController<Map<String, dynamic>>();
 
   SavedPetsState(this.userId);
 
@@ -31,16 +34,20 @@ class SavedPetsState extends State<SavedPets> {
     getDatos(userId);
   }
 
+  void dispose() {
+    _streamController.close();
+    super.dispose();
+  }
+
   Future<void> getDatos(int userId) async {
-    Map<String, dynamic> response = await savedRecord({'user_id': userId});
-    setState(() {
-      datos = response;
-    });
-    Map<String, dynamic> shelterResponse =
-        await getProfileInfo({'user_id': userId, 'type': 'S'});
-    setState(() {
-      shelterLogo = getImage(shelterResponse['photo']);
-    });
+    while (true) {
+      await Future.delayed(Duration(seconds: 1));
+      Map<String, dynamic> response = await savedRecord({'user_id': userId});
+      setState(() {
+        datos = response;
+      });
+      _streamController.add(datos);
+    }
   }
 
   @override
@@ -101,13 +108,13 @@ class SavedPetsState extends State<SavedPets> {
                                         IconButton(
                                           onPressed: () async {
                                             dato = {
-                                                "user_id": UserSession().userId,
-                                                "animal_id": data['animal_id'],
-                                                "action": 2
-                                              };
-                                              if(await resolveSavePet(dato)) {
-                                                Navigator.pop(context);
-                                              }
+                                              "user_id": UserSession().userId,
+                                              "animal_id": data['animal_id'],
+                                              "action": 2
+                                            };
+                                            if (await resolveSavePet(dato)) {
+                                              Navigator.pop(context);
+                                            }
                                           },
                                           icon: const Icon(
                                             Icons.clear,
@@ -116,7 +123,12 @@ class SavedPetsState extends State<SavedPets> {
                                         ),
                                         IconButton(
                                             onPressed: () {
-                                              Navigator.push(context, MaterialPageRoute(builder: (context) => DetailScreenShelter(data['animal_id'], "B")));
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          DetailScreen(data[
+                                                              'animal_id'])));
                                             },
                                             icon: const Icon(
                                               Icons.info,
@@ -129,7 +141,7 @@ class SavedPetsState extends State<SavedPets> {
                                                 "animal_id": data['animal_id'],
                                                 "action": 1
                                               };
-                                              if(await resolveSavePet(dato)) {
+                                              if (await resolveSavePet(dato)) {
                                                 Navigator.pop(context);
                                               }
                                             },
