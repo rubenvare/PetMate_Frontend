@@ -7,6 +7,7 @@ import 'package:flutter_proyecto/pantalla_perfil_protectora.dart';
 import 'package:flutter_proyecto/routing_constants.dart';
 import 'package:flutter_proyecto/visualizar_animales.dart';
 import 'router.dart' as router;
+import 'package:flutter_localizations/flutter_localizations.dart';
 void main() {
   // el flag activado quita la etiqueta de Debug cuando ejecutas, aunque en el main no lo hace...
   runApp(MaterialApp(home: MyApp(), debugShowCheckedModeBanner: false));
@@ -20,6 +21,14 @@ class MyApp extends StatelessWidget {
       title: 'PetMate',
       onGenerateRoute: router.generateRoute,
       initialRoute: InicioSesionRoute,
+      localizationsDelegates:[
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate
+      ],
+      supportedLocales: [
+        const Locale('en'),
+        const Locale('es'),
+      ]
     );
   }
 }
