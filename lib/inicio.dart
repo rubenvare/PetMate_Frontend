@@ -4,6 +4,10 @@ import 'package:flutter_proyecto/routing_constants.dart';
 import 'package:flutter_proyecto/singleton_user.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_proyecto/http_functions.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import 'language.dart';
+import 'main.dart';
 
 
 
@@ -37,7 +41,7 @@ class InicioSesionState extends State<InicioSesion> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [ // Agregue espacio en blanco sobre el texto
                 Text(
-                  "¡BIENVENIDO!",
+                  AppLocalizations.of(context)!.mensajeBienvenida,
                   style: GoogleFonts.quicksand(
                     fontSize: 37.0,
                     color: Colors.black,
@@ -64,7 +68,7 @@ class InicioSesionState extends State<InicioSesion> {
                                 borderSide: BorderSide(color: Colors.brown)
                             ),
 
-                            labelText: 'Correo electrónico',
+                            labelText: AppLocalizations.of(context)!.correo,
                             labelStyle: GoogleFonts.quicksand(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w700,
@@ -76,14 +80,14 @@ class InicioSesionState extends State<InicioSesion> {
                               setState(() {
                                 errorMailEmpty = true;
                               });
-                              return 'Este campo es obligatorio';
+                              return AppLocalizations.of(context)!.campoObligatorio;
                             }
                             else {
                               if (!coincideMail.hasMatch(value)) {
                                 setState(() {
                                   errorMailRegExp = true;
                                 });
-                                return 'por favor, sigue el formato user@domain.com';
+                                return AppLocalizations.of(context)!.formatoObligatorio;
                               }
                               else {
                                 email = value;
@@ -111,7 +115,7 @@ class InicioSesionState extends State<InicioSesion> {
                                 },
                                 icon: Icon(obscurePassword ? Icons.visibility_off : Icons.visibility, color: Colors.black),
                               ),
-                              labelText: 'Contraseña',
+                              labelText: AppLocalizations.of(context)!.contrasena,
                               labelStyle: GoogleFonts.quicksand(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
@@ -123,7 +127,7 @@ class InicioSesionState extends State<InicioSesion> {
                               setState(() {
                                 errorPassword = true;
                               });
-                              return 'Por favor, rellena el campo con tu contraseña.';
+                              return AppLocalizations.of(context)!.campoObligatorio;
                             }
                             password = value;
                             return null;
@@ -154,7 +158,7 @@ class InicioSesionState extends State<InicioSesion> {
                               backgroundColor: Colors.brown,
                             ),
                             child: Text(
-                                "LOGIN",
+                                AppLocalizations.of(context)!.login,
                                 style: GoogleFonts.quicksand(
                                   fontSize: 14.0,
                                   color: Colors.white,
@@ -163,7 +167,7 @@ class InicioSesionState extends State<InicioSesion> {
 
                                 ))),
                         SizedBox(height: 50),
-                        Text("¿No tienes cuenta?",
+                        Text(AppLocalizations.of(context)!.noCuenta,
                             style: GoogleFonts.quicksand(
                               fontSize: 14.0,
                               color: Colors.black,
@@ -178,7 +182,7 @@ class InicioSesionState extends State<InicioSesion> {
                               backgroundColor: Colors.brown,
                             ),
                             child: Text(
-                                "REGISTRO",
+                                AppLocalizations.of(context)!.registro,
                                 style: GoogleFonts.quicksand(
                                     fontSize: 14.0,
                                     color: Colors.white,
@@ -202,7 +206,7 @@ class InicioSesionState extends State<InicioSesion> {
       context: this.context,
       builder: (context) => AlertDialog(
         title: Text('Error'),
-        content: Text('Usuario no encontrado'),
+        content: Text(AppLocalizations.of(context)!.usuarioNo),
         actions: [
           TextButton(
               onPressed: () {
@@ -230,8 +234,38 @@ class PetMateAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       centerTitle: true,
       backgroundColor: Colors.brown,
-      actions: const [
-        Padding(padding: EdgeInsets.all(20.0), child: Icon(Icons.pets_rounded))
+      actions:  [
+        Icon(Icons.pets_rounded),
+        Padding(
+          padding: EdgeInsets.symmetric(vertical: 20.0),
+          child: DropdownButton<Language>(
+            underline: const SizedBox(),
+            icon: const Icon(
+              Icons.language,
+              color: Colors.white,
+            ),
+            onChanged: (Language? language) async {
+              if(language != null){
+                MyApp.setLocale(context, Locale(language.languageCode));
+              }
+            },
+            items: Language.languageList().map<DropdownMenuItem<Language>>(
+                  (e) => DropdownMenuItem<Language>(
+                value: e,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    Text(
+                      e.flag,
+                      style: const TextStyle(fontSize: 30),
+                    ),
+                    Text(e.name)
+                  ],
+                ),
+              ),
+            ).toList(),
+          ),
+        ),
       ],
       leading: Builder(
         builder: (BuildContext context) {

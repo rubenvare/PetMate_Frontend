@@ -1,0 +1,11 @@
+{
+    "mensajeBienvenida":"¡BIENVENIDO!",
+    "correo":"Correo",
+    "campoObligatorio": "Este campo es obligatorio",
+    "formatoObligatorio": "Porfavor, utiliza el formato user@domain.com",
+    "contrasena": "Contraseña",
+    "login": "LOGIN",
+    "noCuenta": "¿No tienes cuenta?",
+    "registro": "REGISTRO",
+    "usuarioNo": "Usuario no encontrado"
+}
