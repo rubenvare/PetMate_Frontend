@@ -111,7 +111,7 @@ Column _mostrarAdoptante(BuildContext context, Map<String,dynamic> content){
           SizedBox(width: 10.0),
           Icon(Icons.mail_outline),
           SizedBox(width: 10.0),
-          Text(content['email']
+          Text(content['email'] ?? ""
               , style: GoogleFonts.quicksand(fontSize: 20.0, fontWeight: FontWeight.bold)),
         ],),
 
@@ -121,7 +121,7 @@ Column _mostrarAdoptante(BuildContext context, Map<String,dynamic> content){
           SizedBox(width: 10.0),
           Icon(Icons.person_outline),
           SizedBox(width: 10.0),
-          Text(content['username']
+          Text(content['username'] ?? ""
               , style: GoogleFonts.quicksand(fontSize: 20.0, fontWeight: FontWeight.bold)),
         ],),
 
@@ -130,7 +130,7 @@ Column _mostrarAdoptante(BuildContext context, Map<String,dynamic> content){
           SizedBox(width: 10.0),
           Icon(Icons.house_outlined),
           SizedBox(width: 10.0),
-          Text('${content["living_space"]} m2'
+          Text('${content["living_space"]} m2' ?? ""
               , style: GoogleFonts.quicksand(fontSize: 20.0, fontWeight: FontWeight.bold)),
         ],
         ),
@@ -139,7 +139,7 @@ Column _mostrarAdoptante(BuildContext context, Map<String,dynamic> content){
           SizedBox(width: 10.0),
           Icon(Icons.access_time),
           SizedBox(width: 10.0),
-          Text('${content["available_time"]} h'
+          Text('${content["available_time"]} h' ?? ""
               , style: GoogleFonts.quicksand(fontSize: 20.0, fontWeight: FontWeight.bold)),
         ],
         ),
@@ -148,7 +148,7 @@ Column _mostrarAdoptante(BuildContext context, Map<String,dynamic> content){
           SizedBox(width: 10.0),
           Icon(Icons.balcony_outlined),
           SizedBox(width: 10.0),
-          Icon(content["terrace"] ? Icons.check : Icons.close),
+          Icon(content["terrace"] ?? false ? Icons.check : Icons.close)
         ],
         ),
         SizedBox(height: 20.0,),
@@ -156,7 +156,7 @@ Column _mostrarAdoptante(BuildContext context, Map<String,dynamic> content){
           SizedBox(width: 10.0),
           Icon(Icons.grass_outlined),
           SizedBox(width: 10.0),
-          Icon(content["garden"] ? Icons.check : Icons.close),
+          Icon(content["garden"] ?? false ? Icons.check : Icons.close),
         ],
         ),
         SizedBox(height: 20.0,),
@@ -164,7 +164,7 @@ Column _mostrarAdoptante(BuildContext context, Map<String,dynamic> content){
           SizedBox(width: 10.0),
           Icon(Icons.pets_outlined),
           SizedBox(width: 10.0),
-          Icon(content["animals_home"] ? Icons.check : Icons.close),
+          Icon(content["animals_home"] ?? false ? Icons.check : Icons.close),
         ],
         ),
         SizedBox(height: 20.0,),
@@ -173,7 +173,7 @@ Column _mostrarAdoptante(BuildContext context, Map<String,dynamic> content){
             SizedBox(width: 10.0),
             Icon(Icons.description_outlined),
             Text('  '),
-            Expanded(child: Text(content['description']
+            Expanded(child: Text(content['description'] ?? ""
                 , style: GoogleFonts.quicksand(fontSize: 20.0, fontWeight: FontWeight.bold)))
 
           ],),
@@ -197,7 +197,7 @@ Column _mostrarAnimal(BuildContext context, Map<String,dynamic> content){
         Text('  Nombre:  '
             , style: GoogleFonts.quicksand(fontSize: 20.0, fontWeight: FontWeight.w900)),
 
-        Text('${content['name']}'
+        Text(content['name'] ?? ""
             , style: GoogleFonts.quicksand(
                 fontSize: 20.0, fontWeight: FontWeight.bold)),
       ],),
@@ -208,7 +208,7 @@ Column _mostrarAnimal(BuildContext context, Map<String,dynamic> content){
         Text('  Especie:  '
             , style: GoogleFonts.quicksand(fontSize: 20.0, fontWeight: FontWeight.w900)),
 
-        Text('${content['species']}'
+        Text(content['species'] ?? ""
             , style: GoogleFonts.quicksand(
                 fontSize: 20.0, fontWeight: FontWeight.bold)),
       ],),
@@ -218,7 +218,7 @@ Column _mostrarAnimal(BuildContext context, Map<String,dynamic> content){
         Icon(Icons.palette_outlined),
         Text('  Color:  '
             , style: GoogleFonts.quicksand(fontSize: 20.0, fontWeight: FontWeight.w900)),
-        Text(content['color']
+        Text(content['color'] ?? ""
             , style: GoogleFonts.quicksand(
                 fontSize: 20.0, fontWeight: FontWeight.bold)),
       ],),
@@ -228,17 +228,7 @@ Column _mostrarAnimal(BuildContext context, Map<String,dynamic> content){
         Icon(Icons.straighten_outlined),
         Text('  Tamaño:  '
             , style: GoogleFonts.quicksand(fontSize: 20.0, fontWeight: FontWeight.w900)),
-        Text(content["size"]
-            , style: GoogleFonts.quicksand(
-                fontSize: 20.0, fontWeight: FontWeight.bold)),
-      ],),
-      SizedBox(height: 20.0,),
-      Row( children: [
-        SizedBox(width: 10.0),
-        Icon(Icons.info_outlined),
-        Text('  Edad:  '
-            , style: GoogleFonts.quicksand(fontSize: 20.0, fontWeight: FontWeight.w900)),
-        Text('${content['age']} años'
+        Text(content["size"] ?? ""
             , style: GoogleFonts.quicksand(
                 fontSize: 20.0, fontWeight: FontWeight.bold)),
       ],),
@@ -248,7 +238,7 @@ Column _mostrarAnimal(BuildContext context, Map<String,dynamic> content){
           SizedBox(width: 10.0),
           Icon(Icons.description_outlined),
           Text('  '),
-          Expanded(child: Text('${content['description']}'
+          Expanded(child: Text('${content['description']}' ?? ""
               , style: GoogleFonts.quicksand(
                   fontSize: 20.0, fontWeight: FontWeight.bold)),)
 
