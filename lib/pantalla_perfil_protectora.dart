@@ -328,8 +328,17 @@ class PerfilProtectoraState extends State<PerfilProtectora> {
                                 ElevatedButton(
                                     style: ElevatedButton.styleFrom(
                                         minimumSize: const Size(165, 35),
-                                        backgroundColor: Colors.brown),
-                                    onPressed: () {},
+                                        backgroundColor: Colors.red),
+                                    onPressed: () {
+                                      InicioSesion start = InicioSesion();
+                                      Navigator.pop(context);
+                                      Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => start,
+                                        ),
+                                      );
+                                    },
                                     child: Text("CERRAR SESIÓN",
                                         style: GoogleFonts.quicksand(
                                             fontSize: 14.0,

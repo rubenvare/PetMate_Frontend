@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_proyecto/modify_user.dart';
 import 'package:flutter_proyecto/pantalla_detalles.dart';
 import 'package:flutter_proyecto/pantalla_filtro.dart';
+import 'package:flutter_proyecto/pantalla_perfil_protectora.dart';
+import 'package:flutter_proyecto/pantalla_protectora.dart';
 import 'package:flutter_proyecto/pantalla_resumen_mensajes.dart';
 
 import 'package:flutter_proyecto/routing_constants.dart';
@@ -446,9 +448,23 @@ class _PetMateNavBarState extends State<PetMateNavBar> {
 
             // NO HACE FALTA ESTA COMPROBACIÓN, YA HAY UNA CLASE DEDICADA A ESTO (PetMateShelterNavBar)
             // Por algun motivo he probado este codigo antes (protectora y adopter con este navbar) y no ha ido bien..
-            UserSession().type == "S"
-                ? Navigator.pushNamed(context, PantallaProtectoraRoute)
-                : Navigator.pushNamed(context, PantallaAdoptanteRoute);
+            if(UserSession().type == "A"){
+              DogSearchScreen search = DogSearchScreen();
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => search,
+                ),
+              );
+            } else {
+              PantallaProtectoraItems shelter = PantallaProtectoraItems("null", "null");
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => shelter,
+                ),
+              );
+            }
             break;
           case 1:
             // use pushReplacement to avoid adding current screen to stack
@@ -461,10 +477,20 @@ class _PetMateNavBarState extends State<PetMateNavBar> {
             );
             break;
           case 2:
-            SavedPets saved = SavedPets(UserSession().userId);
-            Navigator.pushReplacement(
-              context, 
-              MaterialPageRoute(builder: (context) => saved));
+            if (UserSession().type == 'S')
+            {
+                PerfilProtectora protectora = PerfilProtectora();
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => protectora));
+                break;
+            } else {
+              ModifyUser mod = ModifyUser();
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => mod));
+            }
+
             break;
         }
       },

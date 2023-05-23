@@ -436,7 +436,6 @@ class ModifyUserState extends State<ModifyUser> {
                                 const SizedBox(height: 20),
                                 Row(
                                   children: [
-
                                     ElevatedButton(
                                       onPressed: () async {
                                         var data = {
@@ -573,7 +572,29 @@ class ModifyUserState extends State<ModifyUser> {
                                     )
                                   ],
                                 ),
+                              SizedBox(height: 15),
+                                ElevatedButton(onPressed: () {
+                                  InicioSesion start = InicioSesion();
+                                  Navigator.pop(context);
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => start,
+                                    ),
+                                  );
+                                }, child: Text(
+                                  'CERRAR SESIÓN',
+                                  style: GoogleFonts.quicksand(
+                                      fontSize: 14,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w900,
+                                      letterSpacing: 2.0),
+                                ),
+                                  style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.red),)
+
                               ], ), ),
+                          SizedBox(height: 15,)
                         ],
                       ),
                     ),

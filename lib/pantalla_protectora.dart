@@ -113,7 +113,7 @@ class PantallaProtectoraItemsState extends State<PantallaProtectoraItems> {
           ),
         ],
       ),
-      bottomNavigationBar: PetMateShelterNavBar(),
+      bottomNavigationBar: PetMateNavBar(),
     );
   }
 
@@ -224,72 +224,4 @@ void _mostrarPopUp(BuildContext context, Map<String,dynamic> elemento, Image pho
       );
     },
   );
-}
-
-class PetMateShelterNavBar extends StatefulWidget {
-  const PetMateShelterNavBar({Key? key}) : super(key: key);
-
-  @override
-  _PetMateShelterNavBarState createState() => _PetMateShelterNavBarState();
-}
-
-class _PetMateShelterNavBarState extends State<PetMateShelterNavBar> {
-  int _currentIndex = 0; // Establece el índice del elemento seleccionado actualmente
-
-  @override
-  Widget build(BuildContext context) {
-    return BottomNavigationBar(
-      currentIndex: _currentIndex,
-      onTap: (index) {
-        // Agrega aquí la lógica para manejar el cambio de pantalla según el índice seleccionado
-        setState(() {
-          _currentIndex = index; // Actualiza el índice seleccionado
-        });
-        switch (index) {
-          case 0:
-          // use pushReplacement to avoid adding current screen to stack
-
-            break;
-          case 1:
-          // use pushReplacement to avoid adding current screen to stack
-            MessageSummaryScreen messages = MessageSummaryScreen();
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => messages,
-              ),
-            );
-            break;
-          case 2:
-            PerfilProtectora perfil = PerfilProtectora();
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => perfil,
-              ),
-            );
-            break;
-        }
-      },
-      selectedFontSize: 14,
-      iconSize: 24,
-      type: BottomNavigationBarType.fixed,
-      selectedItemColor: Colors.black,
-      unselectedItemColor: Colors.black,
-      items: const [
-        BottomNavigationBarItem(
-          icon: Icon(Icons.home),
-          label: 'Inicio',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.message),
-          label: 'Mensajes',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.person),
-          label: 'Perfil',
-        ),
-      ],
-    );
-  }
 }

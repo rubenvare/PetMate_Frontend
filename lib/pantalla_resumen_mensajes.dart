@@ -194,7 +194,7 @@ class _MessageSummaryScreenState extends State<MessageSummaryScreen> {
           }
         },
       ),
-      bottomNavigationBar: UserSession().type == 'S' ? PetMateShelterNavBar() : PetMateNavBar(),
+      bottomNavigationBar: PetMateNavBar(),
     );
   }
 }

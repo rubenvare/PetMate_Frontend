@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_proyecto/pantalla_busqueda.dart';
+import 'package:flutter_proyecto/pantalla_protectora.dart';
 import 'package:flutter_proyecto/router.dart';
 import 'package:flutter_proyecto/routing_constants.dart';
 import 'package:flutter_proyecto/singleton_user.dart';
@@ -141,9 +143,21 @@ class InicioSesionState extends State<InicioSesion> {
                               };
                               if (await sendLoginRequest(body)){
                                 if(UserSession().type == "A"){
-                                  Navigator.pushNamed(context, PantallaAdoptanteRoute);
+                                  DogSearchScreen search = DogSearchScreen();
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => search,
+                                    ),
+                                  );
                                 } else {
-                                  Navigator.pushNamed(context, PantallaProtectoraRoute);
+                                  PantallaProtectoraItems shelter = PantallaProtectoraItems("null", "null");
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => shelter,
+                                    ),
+                                  );
                                 }
                               } else {
                                 openDialog();
