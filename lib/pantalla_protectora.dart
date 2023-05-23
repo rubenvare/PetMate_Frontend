@@ -262,7 +262,7 @@ class _PetMateShelterNavBarState extends State<PetMateShelterNavBar> {
             break;
           case 2:
             PerfilProtectora perfil = PerfilProtectora();
-            Navigator.push(
+            Navigator.pushReplacement(
               context,
               MaterialPageRoute(
                 builder: (context) => perfil,

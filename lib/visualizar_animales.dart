@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_proyecto/historial_adopciones.dart';
 import 'package:flutter_proyecto/pantalla_busqueda.dart';
 import 'package:flutter_proyecto/pantalla_perfil_protectora.dart';
 import 'editar_animal.dart';
 import 'inicio.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'http_functions.dart';
+import 'package:flutter_proyecto/singleton_user.dart';
 
 class VisualizarAnimales extends StatefulWidget {
   int userId;
@@ -34,7 +36,8 @@ class VisualizarAnimalesState extends State<VisualizarAnimales> {
     setState(() {
       datos = response;
     });
-    Map<String, dynamic> shelterResponse = await getProfileInfo({'user_id': userId, 'type': 'S'});
+    Map<String, dynamic> shelterResponse =
+        await getProfileInfo({'user_id': userId, 'type': 'S'});
     setState(() {
       shelterLogo = getImage(shelterResponse['photo']);
     });
@@ -43,7 +46,7 @@ class VisualizarAnimalesState extends State<VisualizarAnimales> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PetMateAppBar(),
+      appBar: PetMateAppBarHistorial(),
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
@@ -58,7 +61,10 @@ class VisualizarAnimalesState extends State<VisualizarAnimales> {
                     children: [
                       ElevatedButton(
                         onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => PerfilProtectora()));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => PerfilProtectora()));
                         },
                         style: ElevatedButton.styleFrom(
                             minimumSize: const Size(165, 35),
@@ -74,9 +80,7 @@ class VisualizarAnimalesState extends State<VisualizarAnimales> {
                         ),
                       ),
                       ElevatedButton(
-                        onPressed: () {
-                          
-                        },
+                        onPressed: () {},
                         style: ElevatedButton.styleFrom(
                             minimumSize: const Size(165, 35),
                             backgroundColor: Colors.brown),
@@ -106,7 +110,11 @@ class VisualizarAnimalesState extends State<VisualizarAnimales> {
                     ImageProvider<Object>? imageProvider = animalPhoto.image;
                     return GestureDetector(
                         onTap: () {
-                          Navigator.push(context,MaterialPageRoute(builder: (context) => PerfilAnimal(data['animal_id'], imageProvider)));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => PerfilAnimal(
+                                      data['animal_id'], imageProvider)));
                         },
                         child: Container(
                           padding: EdgeInsets.all(16.0),
@@ -143,6 +151,51 @@ class VisualizarAnimalesState extends State<VisualizarAnimales> {
         ),
       ),
       bottomNavigationBar: PetMateNavBar(),
+    );
+  }
+}
+
+class PetMateAppBarHistorial extends StatelessWidget
+    implements PreferredSizeWidget {
+  const PetMateAppBarHistorial({Key? key}) : super(key: key);
+
+  @override
+  Size get preferredSize => const Size.fromHeight(70);
+
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      toolbarHeight: 70,
+      title: Text(
+        'PetMate',
+        style: GoogleFonts.alfaSlabOne(fontSize: 35.0, color: Colors.white),
+      ),
+      centerTitle: true,
+      backgroundColor: Colors.brown,
+      actions: [
+        Padding(
+            padding: EdgeInsets.all(20.0),
+            child: GestureDetector(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            HistorialAdopciones(UserSession().userId)));
+              },
+              child: Icon(Icons.pets_rounded),
+            ))
+      ],
+      leading: Builder(
+        builder: (BuildContext context) {
+          if (Navigator.of(context).canPop()) {
+            // Si puede hacer pop te mostrará el icono
+            return BackButton(onPressed: () => Navigator.pop(context));
+          } else {
+            return const SizedBox.shrink(); // si no, devuelve un espacio vacío
+          }
+        },
+      ),
     );
   }
 }

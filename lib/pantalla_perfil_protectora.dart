@@ -75,7 +75,7 @@ class PerfilProtectoraState extends State<PerfilProtectora> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PetMateAppBar(),
+      appBar: PetMateAppBarHistorial(),
       body: Container(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
