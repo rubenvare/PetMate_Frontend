@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'http_functions.dart';
 import 'inicio.dart';
 import 'router.dart';
+import 'package:image_picker/image_picker.dart';
+
 
 class RegistroAdoptante extends StatefulWidget {
 
@@ -18,14 +21,37 @@ class RegistroAdoptante extends StatefulWidget {
 
 class _RegistroAdoptanteState extends State<RegistroAdoptante> {
   final formkey = GlobalKey<FormState>();
+  late String size;
+  late String time;
+  Image? Logo;
+  late XFile _imageFile;
+
   bool houseError = false;
   bool timeError = false;
   bool switchAnimales = false;
   bool switchTerraza = false;
   bool switchJardin = false;
-  String size = '';
-
+  bool switchAnimalsBefore = false;
+  bool imageError = false;
   RegExp regExp = RegExp(r'(^[0-9]*$)');
+
+  Future<void> _selectImageFromGallery() async {
+    final picker = ImagePicker();
+    final pickedImage = await picker.pickImage(source: ImageSource.gallery);
+    if (pickedImage != null) {
+      final image = Image.memory(await pickedImage.readAsBytes());
+      setState(() {
+        _imageFile = pickedImage;
+        Logo = image;
+      });
+    }
+  }
+  String? _imageValidator() {
+    if (Logo == null) {
+      return 'Por favor, seleccione una imagen';
+    }
+    return null;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,19 +70,71 @@ class _RegistroAdoptanteState extends State<RegistroAdoptante> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              'REGISTRO COMO ADOPTANTE',
-                              style: GoogleFonts.quicksand(
-                                  fontSize: 20,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w900,
-                                  letterSpacing: 2.0),
+                      Row(children: <Widget>[
+                        Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10.0, vertical: 20.0),
+                            child: Column(
+                              children: [
+                                Text(
+                                  'REGISTRO ADOPTANTE',
+                                  style: GoogleFonts.quicksand(
+                                      fontSize: 15,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w900,
+                                      letterSpacing: 2.0),
+                                ),
+                              ],
+                            )),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
+                          child: GestureDetector(
+                            onTap: () {
+                              _selectImageFromGallery();
+                            },
+                            child: Container(
+                              width: 100,
+                              height: 100,
+                              decoration: Logo != null
+                                  ? null
+                                  : BoxDecoration(
+                                border: Border.all(
+                                  color: imageError ? Colors.red : Colors.black,
+                                  width: 2.0,
+                                ),
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                              child: Center(
+                                child: Logo != null
+                                    ? Logo
+                                    : Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'Añadir imagen',
+                                      style: TextStyle(
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    if (imageError)
+                                      Text(
+                                        'La imagen es obligatoria',
+                                        style: TextStyle(
+                                          fontSize: 12.0,
+                                          color: Colors.red,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                  ],
+                                ),
+                              ),
                             ),
-                          ]),
+                          ),
+                        )
+
+                      ]),
                       const SizedBox(height: 20),
                       SizedBox(
                         width: 350,
@@ -159,6 +237,24 @@ class _RegistroAdoptanteState extends State<RegistroAdoptante> {
                                 ),
                               ])
                             ]),
+                            const SizedBox(height: 5),
+                            Row(children: <Widget>[
+                              Switch(
+                                value: switchAnimalsBefore,
+                                onChanged: (bool value) {
+                                  setState(() {
+                                    switchAnimalsBefore = value;
+                                  });
+                                },
+                                activeTrackColor: Colors.brown,
+                                activeColor: Colors.white,
+                              ),
+                              Text('Animales anteriormente',
+                                  style: GoogleFonts.quicksand(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w700,
+                                  ))
+                            ]),
                             const SizedBox(height: 40),
                             TextFormField(
                                 decoration: InputDecoration(
@@ -193,40 +289,62 @@ class _RegistroAdoptanteState extends State<RegistroAdoptante> {
                                     setState(() {
                                       timeError = false;
                                     });
+                                    time = value;
                                     return null;
                                   }
                                 }),
                             const SizedBox(height: 20),
                             ElevatedButton(
                               onPressed: () async {
-                                print('Registro completado');
-                                if (formkey.currentState?.validate() ?? false) {
+                                if (formkey.currentState?.validate() ?? false ) {
+                                  if (_imageValidator() != null) {
+                                    setState(() {
+                                      imageError = true;
+                                    });
+                                    return;
+                                  }
+                                  var data = {
+                                    'type': widget.type ,
+                                    'email': widget.email,
+                                    'password': widget.password,
+                                    'username': widget.name,
+                                    'living_space': size ,
+                                    'available_time': time,
+                                    'terrace': switchTerraza,
+                                    'garden': switchJardin,
+                                    'animals_home': switchAnimales ,
+                                    'pet_before': switchAnimalsBefore ,
+                                  };
+                                  var id = await sendRegisterRequest(data);
+                                  postImage('users', _imageFile,
+                                      id.values.toString().replaceAll(
+                                          RegExp(r"[\(\)]"), ""));
                                   showDialog(
                                       context: context,
                                       builder: (BuildContext context) {
                                         return AlertDialog(
                                           icon: const Icon(Icons.pets_rounded),
-                                          title:
-                                              const Text('Registro Completado'),
+                                          title: const Text(
+                                              'Registro como adoptante completado'),
                                           titleTextStyle: GoogleFonts.quicksand(
                                               fontSize: 16,
                                               fontWeight: FontWeight.w700,
                                               color: Colors.white),
                                           backgroundColor:
-                                              const Color(0xFFC4A484),
+                                          const Color(0xFFC4A484),
                                           shape: const RoundedRectangleBorder(
                                               borderRadius: BorderRadius.all(
                                                   Radius.circular(20))),
                                           actions: <Widget>[
                                             Column(
                                               mainAxisAlignment:
-                                                  MainAxisAlignment.start,
+                                              MainAxisAlignment.start,
                                               children: [
                                                 ElevatedButton(
                                                     style: ElevatedButton
                                                         .styleFrom(
-                                                            backgroundColor:
-                                                                Colors.brown),
+                                                        backgroundColor:
+                                                        Colors.brown),
                                                     onPressed: () {
                                                       Navigator.of(context)
                                                           .pop();
@@ -237,6 +355,7 @@ class _RegistroAdoptanteState extends State<RegistroAdoptante> {
                                           ],
                                         );
                                       });
+
                                 }
                               },
                               style: ElevatedButton.styleFrom(

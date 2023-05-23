@@ -3,6 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_proyecto/inicio.dart';
 import 'http_functions.dart';
 import 'router.dart';
+import 'package:image_picker/image_picker.dart';
+
 
 class RegistroProtectora extends StatefulWidget {
 
@@ -20,10 +22,33 @@ class _RegistroProtectoraState extends State<RegistroProtectora> {
   final formkey = GlobalKey<FormState>();
   bool NumberError = false;
   bool DirectionError = false;
+  bool imageError = false;
+
   String phone = '';
   String location = '';
-
+  Image? Logo;
+  late XFile _imageFile;
   RegExp regExp = RegExp(r'(^[0-9]*$)');
+
+
+  Future<void> _selectImageFromGallery() async {
+    final picker = ImagePicker();
+    final pickedImage = await picker.pickImage(source: ImageSource.gallery);
+    if (pickedImage != null) {
+      final image = Image.memory(await pickedImage.readAsBytes());
+      setState(() {
+        _imageFile = pickedImage;
+        Logo = image;
+      });
+    }
+  }
+  String? _imageValidator() {
+    if (Logo == null) {
+      return 'Por favor, seleccione una imagen';
+    }
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,19 +66,71 @@ class _RegistroProtectoraState extends State<RegistroProtectora> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              'REGISTRO COMO PROTECTORA',
-                              style: GoogleFonts.quicksand(
-                                  fontSize: 20,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w900,
-                                  letterSpacing: 2.0),
+                      Row(children: <Widget>[
+                        Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10.0, vertical: 0.0),
+                            child: Column(
+                              children: [
+                                Text(
+                                  'REGISTRO PROTECTORA',
+                                  style: GoogleFonts.quicksand(
+                                      fontSize: 15,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w900,
+                                      letterSpacing: 2.0),
+                                ),
+                              ],
+                            )),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0.0),
+                          child: GestureDetector(
+                            onTap: () {
+                              _selectImageFromGallery();
+                            },
+                            child: Container(
+                              width: 100,
+                              height: 100,
+                              decoration: Logo != null
+                                  ? null
+                                  : BoxDecoration(
+                                border: Border.all(
+                                  color: imageError ? Colors.red : Colors.black,
+                                  width: 2.0,
+                                ),
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                              child: Center(
+                                child: Logo != null
+                                    ? Logo
+                                    : Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'Añadir imagen',
+                                      style: TextStyle(
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    if (imageError)
+                                      Text(
+                                        'La imagen es obligatoria',
+                                        style: TextStyle(
+                                          fontSize: 12.0,
+                                          color: Colors.red,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                  ],
+                                ),
+                              ),
                             ),
-                          ]),
+                          ),
+                        )
+
+                      ]),
                       const SizedBox(height: 20),
                       SizedBox(
                         width: 350,
@@ -133,6 +210,12 @@ class _RegistroProtectoraState extends State<RegistroProtectora> {
                             ElevatedButton(
                               onPressed: () async {
                                 if (formkey.currentState?.validate() ?? false ) {
+                                  if (_imageValidator() != null) {
+                                    setState(() {
+                                      imageError = true;
+                                    });
+                                    return;
+                                  }
                                   var data = {
                                     'type': widget.type ,
                                     'email': widget.email,
@@ -141,7 +224,10 @@ class _RegistroProtectoraState extends State<RegistroProtectora> {
                                     'phone': phone,
                                     'location': location,
                                   };
-                                  if(await sendRegisterRequest(data)) {
+                                  var id = await sendRegisterRequest(data);
+                                  postImage('users', _imageFile,
+                                      id.values.toString().replaceAll(
+                                          RegExp(r"[\(\)]"), ""));
                                     showDialog(
                                         context: context,
                                         builder: (BuildContext context) {
@@ -178,46 +264,7 @@ class _RegistroProtectoraState extends State<RegistroProtectora> {
                                             ],
                                           );
                                         });
-                                  } else {
-                                    showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return AlertDialog(
-                                            icon: const Icon(Icons.pets_rounded),
-                                            title: const Text(
-                                                'Error en el registro'),
-                                            titleTextStyle: GoogleFonts.quicksand(
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w700,
-                                                color: Colors.white),
-                                            backgroundColor:
-                                            const Color(0xFFC4A484),
-                                            shape: const RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(20))),
-                                            actions: <Widget>[
-                                              Column(
-                                                mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                                children: [
-                                                  ElevatedButton(
-                                                      style: ElevatedButton
-                                                          .styleFrom(
-                                                          backgroundColor:
-                                                          Colors.brown),
-                                                      onPressed: () {
-                                                        Navigator.of(context)
-                                                            .pop();
-                                                      },
-                                                      child: const Text('Cerrar'))
-                                                ],
-                                              )
-                                            ],
-                                          );
-                                        });
-                                  }
-                                } else {
-                                  return;
+
                                 }
                               },
                               style: ElevatedButton.styleFrom(

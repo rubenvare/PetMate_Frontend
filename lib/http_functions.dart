@@ -40,8 +40,7 @@ Future<bool> sendLoginRequest(dynamic data) async {
   if (response.statusCode != 200) {
     print('Error en la solicitud: ${response.reasonPhrase}');
     return Future<bool>.value(false);
-  } else if (response.statusCode == 500){
-    print('Usuario no encontrado');
+  } else if (datos.containsKey('ERROR')){
     return Future<bool>.value(false);
   } else {
     final responseBody = json.decode(response.body);
@@ -49,19 +48,18 @@ Future<bool> sendLoginRequest(dynamic data) async {
     UserSession().type = responseBody["type"];
 
     return Future<bool>.value(true);
-    // Aquí puedes procesar la respuesta como sea necesario
+
   }
 }
 
-Future<bool> sendRegisterRequest(dynamic data) async {
+Future<Map<String, dynamic>> sendRegisterRequest(dynamic data) async {
   final path = '/register';
   final response = await sendPostRequest(path, data);
+  var datos = json.decode(response.body);
   if (response.statusCode != 200) {
-    print('Error en la solicitud: ${response.reasonPhrase}');
-    return Future<bool>.value(false);
+    return {'error': 'ERROR OBTENIENDO INFORMACIÓN DEL ANIMAL'};
   } else {
-    return Future<bool>.value(true);
-    final responseBody = json.decode(response.body);
+    return datos;
   }
 }
 
@@ -279,4 +277,28 @@ Future<bool> resolveSavePet(dynamic data) async {
   }
 }
 
+
+Future<Map<String, dynamic>> sendModifyUserRequest(dynamic data) async {
+  final path = '/update_profile';
+  final response = await sendPostRequest(path, data);
+  var datos = json.decode(response.body);
+  if (response.statusCode != 200) {
+    return {'error': 'ERROR OBTENIENDO INFORMACIÓN DEL ADOPTANTE'};
+  } else {
+    return datos;
+  }
+}
+
+
+Future<bool> deleteHistory (dynamic data) async {
+  final path = '/A_delete_history';
+  final response = await sendPostRequest(path, data);
+  if (response.statusCode != 200) {
+    print('Error en la solicitud: ${response.reasonPhrase}');
+    return Future<bool>.value(false);
+  } else {
+    return Future<bool>.value(true);
+    final responseBody = json.decode(response.body);
+  }
+}
 
