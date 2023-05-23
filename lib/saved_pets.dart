@@ -24,25 +24,35 @@ class SavedPetsState extends State<SavedPets> {
   int userId;
   Map<String, dynamic> datos = {};
   Map<String, dynamic> dato = {};
-  StreamController<Map<String, dynamic>> _streamController = StreamController<Map<String, dynamic>>();
+  StreamController<Map<String, dynamic>> _streamController =
+      StreamController<Map<String, dynamic>>();
+  late Timer _timer;
 
   SavedPetsState(this.userId);
 
   @override
   void initState() {
     super.initState();
-    getDatos(userId);
+    _startFetchingData();
   }
 
   void dispose() {
+    _timer.cancel();
     _streamController.close();
     super.dispose();
   }
 
+  void _startFetchingData() {
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      // Use Timer.periodic to fetch data every second
+      getDatos(userId);
+    });
+  }
+
   Future<void> getDatos(int userId) async {
-    while (true) {
-      await Future.delayed(Duration(seconds: 1));
-      Map<String, dynamic> response = await savedRecord({'user_id': userId});
+    await Future.delayed(Duration(seconds: 1));
+    Map<String, dynamic> response = await savedRecord({'user_id': userId});
+    if (mounted) {
       setState(() {
         datos = response;
       });
@@ -68,7 +78,7 @@ class SavedPetsState extends State<SavedPets> {
                   children: [
                     const SizedBox(height: 100),
                     Text(
-                      'HISTORIAL DE ANIMALES',
+                      'ANIMALES GUARDADOS',
                       style: GoogleFonts.quicksand(
                           fontSize: 20,
                           color: Colors.black,
@@ -189,7 +199,6 @@ class SavedPetsState extends State<SavedPets> {
           ],
         ),
       ),
-      bottomNavigationBar: PetMateNavBar(),
     );
   }
 }

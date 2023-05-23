@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_proyecto/historial_adopciones.dart';
 import 'package:flutter_proyecto/pantalla_busqueda.dart';
 import 'package:flutter_proyecto/singleton_user.dart';
 import 'package:flutter_proyecto/visualizar_animales.dart';
@@ -9,7 +10,6 @@ import 'http_functions.dart';
 import 'package:flutter_proyecto/router.dart';
 
 class PerfilProtectora extends StatefulWidget {
-
   PerfilProtectora();
 
   @override
@@ -17,7 +17,6 @@ class PerfilProtectora extends StatefulWidget {
 }
 
 class PerfilProtectoraState extends State<PerfilProtectora> {
-
   Map<String, dynamic> datos = {};
   Map<String, dynamic> shelter = {};
   late XFile _imageFile;
@@ -41,7 +40,6 @@ class PerfilProtectoraState extends State<PerfilProtectora> {
   RegExp regExpNum = RegExp(r'(^[0-9]*$)');
   RegExp coincideMail = RegExp(
       r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
-
 
   @override
   void initState() {
@@ -112,8 +110,8 @@ class PerfilProtectoraState extends State<PerfilProtectora> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) =>
-                                          VisualizarAnimales(UserSession().userId)));
+                                      builder: (context) => VisualizarAnimales(
+                                          UserSession().userId)));
                             },
                             style: ElevatedButton.styleFrom(
                                 minimumSize: const Size(165, 35),
@@ -403,9 +401,7 @@ class PerfilProtectoraState extends State<PerfilProtectora> {
                                                                     Colors
                                                                         .brown),
                                                         onPressed: () {
-                                                          setState(() {
-                                                            
-                                                          });
+                                                          setState(() {});
                                                           Navigator.of(context)
                                                               .pop();
                                                         },
@@ -425,6 +421,63 @@ class PerfilProtectoraState extends State<PerfilProtectora> {
                                           fontWeight: FontWeight.w900,
                                           letterSpacing: 2.0)),
                                 )
+                              ],
+                            )),
+                            const SizedBox(
+                              height: 15,
+                            ),
+                            Center(
+                                child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  HistorialAdopciones(
+                                                      UserSession().userId)));
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                        minimumSize: const Size(165, 35),
+                                        backgroundColor: Colors.brown),
+                                    child: Text("HISTORIAL",
+                                        style: GoogleFonts.quicksand(
+                                            fontSize: 14.0,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w900,
+                                            letterSpacing: 2.0))),
+                                const SizedBox(width: 30),
+                                ElevatedButton(
+                                    onPressed: () async {
+                                      var data = {
+                                        'user_id': UserSession().userId
+                                      };
+                                      var boolean = await deleteProfile(data);
+                                      if(boolean){
+                                        InicioSesion start =
+                                                    InicioSesion();
+                                                Navigator.pop(context);
+                                                Navigator.pushReplacement(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) => start,
+                                                  ),
+                                                );
+                                      }
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                        minimumSize: const Size(165, 35),
+                                        backgroundColor: Colors.brown),
+                                    child: Text("DARSE DE BAJA",
+                                        style: GoogleFonts.quicksand(
+                                            fontSize: 14.0,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w900,
+                                            letterSpacing: 2.0))),
+
                               ],
                             ))
                           ],

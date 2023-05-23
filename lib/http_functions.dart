@@ -302,3 +302,15 @@ Future<bool> deleteHistory (dynamic data) async {
   }
 }
 
+Future<bool> deleteProfile (dynamic data) async {
+  final path = '/delete_profile';
+  final response = await sendPostRequest(path, data);
+  if (response.statusCode != 200) {
+    print('Error en la solicitud: ${response.reasonPhrase}');
+    return Future<bool>.value(false);
+  } else {
+    return Future<bool>.value(true);
+    final responseBody = json.decode(response.body);
+  }
+}
+
