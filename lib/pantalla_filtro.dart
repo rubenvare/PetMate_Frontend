@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_proyecto/inicio.dart';
 import 'http_functions.dart';
 import 'router.dart';
@@ -171,7 +173,7 @@ class PantallaFiltroState extends State<PantallaFiltro> {
                           child: Column(
                             children: [
                               Text(
-                                'FILTRADO DE MASCOTA',
+                                AppLocalizations.of(context)!.filtradoMascota,
                                 style: GoogleFonts.quicksand(
                                     fontSize: 20,
                                     color: Colors.black,
@@ -200,7 +202,7 @@ class PantallaFiltroState extends State<PantallaFiltro> {
 
                               child: DropdownButtonFormField<String>(
                                 decoration: InputDecoration(
-                                  labelText: 'Especie',
+                                  labelText: AppLocalizations.of(context)!.especie,
                                   labelStyle: TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
@@ -243,7 +245,7 @@ class PantallaFiltroState extends State<PantallaFiltro> {
 
                               child: DropdownButtonFormField<String>(
                                   decoration: InputDecoration(
-                                    labelText: 'Color',
+                                    labelText: AppLocalizations.of(context)!.tonalidad,
                                     labelStyle: TextStyle(
                                       color: Colors.black,
                                       fontWeight: FontWeight.bold,
@@ -285,7 +287,7 @@ class PantallaFiltroState extends State<PantallaFiltro> {
 
                               child: DropdownButtonFormField<String>(
                                   decoration: InputDecoration(
-                                    labelText: 'Tamaño',
+                                    labelText: AppLocalizations.of(context)!.tamano,
                                     labelStyle: TextStyle(
                                       color: Colors.black,
                                       fontWeight: FontWeight.bold,
@@ -324,7 +326,7 @@ class PantallaFiltroState extends State<PantallaFiltro> {
                             child:
                             DropdownButtonFormField<String>(
                               decoration: InputDecoration(
-                                labelText: 'Mes de nacimiento',
+                                labelText: AppLocalizations.of(context)!.mesNacimiento,
                                 labelStyle: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,
@@ -364,7 +366,7 @@ class PantallaFiltroState extends State<PantallaFiltro> {
                             child:
                             DropdownButtonFormField<String>(
                               decoration: InputDecoration(
-                                labelText: 'Año de nacimiento',
+                                labelText: AppLocalizations.of(context)!.anoNacimiento,
                                 labelStyle: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,
@@ -403,7 +405,7 @@ class PantallaFiltroState extends State<PantallaFiltro> {
                             style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.brown),
                             child: Text(
-                              'APLICAR',
+                              AppLocalizations.of(context)!.aplicar,
                               style: GoogleFonts.quicksand(
                                   fontSize: 14,
                                   color: Colors.white,

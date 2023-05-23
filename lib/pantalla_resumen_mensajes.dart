@@ -9,6 +9,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'inicio.dart';
 import 'http_functions.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 class MessageSummaryScreen extends StatefulWidget {
   MessageSummaryScreen({Key? key}) : super(key: key);
   @override
@@ -72,7 +74,7 @@ class _MessageSummaryScreenState extends State<MessageSummaryScreen> {
             );
           } else if (snapshot.hasError) {
             return Center(
-              child: Text("Error al obtener los datos"),
+              child: Text(AppLocalizations.of(context)!.errorObtDatos),
             );
           } else  if (snapshot.data?.length == 0) {
             return Container(
@@ -84,7 +86,7 @@ class _MessageSummaryScreenState extends State<MessageSummaryScreen> {
                     Icon(Icons.forum_rounded, color: Colors.brown, size: 48.0),
                     SizedBox(height: 10.0),
                     Text(
-                      "No tienes mensajes disponibles",
+                      AppLocalizations.of(context)!.noMensajesDispo,
                       style: GoogleFonts.quicksand(color: Colors.brown, fontWeight: FontWeight.w700),
                     ),
                   ],
@@ -100,7 +102,7 @@ class _MessageSummaryScreenState extends State<MessageSummaryScreen> {
                   children: [
                     SizedBox(height: 10,),
                     Text(
-                      "MENSAJES",
+                      AppLocalizations.of(context)!.mensajes,
                       style: GoogleFonts.quicksand(
                         fontSize: 25.0,
                         fontWeight: FontWeight.bold,

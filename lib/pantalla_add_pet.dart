@@ -5,6 +5,7 @@ import 'package:flutter_proyecto/inicio.dart';
 import 'http_functions.dart';
 import 'router.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
 class AddPet extends StatefulWidget {
@@ -48,7 +49,7 @@ class AddPetState extends State<AddPet> {
   }
   String? _imageValidator() {
     if (shelterLogo == null) {
-      return 'Por favor, seleccione una imagen';
+      return AppLocalizations.of(context)!.selectImage;
     }
     return null;
   }
@@ -78,7 +79,7 @@ class AddPetState extends State<AddPet> {
                             child: Column(
                               children: [
                                 Text(
-                                  'AÑADIR MASCOTA',
+                                  AppLocalizations.of(context)!.anadirMasco,
                                   style: GoogleFonts.quicksand(
                                       fontSize: 20,
                                       color: Colors.black,
@@ -112,7 +113,7 @@ class AddPetState extends State<AddPet> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      'Añadir imagen',
+                                      AppLocalizations.of(context)!.anadirImagen,
                                       style: TextStyle(
                                         fontSize: 16.0,
                                         fontWeight: FontWeight.bold,
@@ -121,7 +122,7 @@ class AddPetState extends State<AddPet> {
                                     ),
                                     if (imageError)
                                       Text(
-                                        'La imagen es obligatoria',
+                                        AppLocalizations.of(context)!.imagenObli,
                                         style: TextStyle(
                                           fontSize: 12.0,
                                           color: Colors.red,
@@ -152,7 +153,7 @@ class AddPetState extends State<AddPet> {
                                   focusedBorder: const OutlineInputBorder(
                                       borderSide:
                                       BorderSide(color: Colors.brown)),
-                                  labelText: "Nombre",
+                                  labelText: AppLocalizations.of(context)!.nombre,
                                   labelStyle: GoogleFonts.quicksand(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w700,
@@ -167,12 +168,12 @@ class AddPetState extends State<AddPet> {
                                     setState(() {
                                       NumberError = true;
                                     });
-                                    return 'Este campo es obligatorio';
+                                    return AppLocalizations.of(context)!.campoObligatorio;
                                   } else if (!regExp.hasMatch(value!)) {
                                     setState(() {
                                       NumberError = true;
                                     });
-                                    return 'Este campo requiere de letras';
+                                    return AppLocalizations.of(context)!.campoLetras;
                                   } else {
                                     setState(() {
                                       NumberError = false;
@@ -193,7 +194,7 @@ class AddPetState extends State<AddPet> {
 
                                 child: DropdownButtonFormField<String>(
                                     decoration: InputDecoration(
-                                      labelText: 'Especie',
+                                      labelText: AppLocalizations.of(context)!.especie,
                                       labelStyle: TextStyle(
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold,
@@ -227,7 +228,7 @@ class AddPetState extends State<AddPet> {
                                         setState(() {
                                           dropdownError1 = true;
                                         });
-                                        return 'Este campo es obligatorio';
+                                        return AppLocalizations.of(context)!.campoObligatorio;
                                       }
                                       else {
                                         setState(() {
@@ -250,7 +251,7 @@ class AddPetState extends State<AddPet> {
 
                                 child: DropdownButtonFormField<String>(
                                     decoration: InputDecoration(
-                                      labelText: 'Tonalidad',
+                                      labelText: AppLocalizations.of(context)!.tonalidad,
                                       labelStyle: TextStyle(
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold,
@@ -284,7 +285,7 @@ class AddPetState extends State<AddPet> {
                                         setState(() {
                                           dropdownError2 = true;
                                         });
-                                        return 'Este campo es obligatorio';
+                                        return AppLocalizations.of(context)!.campoObligatorio;
                                       }
                                       else {
                                         setState(() {
@@ -317,7 +318,7 @@ class AddPetState extends State<AddPet> {
 
                                 child: DropdownButtonFormField<String>(
                                     decoration: InputDecoration(
-                                      labelText: 'Tamaño',
+                                      labelText: AppLocalizations.of(context)!.tamano,
                                       labelStyle: TextStyle(
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold,
@@ -351,7 +352,7 @@ class AddPetState extends State<AddPet> {
                                         setState(() {
                                           dropdownError3 = true;
                                         });
-                                        return 'Este campo es obligatorio';
+                                        return AppLocalizations.of(context)!.campoObligatorio;
                                       }
                                       else {
                                         setState(() {
@@ -380,7 +381,7 @@ class AddPetState extends State<AddPet> {
                                 focusedBorder: const OutlineInputBorder(
                                     borderSide:
                                     BorderSide(color: Colors.brown)),
-                                labelText: "Mes de nacimiento",
+                                labelText: AppLocalizations.of(context)!.mesNacimiento,
                                 labelStyle: GoogleFonts.quicksand(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w700,
@@ -393,10 +394,10 @@ class AddPetState extends State<AddPet> {
                               validator: (value) {
                                 final int? yearOfMonth = int.tryParse(value ?? '');
                                 if (yearOfMonth == null) {
-                                  return 'Este campo es obligatorio';
+                                  return AppLocalizations.of(context)!.campoObligatorio;
                                 }
                                 if (yearOfMonth < 1 || yearOfMonth > 12) {
-                                  return 'Por favor, ingresa un mes válido';
+                                  return AppLocalizations.of(context)!.mesValid;
                                 }
                                 selectedMonth = value!;
                                 return null;
@@ -411,7 +412,7 @@ class AddPetState extends State<AddPet> {
                                 focusedBorder: const OutlineInputBorder(
                                     borderSide:
                                     BorderSide(color: Colors.brown)),
-                                labelText: "Año de nacimiento",
+                                labelText: AppLocalizations.of(context)!.anoNacimiento,
                                 labelStyle: GoogleFonts.quicksand(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w700,
@@ -424,10 +425,10 @@ class AddPetState extends State<AddPet> {
                               validator: (value) {
                                 final int? yearOfBirth = int.tryParse(value ?? '');
                                 if (yearOfBirth == null) {
-                                  return 'Este campo es requerido';
+                                  return AppLocalizations.of(context)!.campoObligatorio;
                                 }
                                 if (yearOfBirth < 1900 || yearOfBirth > DateTime.now().year) {
-                                  return 'Por favor, ingresa un año válido';
+                                  return AppLocalizations.of(context)!.anoValid;
                                 }
                                 selectedYear = value!;
                                 return null;
@@ -442,7 +443,7 @@ class AddPetState extends State<AddPet> {
                                   focusedBorder: const OutlineInputBorder(
                                       borderSide:
                                       BorderSide(color: Colors.brown)),
-                                  labelText: "Descripción",
+                                  labelText: AppLocalizations.of(context)!.descripcion,
                                   labelStyle: GoogleFonts.quicksand(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w700,
@@ -457,12 +458,12 @@ class AddPetState extends State<AddPet> {
                                     setState(() {
                                       DescriptionError = true;
                                     });
-                                    return 'Este campo es obligatorio';
+                                    return AppLocalizations.of(context)!.campoObligatorio;
                                   } else if (!regExp.hasMatch(value!)) {
                                     setState(() {
                                       DescriptionError = true;
                                     });
-                                    return 'Este campo requiere de letras';
+                                    return AppLocalizations.of(context)!.campoLetras;
                                   } else {
                                     setState(() {
                                       DescriptionError = false;
@@ -500,8 +501,8 @@ class AddPetState extends State<AddPet> {
                                       builder: (BuildContext context) {
                                         return AlertDialog(
                                           icon: const Icon(Icons.pets_rounded),
-                                          title: const Text(
-                                              'Mascota añadida correctamente'),
+                                          title:  Text(
+                                              AppLocalizations.of(context)!.mascoAnadi),
                                           titleTextStyle: GoogleFonts.quicksand(
                                               fontSize: 16,
                                               fontWeight: FontWeight.w700,
@@ -525,7 +526,7 @@ class AddPetState extends State<AddPet> {
                                                       Navigator.of(context)
                                                           .pop();
                                                     },
-                                                    child: const Text('Cerrar'))
+                                                    child:  Text(AppLocalizations.of(context)!.cerrar))
                                               ],
                                             )
                                           ],
@@ -536,7 +537,7 @@ class AddPetState extends State<AddPet> {
                               style: ElevatedButton.styleFrom(
                                   backgroundColor: Colors.brown),
                               child: Text(
-                                'AÑADIR',
+                                AppLocalizations.of(context)!.anadir,
                                 style: GoogleFonts.quicksand(
                                     fontSize: 14,
                                     color: Colors.white,

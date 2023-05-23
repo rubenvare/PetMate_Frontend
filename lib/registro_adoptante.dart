@@ -5,6 +5,8 @@ import 'inicio.dart';
 import 'router.dart';
 import 'package:image_picker/image_picker.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class RegistroAdoptante extends StatefulWidget {
 
@@ -48,7 +50,7 @@ class _RegistroAdoptanteState extends State<RegistroAdoptante> {
   }
   String? _imageValidator() {
     if (Logo == null) {
-      return 'Por favor, seleccione una imagen';
+      return AppLocalizations.of(context)!.imagenObligatoria;
     }
     return null;
   }
@@ -77,7 +79,7 @@ class _RegistroAdoptanteState extends State<RegistroAdoptante> {
                             child: Column(
                               children: [
                                 Text(
-                                  'REGISTRO ADOPTANTE',
+                                  AppLocalizations.of(context)!.registroAdop,
                                   style: GoogleFonts.quicksand(
                                       fontSize: 15,
                                       color: Colors.black,
@@ -111,7 +113,7 @@ class _RegistroAdoptanteState extends State<RegistroAdoptante> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      'Añadir imagen',
+                                      AppLocalizations.of(context)!.anadirImagen,
                                       style: TextStyle(
                                         fontSize: 16.0,
                                         fontWeight: FontWeight.bold,
@@ -120,7 +122,7 @@ class _RegistroAdoptanteState extends State<RegistroAdoptante> {
                                     ),
                                     if (imageError)
                                       Text(
-                                        'La imagen es obligatoria',
+                                        AppLocalizations.of(context)!.imagenObli,
                                         style: TextStyle(
                                           fontSize: 12.0,
                                           color: Colors.red,
@@ -150,7 +152,7 @@ class _RegistroAdoptanteState extends State<RegistroAdoptante> {
                                   focusedBorder: const OutlineInputBorder(
                                       borderSide:
                                           BorderSide(color: Colors.brown)),
-                                  labelText: "Tamaño de la casa en m2*",
+                                  labelText: AppLocalizations.of(context)!.tamanoCasa,
                                   labelStyle: GoogleFonts.quicksand(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w700,
@@ -165,12 +167,12 @@ class _RegistroAdoptanteState extends State<RegistroAdoptante> {
                                     setState(() {
                                       houseError = true;
                                     });
-                                    return 'Este campo es obligatorio';
+                                    return AppLocalizations.of(context)!.campoObligatorio;
                                   } else if (!regExp.hasMatch(value!)) {
                                     setState(() {
                                       houseError = true;
                                     });
-                                    return 'Este campo requiere de números';
+                                    return AppLocalizations.of(context)!.campoNum;
                                   } else {
                                     setState(() {
                                       houseError = false;
@@ -192,7 +194,7 @@ class _RegistroAdoptanteState extends State<RegistroAdoptante> {
                                   activeTrackColor: Colors.brown,
                                   activeColor: Colors.white,
                                 ),
-                                Text('Animales en casa',
+                                Text(AppLocalizations.of(context)!.animalesCasa,
                                     style: GoogleFonts.quicksand(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w700,
@@ -210,7 +212,7 @@ class _RegistroAdoptanteState extends State<RegistroAdoptante> {
                                   activeTrackColor: Colors.brown,
                                   activeColor: Colors.white,
                                 ),
-                                Text('Terraza en casa',
+                                Text(AppLocalizations.of(context)!.terraza,
                                     style: GoogleFonts.quicksand(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w700,
@@ -229,7 +231,7 @@ class _RegistroAdoptanteState extends State<RegistroAdoptante> {
                                   activeColor: Colors.white,
                                 ),
                                 Text(
-                                  'Jardín',
+                                  AppLocalizations.of(context)!.jardin,
                                   style: GoogleFonts.quicksand(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w700,
@@ -249,7 +251,7 @@ class _RegistroAdoptanteState extends State<RegistroAdoptante> {
                                 activeTrackColor: Colors.brown,
                                 activeColor: Colors.white,
                               ),
-                              Text('Animales anteriormente',
+                              Text(AppLocalizations.of(context)!.animalesAntes,
                                   style: GoogleFonts.quicksand(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w700,
@@ -264,7 +266,7 @@ class _RegistroAdoptanteState extends State<RegistroAdoptante> {
                                   focusedBorder: const OutlineInputBorder(
                                       borderSide:
                                           BorderSide(color: Colors.brown)),
-                                  labelText: "Tiempo disponible en horas/día*",
+                                  labelText: AppLocalizations.of(context)!.tiempoDispo,
                                   labelStyle: GoogleFonts.quicksand(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w700,
@@ -279,12 +281,12 @@ class _RegistroAdoptanteState extends State<RegistroAdoptante> {
                                     setState(() {
                                       timeError = true;
                                     });
-                                    return 'Este campo es obligatorio';
+                                    return AppLocalizations.of(context)!.campoObligatorio;
                                   } else if (!regExp.hasMatch(value!)) {
                                     setState(() {
                                       timeError = true;
                                     });
-                                    return 'Este campo requiere de números';
+                                    return AppLocalizations.of(context)!.campoNum;
                                   } else {
                                     setState(() {
                                       timeError = false;
@@ -324,8 +326,8 @@ class _RegistroAdoptanteState extends State<RegistroAdoptante> {
                                       builder: (BuildContext context) {
                                         return AlertDialog(
                                           icon: const Icon(Icons.pets_rounded),
-                                          title: const Text(
-                                              'Registro como adoptante completado'),
+                                          title:  Text(
+                                              AppLocalizations.of(context)!.registroAdopCompletado),
                                           titleTextStyle: GoogleFonts.quicksand(
                                               fontSize: 16,
                                               fontWeight: FontWeight.w700,
@@ -349,7 +351,7 @@ class _RegistroAdoptanteState extends State<RegistroAdoptante> {
                                                       Navigator.of(context)
                                                           .pop();
                                                     },
-                                                    child: const Text('Cerrar'))
+                                                    child:  Text(AppLocalizations.of(context)!.cerrar))
                                               ],
                                             )
                                           ],
@@ -361,7 +363,7 @@ class _RegistroAdoptanteState extends State<RegistroAdoptante> {
                               style: ElevatedButton.styleFrom(
                                   backgroundColor: Colors.brown),
                               child: Text(
-                                'REGISTRARSE',
+                                AppLocalizations.of(context)!.registrarse,
                                 style: GoogleFonts.quicksand(
                                     fontSize: 14,
                                     color: Colors.white,

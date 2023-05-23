@@ -8,6 +8,8 @@ import 'package:flutter_proyecto/routing_constants.dart';
 import 'package:flutter_proyecto/singleton_user.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 import 'http_functions.dart';
 
 class PantallaProtectoraItems extends StatefulWidget {
@@ -41,7 +43,7 @@ class PantallaProtectoraItemsState extends State<PantallaProtectoraItems> {
       appBar:PetMateAppBar(),
       body:Column(
         children: [
-          Text("Posibles adopciones",
+          Text(AppLocalizations.of(context)!.posiblesAdopciones,
               style: GoogleFonts.quicksand(
                 fontSize: 30.0,
                 color: Colors.black,
@@ -135,7 +137,7 @@ void _mostrarPopUp(BuildContext context, Map<String,dynamic> elemento, Image pho
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: Text('Información adoptante y animal'),
+        title: Text(AppLocalizations.of(context)!.informacionAdopyAni),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -182,7 +184,7 @@ void _mostrarPopUp(BuildContext context, Map<String,dynamic> elemento, Image pho
             ),
             SizedBox(height: 16),
             Text(
-              '¿Deseas que el adoptante conozca a la mascota?',
+              AppLocalizations.of(context)!.deseaAdoptar,
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 16),
             ),
@@ -276,18 +278,18 @@ class _PetMateShelterNavBarState extends State<PetMateShelterNavBar> {
       type: BottomNavigationBarType.fixed,
       selectedItemColor: Colors.black,
       unselectedItemColor: Colors.black,
-      items: const [
+      items:  [
         BottomNavigationBarItem(
           icon: Icon(Icons.home),
-          label: 'Inicio',
+          label: AppLocalizations.of(context)!.inicio,
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.message),
-          label: 'Mensajes',
+          label: AppLocalizations.of(context)!.mensajes,
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.person),
-          label: 'Perfil',
+          label: AppLocalizations.of(context)!.perfil,
         ),
       ],
     );

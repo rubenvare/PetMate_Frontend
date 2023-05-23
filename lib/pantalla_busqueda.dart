@@ -11,6 +11,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'inicio.dart';
 import 'http_functions.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 class DogSearchScreen extends StatefulWidget {
   @override
   _DogSearchScreenState createState() => _DogSearchScreenState();
@@ -177,8 +179,8 @@ class _DogSearchScreenState extends State<DogSearchScreen> {
     if (emptyAnimalList){
       return AlertDialog(
         icon: const Icon(Icons.pets_rounded),
-        title: const Text(
-            'No existen animales con los filtros actuales.'),
+        title:  Text(
+            AppLocalizations.of(context)!.noAnimalesFiltro),
         titleTextStyle: GoogleFonts.quicksand(
             fontSize: 16,
             fontWeight: FontWeight.w700,
@@ -208,7 +210,7 @@ class _DogSearchScreenState extends State<DogSearchScreen> {
                       _handleFilters(context);
                     });
                   },
-                  child: const Text('CAMBIAR FILTROS'))
+                  child:  Text(AppLocalizations.of(context)!.cambiarFiltros))
             ],
           )
         ],
@@ -461,18 +463,18 @@ class _PetMateNavBarState extends State<PetMateNavBar> {
       type: BottomNavigationBarType.fixed,
       selectedItemColor: Colors.black,
       unselectedItemColor: Colors.black,
-      items: const [
+      items:  [
         BottomNavigationBarItem(
           icon: Icon(Icons.home),
-          label: 'Inicio',
+          label: AppLocalizations.of(context)!.inicio,
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.message),
-          label: 'Mensajes',
+          label: AppLocalizations.of(context)!.mensajes,
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.person),
-          label: 'Perfil',
+          label: AppLocalizations.of(context)!.perfil,
         ),
       ],
     );

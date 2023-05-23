@@ -5,6 +5,8 @@ import 'package:flutter_proyecto/registro_protectora.dart';
 import 'package:flutter_proyecto/routing_constants.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 class pantallaRegistro extends StatefulWidget {
   @override
   State<pantallaRegistro> createState() => _pantallaRegistroState();
@@ -44,7 +46,7 @@ class _pantallaRegistroState extends State<pantallaRegistro> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            'REGISTRO',
+                            AppLocalizations.of(context)!.registro,
                             style: GoogleFonts.quicksand(
                                 fontSize: 20,
                                 color: Colors.black,
@@ -66,7 +68,7 @@ class _pantallaRegistroState extends State<pantallaRegistro> {
                                     setState(() {
                                       nameError = true;
                                     });
-                                    return "Rellene el campo de nombre";
+                                    return AppLocalizations.of(context)!.campoObligatorio;
                                   } else {
                                     setState(() {
                                       nameError = false;
@@ -75,7 +77,7 @@ class _pantallaRegistroState extends State<pantallaRegistro> {
                                   }
                                 },
                                 decoration: InputDecoration(
-                                  labelText: "Nombre completo",
+                                  labelText: AppLocalizations.of(context)!.nombreCompleto,
                                   labelStyle: GoogleFonts.quicksand(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w700,
@@ -99,7 +101,7 @@ class _pantallaRegistroState extends State<pantallaRegistro> {
                                     setState(() {
                                       correoError = true;
                                     });
-                                    return "Rellene el campo de correo";
+                                    return AppLocalizations.of(context)!.campoObligatorio;
                                   } else {
                                     setState(() {
                                       correoError = false;
@@ -108,7 +110,7 @@ class _pantallaRegistroState extends State<pantallaRegistro> {
                                   }
                                 },
                                 decoration: InputDecoration(
-                                  labelText: "Correo electrónico",
+                                  labelText: AppLocalizations.of(context)!.correo,
                                   labelStyle: GoogleFonts.quicksand(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w700,
@@ -163,7 +165,7 @@ class _pantallaRegistroState extends State<pantallaRegistro> {
                                     setState(() {
                                       passwordError = true;
                                     });
-                                    return "Rellene el campo de contraseña";
+                                    return AppLocalizations.of(context)!.campoObligatorio;
                                   } else {
                                     setState(() {
                                       passwordError = false;
@@ -173,7 +175,7 @@ class _pantallaRegistroState extends State<pantallaRegistro> {
                                 },
                                 obscureText: true,
                                 decoration: InputDecoration(
-                                  labelText: "Contraseña",
+                                  labelText: AppLocalizations.of(context)!.contrasena,
                                   labelStyle: GoogleFonts.quicksand(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w700,
@@ -197,7 +199,7 @@ class _pantallaRegistroState extends State<pantallaRegistro> {
                                     setState(() {
                                       confirmPasswordError = true;
                                     });
-                                    return "Rellene el campo de confirmar contraseña";
+                                    return AppLocalizations.of(context)!.campoObligatorio;
                                   } else {
                                     setState(() {
                                       confirmPasswordError = false;
@@ -207,7 +209,7 @@ class _pantallaRegistroState extends State<pantallaRegistro> {
                                 },
                                 obscureText: true,
                                 decoration: InputDecoration(
-                                  labelText: "Confirmar contraseña",
+                                  labelText: AppLocalizations.of(context)!.confirmarContra,
                                   labelStyle: GoogleFonts.quicksand(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w700,
@@ -239,7 +241,7 @@ class _pantallaRegistroState extends State<pantallaRegistro> {
                                   style: ElevatedButton.styleFrom(
                                       backgroundColor: Colors.brown),
                                   child: Text(
-                                    'SIGUIENTE',
+                                    AppLocalizations.of(context)!.siguiente,
                                     style: GoogleFonts.quicksand(
                                         fontSize: 14,
                                         color: Colors.white,

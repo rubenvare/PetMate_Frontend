@@ -5,6 +5,7 @@ import 'package:flutter_proyecto/inicio.dart';
 import 'http_functions.dart';
 import 'router.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
 class ModifyUser extends StatefulWidget {
@@ -92,7 +93,7 @@ class ModifyUserState extends State<ModifyUser> {
                                 child: Column(
                                   children: [
                                     Text(
-                                      'Mi perfil',
+                                      AppLocalizations.of(context)!.miPerfil,
                                       style: GoogleFonts.quicksand(
                                           fontSize: 20,
                                           color: Colors.black,
@@ -126,7 +127,7 @@ class ModifyUserState extends State<ModifyUser> {
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
                                         Text(
-                                          'Añadir imagen',
+                                          AppLocalizations.of(context)!.anadirImagen,
                                           style: TextStyle(
                                             fontSize: 16.0,
                                             fontWeight: FontWeight.bold,
@@ -157,7 +158,7 @@ class ModifyUserState extends State<ModifyUser> {
                                       focusedBorder: const OutlineInputBorder(
                                           borderSide:
                                           BorderSide(color: Colors.brown)),
-                                      labelText: 'Nombre',
+                                      labelText: AppLocalizations.of(context)!.nombre,
                                       hintText: user['name'],
                                       labelStyle: GoogleFonts.quicksand(
                                           fontSize: 16,
@@ -173,7 +174,7 @@ class ModifyUserState extends State<ModifyUser> {
                                         setState(() {
                                           nameError = true;
                                         });
-                                        return 'Este campo requiere de letras';
+                                        return AppLocalizations.of(context)!.campoLetras;
                                       } else {
                                         setState(() {
                                           nameError = false;
@@ -198,7 +199,7 @@ class ModifyUserState extends State<ModifyUser> {
 
                                   obscureText: obscurePassword,
                                   decoration: InputDecoration(
-                                    labelText: "Contraseña",
+                                    labelText: AppLocalizations.of(context)!.contrasena,
                                     labelStyle: GoogleFonts.quicksand(
                                         fontSize: 16,
                                         fontWeight: FontWeight.w700,
@@ -227,7 +228,7 @@ class ModifyUserState extends State<ModifyUser> {
                                       setState(() {
                                         confirmPasswordError = true;
                                       });
-                                      return "Las contraseñas no coinciden";
+                                      return AppLocalizations.of(context)!.contrasenasNo;
                                     } else {
                                       setState(() {
                                         confirmPasswordError = false;
@@ -238,7 +239,7 @@ class ModifyUserState extends State<ModifyUser> {
                                   obscureText: obscureConfirmPassword,
                                   initialValue: password,
                                   decoration: InputDecoration(
-                                    labelText: "Confirmar contraseña",
+                                    labelText: AppLocalizations.of(context)!.confirmarContra,
                                     labelStyle: GoogleFonts.quicksand(
                                         fontSize: 16,
                                         fontWeight: FontWeight.w700,
@@ -269,7 +270,7 @@ class ModifyUserState extends State<ModifyUser> {
                                       focusedBorder: const OutlineInputBorder(
                                           borderSide:
                                           BorderSide(color: Colors.brown)),
-                                      labelText: "Tamaño de la casa en m2*",
+                                      labelText: AppLocalizations.of(context)!.tamanoCasa,
                                       hintText: "${user['size']}",
                                       labelStyle: GoogleFonts.quicksand(
                                           fontSize: 16,
@@ -285,7 +286,7 @@ class ModifyUserState extends State<ModifyUser> {
                                         setState(() {
                                           houseError = true;
                                         });
-                                        return 'Este campo requiere de números';
+                                        return AppLocalizations.of(context)!.campoNum;
                                       } else {
                                         setState(() {
                                           houseError = false;
@@ -307,7 +308,7 @@ class ModifyUserState extends State<ModifyUser> {
                                       activeTrackColor: Colors.brown,
                                       activeColor: Colors.white,
                                     ),
-                                    Text('Animales en casa',
+                                    Text(AppLocalizations.of(context)!.animalesCasa,
                                         style: GoogleFonts.quicksand(
                                           fontSize: 16,
                                           fontWeight: FontWeight.w700,
@@ -325,7 +326,7 @@ class ModifyUserState extends State<ModifyUser> {
                                       activeTrackColor: Colors.brown,
                                       activeColor: Colors.white,
                                     ),
-                                    Text('Terraza en casa',
+                                    Text(AppLocalizations.of(context)!.terraza,
                                         style: GoogleFonts.quicksand(
                                           fontSize: 16,
                                           fontWeight: FontWeight.w700,
@@ -343,7 +344,7 @@ class ModifyUserState extends State<ModifyUser> {
                                       activeTrackColor: Colors.brown,
                                       activeColor: Colors.white,
                                     ),
-                                    Text('Animales anteriormente',
+                                    Text(AppLocalizations.of(context)!.animalesAntes,
                                         style: GoogleFonts.quicksand(
                                           fontSize: 16,
                                           fontWeight: FontWeight.w700,
@@ -362,7 +363,7 @@ class ModifyUserState extends State<ModifyUser> {
                                       activeColor: Colors.white,
                                     ),
                                     Text(
-                                      'Jardín',
+                                      AppLocalizations.of(context)!.jardin,
                                       style: GoogleFonts.quicksand(
                                         fontSize: 16,
                                         fontWeight: FontWeight.w700,
@@ -381,7 +382,7 @@ class ModifyUserState extends State<ModifyUser> {
                                       focusedBorder: const OutlineInputBorder(
                                           borderSide:
                                           BorderSide(color: Colors.brown)),
-                                      labelText: "Tiempo disponible en horas/día*",
+                                      labelText: AppLocalizations.of(context)!.tiempoDispo,
                                       hintText: "${user['time']}",
                                       labelStyle: GoogleFonts.quicksand(
                                           fontSize: 16,
@@ -397,7 +398,7 @@ class ModifyUserState extends State<ModifyUser> {
                                         setState(() {
                                           timeError = true;
                                         });
-                                        return 'Este campo requiere de números';
+                                        return AppLocalizations.of(context)!.campoNum;
                                       } else {
                                         setState(() {
                                           timeError = false;
@@ -415,7 +416,7 @@ class ModifyUserState extends State<ModifyUser> {
                                     });
                                   },
                                   decoration: InputDecoration(
-                                    labelText: "Descripción",
+                                    labelText: AppLocalizations.of(context)!.descripcion,
                                     hintText: user['description'],
                                     labelStyle: GoogleFonts.quicksand(
                                         fontSize: 16,
@@ -451,8 +452,8 @@ class ModifyUserState extends State<ModifyUser> {
                                               builder: (BuildContext context) {
                                                 return AlertDialog(
                                                   icon: const Icon(Icons.pets_rounded),
-                                                  title: const Text(
-                                                      'LIKES Y DISLIKE BORRADOS CORRECTAMENTE'),
+                                                  title:  Text(
+                                                      AppLocalizations.of(context)!.likeDislike),
                                                   titleTextStyle: GoogleFonts.quicksand(
                                                       fontSize: 16,
                                                       fontWeight: FontWeight.w700,
@@ -476,7 +477,7 @@ class ModifyUserState extends State<ModifyUser> {
                                                               Navigator.of(context)
                                                                   .pop();
                                                             },
-                                                            child: const Text('Cerrar'))
+                                                            child:  Text(AppLocalizations.of(context)!.cerrar))
                                                       ],
                                                     )
                                                   ],
@@ -489,7 +490,7 @@ class ModifyUserState extends State<ModifyUser> {
                                       style: ElevatedButton.styleFrom(
                                           backgroundColor: Colors.brown),
                                       child: Text(
-                                        'RESETEAR LIKES',
+                                        AppLocalizations.of(context)!.resetLikes,
                                         style: GoogleFonts.quicksand(
                                             fontSize: 14,
                                             color: Colors.white,
@@ -527,8 +528,8 @@ class ModifyUserState extends State<ModifyUser> {
                                               builder: (BuildContext context) {
                                                 return AlertDialog(
                                                   icon: const Icon(Icons.pets_rounded),
-                                                  title: const Text(
-                                                      'Usuario modificado correctamente'),
+                                                  title:  Text(
+                                                      AppLocalizations.of(context)!.userModificado),
                                                   titleTextStyle: GoogleFonts.quicksand(
                                                       fontSize: 16,
                                                       fontWeight: FontWeight.w700,
@@ -552,7 +553,7 @@ class ModifyUserState extends State<ModifyUser> {
                                                               Navigator.of(context)
                                                                   .pop();
                                                             },
-                                                            child: const Text('Cerrar'))
+                                                            child:  Text(AppLocalizations.of(context)!.cerrar))
                                                       ],
                                                     )
                                                   ],
@@ -563,7 +564,7 @@ class ModifyUserState extends State<ModifyUser> {
                                       style: ElevatedButton.styleFrom(
                                           backgroundColor: Colors.brown),
                                       child: Text(
-                                        'AÑADIR',
+                                        AppLocalizations.of(context)!.anadir,
                                         style: GoogleFonts.quicksand(
                                             fontSize: 14,
                                             color: Colors.white,

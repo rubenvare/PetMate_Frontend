@@ -5,6 +5,8 @@ import 'http_functions.dart';
 import 'router.dart';
 import 'package:image_picker/image_picker.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class RegistroProtectora extends StatefulWidget {
 
@@ -44,7 +46,7 @@ class _RegistroProtectoraState extends State<RegistroProtectora> {
   }
   String? _imageValidator() {
     if (Logo == null) {
-      return 'Por favor, seleccione una imagen';
+      return AppLocalizations.of(context)!.imagenObligatoria;
     }
     return null;
   }
@@ -73,7 +75,7 @@ class _RegistroProtectoraState extends State<RegistroProtectora> {
                             child: Column(
                               children: [
                                 Text(
-                                  'REGISTRO PROTECTORA',
+                                  AppLocalizations.of(context)!.registroProtec,
                                   style: GoogleFonts.quicksand(
                                       fontSize: 15,
                                       color: Colors.black,
@@ -107,7 +109,7 @@ class _RegistroProtectoraState extends State<RegistroProtectora> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      'Añadir imagen',
+                                      AppLocalizations.of(context)!.anadirImagen,
                                       style: TextStyle(
                                         fontSize: 16.0,
                                         fontWeight: FontWeight.bold,
@@ -116,7 +118,7 @@ class _RegistroProtectoraState extends State<RegistroProtectora> {
                                     ),
                                     if (imageError)
                                       Text(
-                                        'La imagen es obligatoria',
+                                        AppLocalizations.of(context)!.imagenObli,
                                         style: TextStyle(
                                           fontSize: 12.0,
                                           color: Colors.red,
@@ -146,7 +148,7 @@ class _RegistroProtectoraState extends State<RegistroProtectora> {
                                   focusedBorder: const OutlineInputBorder(
                                       borderSide:
                                           BorderSide(color: Colors.brown)),
-                                  labelText: "Número de contacto",
+                                  labelText: AppLocalizations.of(context)!.telefono,
                                   labelStyle: GoogleFonts.quicksand(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w700,
@@ -162,12 +164,12 @@ class _RegistroProtectoraState extends State<RegistroProtectora> {
                                     setState(() {
                                       NumberError = true;
                                     });
-                                    return 'Este campo es obligatorio';
+                                    return AppLocalizations.of(context)!.campoObligatorio;
                                   } else if (!regExp.hasMatch(value!)) {
                                     setState(() {
                                       NumberError = true;
                                     });
-                                    return 'Este campo requiere de números';
+                                    return AppLocalizations.of(context)!.campoNum;
                                   } else {
                                     setState(() {
                                       NumberError = false;
@@ -184,7 +186,7 @@ class _RegistroProtectoraState extends State<RegistroProtectora> {
                                   focusedBorder: const OutlineInputBorder(
                                       borderSide:
                                           BorderSide(color: Colors.brown)),
-                                  labelText: "Dirección de la protectora",
+                                  labelText: AppLocalizations.of(context)!.direccionProtect,
                                   labelStyle: GoogleFonts.quicksand(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w700,
@@ -198,7 +200,7 @@ class _RegistroProtectoraState extends State<RegistroProtectora> {
                                     setState(() {
                                       DirectionError = true;
                                     });
-                                    return 'Este campo es obligatorio';
+                                    return AppLocalizations.of(context)!.campoObligatorio;
                                   } else {
                                     setState(() {
                                       DirectionError = false;
@@ -233,8 +235,7 @@ class _RegistroProtectoraState extends State<RegistroProtectora> {
                                         builder: (BuildContext context) {
                                           return AlertDialog(
                                             icon: const Icon(Icons.pets_rounded),
-                                            title: const Text(
-                                                'Registro como protectora completado'),
+                                            title:  Text(AppLocalizations.of(context)!.registroProteCompletado),
                                             titleTextStyle: GoogleFonts.quicksand(
                                                 fontSize: 16,
                                                 fontWeight: FontWeight.w700,
@@ -258,7 +259,7 @@ class _RegistroProtectoraState extends State<RegistroProtectora> {
                                                         Navigator.of(context)
                                                             .pop();
                                                       },
-                                                      child: const Text('Cerrar'))
+                                                      child:  Text(AppLocalizations.of(context)!.cerrar))
                                                 ],
                                               )
                                             ],
@@ -270,7 +271,7 @@ class _RegistroProtectoraState extends State<RegistroProtectora> {
                               style: ElevatedButton.styleFrom(
                                   backgroundColor: Colors.brown),
                               child: Text(
-                                'REGISTRARSE',
+                                AppLocalizations.of(context)!.registrarse,
                                 style: GoogleFonts.quicksand(
                                     fontSize: 14,
                                     color: Colors.white,

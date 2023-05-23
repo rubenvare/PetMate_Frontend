@@ -6,6 +6,8 @@ import 'inicio.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'http_functions.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 class VisualizarAnimales extends StatefulWidget {
   int userId;
 
@@ -65,7 +67,7 @@ class VisualizarAnimalesState extends State<VisualizarAnimales> {
                             backgroundColor: Colors.brown),
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                          child: Text("PROTECTORA",
+                          child: Text(AppLocalizations.of(context)!.protectora,
                               style: GoogleFonts.quicksand(
                                   fontSize: 14.0,
                                   color: Colors.white,
@@ -80,7 +82,7 @@ class VisualizarAnimalesState extends State<VisualizarAnimales> {
                         style: ElevatedButton.styleFrom(
                             minimumSize: const Size(165, 35),
                             backgroundColor: Colors.brown),
-                        child: Text("MASCOTAS",
+                        child: Text(AppLocalizations.of(context)!.mascotas,
                             style: GoogleFonts.quicksand(
                                 fontSize: 14.0,
                                 color: Colors.white,

@@ -6,6 +6,8 @@ import 'package:flutter_proyecto/singleton_user.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'http_functions.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 // esta pantalla viene a ser una conversacion individual entre dos usuarios.
 // no es la pantalla de listado de conversaciones
 
@@ -171,7 +173,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
                       Icon(Icons.forum_rounded, color: Colors.brown, size: 48.0),
                       SizedBox(height: 10.0),
                       Text(
-                        "Esta conversación no tiene mensajes",
+                        AppLocalizations.of(context)!.noMensajes,
                         style: GoogleFonts.quicksand(color: Colors.brown, fontWeight: FontWeight.w700),
                       ),
                     ],
@@ -207,17 +209,17 @@ class _ConversationScreenState extends State<ConversationScreen> {
                             context: context,
                             builder: (BuildContext context) {
                               return AlertDialog(
-                                title: Text('Eliminar mensaje', style: GoogleFonts.quicksand(color: Colors.brown, fontWeight: FontWeight.w600),),
-                                content: Text('¿Deseas eliminar este mensaje?', style: GoogleFonts.quicksand(color: Colors.brown, fontWeight: FontWeight.w400),),
+                                title: Text(AppLocalizations.of(context)!.eliminarMensaje, style: GoogleFonts.quicksand(color: Colors.brown, fontWeight: FontWeight.w600),),
+                                content: Text(AppLocalizations.of(context)!.eliminarMensajePre, style: GoogleFonts.quicksand(color: Colors.brown, fontWeight: FontWeight.w400),),
                                 actions: [
                                   TextButton(
-                                    child: Text('Cancelar', style: GoogleFonts.quicksand(color: Colors.brown, fontWeight: FontWeight.w800),),
+                                    child: Text(AppLocalizations.of(context)!.cancelar, style: GoogleFonts.quicksand(color: Colors.brown, fontWeight: FontWeight.w800),),
                                     onPressed: () {
                                       Navigator.of(context).pop();
                                     },
                                   ),
                                   TextButton(
-                                    child: Text('Eliminar', style: GoogleFonts.quicksand(color: Colors.brown, fontWeight: FontWeight.w800),),
+                                    child: Text(AppLocalizations.of(context)!.eliminar, style: GoogleFonts.quicksand(color: Colors.brown, fontWeight: FontWeight.w800),),
                                     onPressed: () {
                                       Navigator.of(context).pop();
                                       deleteMessage(index);
@@ -290,7 +292,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
                           maxLines: null,
                           textInputAction: TextInputAction.newline,
                           decoration: InputDecoration(
-                            hintText: 'Escribe un mensaje',
+                            hintText: AppLocalizations.of(context)!.escribeMensaje,
                             border: InputBorder.none,
                             contentPadding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 14.0),
                           ),

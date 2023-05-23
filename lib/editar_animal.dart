@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_proyecto/pantalla_busqueda.dart';
 import 'package:flutter_proyecto/routing_constants.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'http_functions.dart';
 import 'inicio.dart';
@@ -79,7 +80,7 @@ class PerfilAnimalState extends State<PerfilAnimal>{
                               focusedBorder: const OutlineInputBorder(
                                   borderSide:
                                   BorderSide(color: Colors.brown)),
-                              labelText: "Nombre",
+                              labelText: AppLocalizations.of(context)!.nombre,
                               hintText: datos['name'],
                               labelStyle: GoogleFonts.quicksand(
                                   fontSize: 16,
@@ -115,7 +116,7 @@ class PerfilAnimalState extends State<PerfilAnimal>{
 
                             child: DropdownButtonFormField<String>(
                                 decoration: InputDecoration(
-                                  labelText: 'Especie',
+                                  labelText: AppLocalizations.of(context)!.especie,
                                   labelStyle: TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
@@ -137,7 +138,7 @@ class PerfilAnimalState extends State<PerfilAnimal>{
                                   fontWeight: FontWeight.w700,
                                 ),
                                 value: dropdownValue1,
-                                items: <String>["Perro", "Gato", "Pajaro"]
+                                items: <String>["Perror", "Gato", "Pajaro"]
                                     .map((item) => DropdownMenuItem(
                                   child: Text(item),
                                   value: item,
@@ -149,7 +150,7 @@ class PerfilAnimalState extends State<PerfilAnimal>{
                                     setState(() {
                                       dropdownError1 = true;
                                     });
-                                    return 'Este campo es obligatorio';
+                                    return AppLocalizations.of(context)!.campoObligatorio;
                                   }
                                   else {
                                     setState(() {
@@ -172,7 +173,7 @@ class PerfilAnimalState extends State<PerfilAnimal>{
 
                             child: DropdownButtonFormField<String>(
                                 decoration: InputDecoration(
-                                  labelText: 'Tonalidad',
+                                  labelText: AppLocalizations.of(context)!.tonalidad,
                                   labelStyle: TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
@@ -206,7 +207,7 @@ class PerfilAnimalState extends State<PerfilAnimal>{
                                     setState(() {
                                       dropdownError2 = true;
                                     });
-                                    return 'Este campo es obligatorio';
+                                    return AppLocalizations.of(context)!.campoObligatorio;
                                   }
                                   else {
                                     setState(() {
@@ -227,7 +228,7 @@ class PerfilAnimalState extends State<PerfilAnimal>{
 
                             child: DropdownButtonFormField<String>(
                                 decoration: InputDecoration(
-                                  labelText: 'Tamaño',
+                                  labelText: AppLocalizations.of(context)!.tamano,
                                   labelStyle: TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
@@ -261,7 +262,7 @@ class PerfilAnimalState extends State<PerfilAnimal>{
                                     setState(() {
                                       dropdownError3 = true;
                                     });
-                                    return 'Este campo es obligatorio';
+                                    return AppLocalizations.of(context)!.campoObligatorio;
                                   }
                                   else {
                                     setState(() {
@@ -279,7 +280,7 @@ class PerfilAnimalState extends State<PerfilAnimal>{
                             focusedBorder: const OutlineInputBorder(
                                 borderSide:
                                 BorderSide(color: Colors.brown)),
-                            labelText: "Año de nacimiento",
+                            labelText: AppLocalizations.of(context)!.anoNacimiento,
                             hintText: datos['birth'],
                             labelStyle: GoogleFonts.quicksand(
                                 fontSize: 16,
@@ -296,7 +297,7 @@ class PerfilAnimalState extends State<PerfilAnimal>{
                               age = int.parse(datos['birth']);
                             }
                             if (yearOfBirth! < 1900 || yearOfBirth > DateTime.now().year) {
-                              return 'Por favor, ingresa un año válido';
+                              return AppLocalizations.of(context)!.anoValido;
                             }
                             age = yearOfBirth;
                             return null;
@@ -311,7 +312,7 @@ class PerfilAnimalState extends State<PerfilAnimal>{
                               focusedBorder: const OutlineInputBorder(
                                   borderSide:
                                   BorderSide(color: Colors.brown)),
-                              labelText: "Descripción",
+                              labelText: AppLocalizations.of(context)!.descripcion,
                               hintText: datos['description'],
                               labelStyle: GoogleFonts.quicksand(
                                   fontSize: 16,
@@ -346,7 +347,6 @@ class PerfilAnimalState extends State<PerfilAnimal>{
                                   backgroundColor: Colors.brown),
                               onPressed: () async {
                                 if(formkey.currentState?.validate() ?? false){
-
                                   switch(dropdownValue2) {
                                     case 'Claro':
                                       tone = 0;
@@ -394,7 +394,7 @@ class PerfilAnimalState extends State<PerfilAnimal>{
                                 }
                               },
                               child: Text(
-                                'ENVIAR',
+                                AppLocalizations.of(context)!.enviar,
                                   style: GoogleFonts.quicksand(
                                       fontSize: 14.0,
                                       color: Colors.white,
@@ -419,7 +419,7 @@ class PerfilAnimalState extends State<PerfilAnimal>{
                                 }
                               },
                               child: Text(
-                                  "ELIMINAR ANIMAL",
+                                  AppLocalizations.of(context)!.eliminarAnimal,
                                   style: GoogleFonts.quicksand(
                                       fontSize: 14.0,
                                       color: Colors.white,

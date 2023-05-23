@@ -3,6 +3,8 @@ import 'package:flutter_proyecto/http_functions.dart';
 import 'package:flutter_proyecto/inicio.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 class DetailScreen extends StatefulWidget {
   int pet_id;
   DetailScreen(this.pet_id, {super.key});
@@ -170,7 +172,7 @@ class _DetailScreenState extends State<DetailScreen> {
                     onPressed: () => changeStatus('S'),
                     style: ElevatedButton.styleFrom(backgroundColor: Colors.brown,),
                     child: Text(
-                      'PROTECTORA',
+                      AppLocalizations.of(context)!.protectora,
                       style: GoogleFonts.quicksand(
                           fontSize: 14.0,
                           color: Colors.white,
@@ -185,14 +187,14 @@ class _DetailScreenState extends State<DetailScreen> {
               animal_o_protectora == true ? Column(
                 children: [
                   SizedBox(height: 50.0,),
-                  Text('DATOS DE LA MASCOTA'
+                  Text(AppLocalizations.of(context)!.datosProtectora
                       , style: GoogleFonts.quicksand(
                           fontSize: 25.0, fontWeight: FontWeight.w900)),
                   SizedBox(height: 40.0,),
                   Row( children: [
                     SizedBox(width: 10.0),
                     Icon(Icons.badge_outlined),
-                    Text('  Nombre:  '
+                    Text(AppLocalizations.of(context)!.nombre
                         , style: GoogleFonts.quicksand(fontSize: 20.0, fontWeight: FontWeight.w900)),
 
                     Text('${details['name']}'
@@ -203,7 +205,7 @@ class _DetailScreenState extends State<DetailScreen> {
                   Row( children: [
                     SizedBox(width: 10.0),
                     Icon(Icons.pets_outlined),
-                    Text('  Especie:  '
+                    Text(AppLocalizations.of(context)!.especie
                         , style: GoogleFonts.quicksand(fontSize: 20.0, fontWeight: FontWeight.w900)),
 
                     Text('${details['species']}'
@@ -224,7 +226,7 @@ class _DetailScreenState extends State<DetailScreen> {
                   Row( children: [
                     SizedBox(width: 10.0),
                     Icon(Icons.straighten_outlined),
-                    Text('  Tamaño:  '
+                    Text(AppLocalizations.of(context)!.tamano
                         , style: GoogleFonts.quicksand(fontSize: 20.0, fontWeight: FontWeight.w900)),
                     Text('${size}'
                         , style: GoogleFonts.quicksand(
@@ -234,7 +236,7 @@ class _DetailScreenState extends State<DetailScreen> {
                   Row( children: [
                     SizedBox(width: 10.0),
                     Icon(Icons.info_outlined),
-                    Text('  Nacimiento:  '
+                    Text(AppLocalizations.of(context)!.nacimiento
                         , style: GoogleFonts.quicksand(fontSize: 20.0, fontWeight: FontWeight.w900)),
                     Text('${details['birth']}'
                         , style: GoogleFonts.quicksand(
@@ -258,7 +260,7 @@ class _DetailScreenState extends State<DetailScreen> {
               SingleChildScrollView(child: Column(
                   children: [
                     SizedBox(height: 40.0,),
-                    Text('DATOS DE LA PROTECTORA'
+                    Text(AppLocalizations.of(context)!.datosProtectora
                         , style: GoogleFonts.quicksand(fontSize: 25.0, fontWeight: FontWeight.w900)),
                     SizedBox(height: 20.0,),
                     // controla si hi ha foto o no. si no hi ha, llavors no mostris el requadre

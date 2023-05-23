@@ -4,6 +4,8 @@ import 'package:flutter_proyecto/pantalla_busqueda.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'inicio.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 class DetailScreenShelter extends StatefulWidget {
 
   final int id;
@@ -104,7 +106,7 @@ Column _mostrarAdoptante(BuildContext context, Map<String,dynamic> content){
   return Column(
       children: [
         SizedBox(height: 40.0,),
-        Text('DATOS DEL ADOPTANTE'
+        Text("DATOS ADOPTANTE"
             , style: GoogleFonts.quicksand(fontSize: 25.0, fontWeight: FontWeight.w900)),
         SizedBox(height: 20.0,),
         Row(children: [
@@ -187,14 +189,14 @@ Column _mostrarAnimal(BuildContext context, Map<String,dynamic> content){
   return Column(
     children: [
       SizedBox(height: 50.0,),
-      Text('DATOS DE LA MASCOTA'
+      Text(AppLocalizations.of(context)!.datosMascota
           , style: GoogleFonts.quicksand(
               fontSize: 25.0, fontWeight: FontWeight.w900)),
       SizedBox(height: 40.0,),
       Row( children: [
         SizedBox(width: 10.0),
         Icon(Icons.badge_outlined),
-        Text('  Nombre:  '
+        Text(AppLocalizations.of(context)!.nombre
             , style: GoogleFonts.quicksand(fontSize: 20.0, fontWeight: FontWeight.w900)),
 
         Text('${content['name']}'
@@ -205,7 +207,7 @@ Column _mostrarAnimal(BuildContext context, Map<String,dynamic> content){
       Row( children: [
         SizedBox(width: 10.0),
         Icon(Icons.pets_outlined),
-        Text('  Especie:  '
+        Text(AppLocalizations.of(context)!.especie
             , style: GoogleFonts.quicksand(fontSize: 20.0, fontWeight: FontWeight.w900)),
 
         Text('${content['species']}'
@@ -216,7 +218,7 @@ Column _mostrarAnimal(BuildContext context, Map<String,dynamic> content){
       Row( children: [
         SizedBox(width: 10.0),
         Icon(Icons.palette_outlined),
-        Text('  Color:  '
+        Text(AppLocalizations.of(context)!.tonalidad
             , style: GoogleFonts.quicksand(fontSize: 20.0, fontWeight: FontWeight.w900)),
         Text(content['color']
             , style: GoogleFonts.quicksand(
@@ -226,7 +228,7 @@ Column _mostrarAnimal(BuildContext context, Map<String,dynamic> content){
       Row( children: [
         SizedBox(width: 10.0),
         Icon(Icons.straighten_outlined),
-        Text('  Tamaño:  '
+        Text(AppLocalizations.of(context)!.tamano
             , style: GoogleFonts.quicksand(fontSize: 20.0, fontWeight: FontWeight.w900)),
         Text(content["size"]
             , style: GoogleFonts.quicksand(
@@ -236,7 +238,7 @@ Column _mostrarAnimal(BuildContext context, Map<String,dynamic> content){
       Row( children: [
         SizedBox(width: 10.0),
         Icon(Icons.info_outlined),
-        Text('  Edad:  '
+        Text(AppLocalizations.of(context)!.edad
             , style: GoogleFonts.quicksand(fontSize: 20.0, fontWeight: FontWeight.w900)),
         Text('${content['age']} años'
             , style: GoogleFonts.quicksand(

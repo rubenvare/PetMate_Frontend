@@ -8,6 +8,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'http_functions.dart';
 import 'package:flutter_proyecto/router.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 class PerfilProtectora extends StatefulWidget {
 
   PerfilProtectora();
@@ -99,7 +101,7 @@ class PerfilProtectoraState extends State<PerfilProtectora> {
                             child: Padding(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 10.0),
-                              child: Text("PROTECTORA",
+                              child: Text(AppLocalizations.of(context)!.protectora,
                                   style: GoogleFonts.quicksand(
                                       fontSize: 14.0,
                                       color: Colors.white,
@@ -118,7 +120,7 @@ class PerfilProtectoraState extends State<PerfilProtectora> {
                             style: ElevatedButton.styleFrom(
                                 minimumSize: const Size(165, 35),
                                 backgroundColor: Colors.brown),
-                            child: Text("MASCOTAS",
+                            child: Text(AppLocalizations.of(context)!.mascotas,
                                 style: GoogleFonts.quicksand(
                                     fontSize: 14.0,
                                     color: Colors.white,
@@ -156,7 +158,7 @@ class PerfilProtectoraState extends State<PerfilProtectora> {
                                   focusedBorder: const OutlineInputBorder(
                                       borderSide:
                                           BorderSide(color: Colors.brown)),
-                                  labelText: 'Nombre',
+                                  labelText: AppLocalizations.of(context)!.nombre,
                                   hintText: datos['username'],
                                   labelStyle: GoogleFonts.quicksand(
                                       fontSize: 16,
@@ -176,7 +178,7 @@ class PerfilProtectoraState extends State<PerfilProtectora> {
                                     setState(() {
                                       nameError = true;
                                     });
-                                    return 'Este campo requiere de números';
+                                    return AppLocalizations.of(context)!.campoNum;
                                   } else {
                                     setState(() {
                                       username = value;
@@ -194,7 +196,7 @@ class PerfilProtectoraState extends State<PerfilProtectora> {
                                 focusedBorder: const OutlineInputBorder(
                                     borderSide:
                                         BorderSide(color: Colors.brown)),
-                                labelText: 'Contraseña',
+                                labelText: AppLocalizations.of(context)!.contrasena,
                                 labelStyle: GoogleFonts.quicksand(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w700,
@@ -224,7 +226,7 @@ class PerfilProtectoraState extends State<PerfilProtectora> {
                                   focusedBorder: const OutlineInputBorder(
                                       borderSide:
                                           BorderSide(color: Colors.brown)),
-                                  labelText: 'Teléfono',
+                                  labelText: AppLocalizations.of(context)!.telefono,
                                   hintText: '+${datos['phone']}',
                                   labelStyle: GoogleFonts.quicksand(
                                       fontSize: 16,
@@ -243,7 +245,7 @@ class PerfilProtectoraState extends State<PerfilProtectora> {
                                     setState(() {
                                       numError = true;
                                     });
-                                    return 'Este campo requiere de números';
+                                    return AppLocalizations.of(context)!.campoNum;
                                   } else {
                                     setState(() {
                                       phone = int.parse(value);
@@ -261,7 +263,7 @@ class PerfilProtectoraState extends State<PerfilProtectora> {
                                   focusedBorder: const OutlineInputBorder(
                                       borderSide:
                                           BorderSide(color: Colors.brown)),
-                                  labelText: 'Población',
+                                  labelText: AppLocalizations.of(context)!.poblacion,
                                   hintText: datos['location'],
                                   labelStyle: GoogleFonts.quicksand(
                                       fontSize: 16,
@@ -281,7 +283,7 @@ class PerfilProtectoraState extends State<PerfilProtectora> {
                                     setState(() {
                                       locationError = true;
                                     });
-                                    return 'Este campo requiere de letras';
+                                    return AppLocalizations.of(context)!.campoLetras;
                                   } else {
                                     setState(() {
                                       location = value;
@@ -299,7 +301,7 @@ class PerfilProtectoraState extends State<PerfilProtectora> {
                                   focusedBorder: const OutlineInputBorder(
                                       borderSide:
                                           BorderSide(color: Colors.brown)),
-                                  labelText: 'Descripción',
+                                  labelText: AppLocalizations.of(context)!.descripcion,
                                   hintText: datos['description'],
                                   labelStyle: GoogleFonts.quicksand(
                                       fontSize: 16,
@@ -330,7 +332,7 @@ class PerfilProtectoraState extends State<PerfilProtectora> {
                                         minimumSize: const Size(165, 35),
                                         backgroundColor: Colors.brown),
                                     onPressed: () {},
-                                    child: Text("CERRAR SESIÓN",
+                                    child: Text(AppLocalizations.of(context)!.cerrarSesion,
                                         style: GoogleFonts.quicksand(
                                             fontSize: 14.0,
                                             color: Colors.white,
@@ -366,8 +368,8 @@ class PerfilProtectoraState extends State<PerfilProtectora> {
                                             return AlertDialog(
                                               icon: const Icon(
                                                   Icons.pets_rounded),
-                                              title: const Text(
-                                                  'Perfil actualizado correctamente'),
+                                              title:  Text(
+                                                  AppLocalizations.of(context)!.perfilActualizado),
                                               titleTextStyle:
                                                   GoogleFonts.quicksand(
                                                       fontSize: 16,
@@ -400,8 +402,8 @@ class PerfilProtectoraState extends State<PerfilProtectora> {
                                                           Navigator.of(context)
                                                               .pop();
                                                         },
-                                                        child: const Text(
-                                                            'Cerrar'))
+                                                        child:  Text(
+                                                            AppLocalizations.of(context)!.cerrar))
                                                   ],
                                                 )
                                               ],
@@ -409,7 +411,7 @@ class PerfilProtectoraState extends State<PerfilProtectora> {
                                           });
                                     }
                                   },
-                                  child: Text("ENVIAR",
+                                  child: Text(AppLocalizations.of(context)!.enviar,
                                       style: GoogleFonts.quicksand(
                                           fontSize: 14.0,
                                           color: Colors.white,
