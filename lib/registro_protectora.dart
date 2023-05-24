@@ -225,9 +225,7 @@ class _RegistroProtectoraState extends State<RegistroProtectora> {
                                     'location': location,
                                   };
                                   var id = await sendRegisterRequest(data);
-                                  postImage('users', _imageFile,
-                                      id.values.toString().replaceAll(
-                                          RegExp(r"[\(\)]"), ""));
+                                  postImage('users', _imageFile,id["user_id"].toString());
                                     showDialog(
                                         context: context,
                                         builder: (BuildContext context) {

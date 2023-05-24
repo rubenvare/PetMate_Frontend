@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_proyecto/routing_constants.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'http_functions.dart';
 import 'inicio.dart';
@@ -313,12 +314,10 @@ class _RegistroAdoptanteState extends State<RegistroAdoptante> {
                                     'terrace': switchTerraza,
                                     'garden': switchJardin,
                                     'animals_home': switchAnimales ,
-                                    'pet_before': switchAnimalsBefore ,
+                                    'animals_before': switchAnimalsBefore ,
                                   };
                                   var id = await sendRegisterRequest(data);
-                                  postImage('users', _imageFile,
-                                      id.values.toString().replaceAll(
-                                          RegExp(r"[\(\)]"), ""));
+                                  postImage('users', _imageFile,id["user_id"].toString());
                                   showDialog(
                                       context: context,
                                       builder: (BuildContext context) {
@@ -346,8 +345,7 @@ class _RegistroAdoptanteState extends State<RegistroAdoptante> {
                                                         backgroundColor:
                                                         Colors.brown),
                                                     onPressed: () {
-                                                      Navigator.of(context)
-                                                          .pop();
+                                                      Navigator.pushNamed(context, InicioSesionRoute);
                                                     },
                                                     child: const Text('Cerrar'))
                                               ],
