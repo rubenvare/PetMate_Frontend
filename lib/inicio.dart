@@ -7,6 +7,8 @@ import 'package:flutter_proyecto/singleton_user.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_proyecto/http_functions.dart';
 
+import 'app_localizations.dart';
+
 
 
 class InicioSesion extends StatefulWidget {
@@ -39,7 +41,7 @@ class InicioSesionState extends State<InicioSesion> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [ // Agregue espacio en blanco sobre el texto
                 Text(
-                  "¡BIENVENIDO!",
+                  AppLocalizations.of(context).translate('mensajeBienvenida'),
                   style: GoogleFonts.quicksand(
                     fontSize: 37.0,
                     color: Colors.black,
@@ -66,7 +68,7 @@ class InicioSesionState extends State<InicioSesion> {
                                 borderSide: BorderSide(color: Colors.brown)
                             ),
 
-                            labelText: 'Correo electrónico',
+                            labelText: AppLocalizations.of(context).translate('correo'),
                             labelStyle: GoogleFonts.quicksand(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w700,
@@ -78,14 +80,14 @@ class InicioSesionState extends State<InicioSesion> {
                               setState(() {
                                 errorMailEmpty = true;
                               });
-                              return 'Este campo es obligatorio';
+                              return AppLocalizations.of(context).translate('campoObligatorio');
                             }
                             else {
                               if (!coincideMail.hasMatch(value)) {
                                 setState(() {
                                   errorMailRegExp = true;
                                 });
-                                return 'por favor, sigue el formato user@domain.com';
+                                return AppLocalizations.of(context).translate('formatoObligatorio');
                               }
                               else {
                                 email = value;
@@ -113,7 +115,7 @@ class InicioSesionState extends State<InicioSesion> {
                                 },
                                 icon: Icon(obscurePassword ? Icons.visibility_off : Icons.visibility, color: Colors.black),
                               ),
-                              labelText: 'Contraseña',
+                              labelText: AppLocalizations.of(context).translate('contrasena'),
                               labelStyle: GoogleFonts.quicksand(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
@@ -125,7 +127,7 @@ class InicioSesionState extends State<InicioSesion> {
                               setState(() {
                                 errorPassword = true;
                               });
-                              return 'Por favor, rellena el campo con tu contraseña.';
+                              return AppLocalizations.of(context).translate('campoObligatorio');
                             }
                             password = value;
                             return null;
@@ -160,7 +162,7 @@ class InicioSesionState extends State<InicioSesion> {
                                   );
                                 }
                               } else {
-                                openDialog();
+                                openDialog(context);
                                 formKey.currentState?.reset();
                               }
                             },
@@ -168,7 +170,7 @@ class InicioSesionState extends State<InicioSesion> {
                               backgroundColor: Colors.brown,
                             ),
                             child: Text(
-                                "LOGIN",
+                              AppLocalizations.of(context).translate('login'),
                                 style: GoogleFonts.quicksand(
                                   fontSize: 14.0,
                                   color: Colors.white,
@@ -177,7 +179,7 @@ class InicioSesionState extends State<InicioSesion> {
 
                                 ))),
                         SizedBox(height: 50),
-                        Text("¿No tienes cuenta?",
+                        Text(AppLocalizations.of(context).translate('noCuenta'),
                             style: GoogleFonts.quicksand(
                               fontSize: 14.0,
                               color: Colors.black,
@@ -192,7 +194,7 @@ class InicioSesionState extends State<InicioSesion> {
                               backgroundColor: Colors.brown,
                             ),
                             child: Text(
-                                "REGISTRO",
+                                AppLocalizations.of(context).translate('registro'),
                                 style: GoogleFonts.quicksand(
                                     fontSize: 14.0,
                                     color: Colors.white,
@@ -212,20 +214,24 @@ class InicioSesionState extends State<InicioSesion> {
       ),
     );
   }
-  Future<void> openDialog() => showDialog(
-      context: this.context,
-      builder: (context) => AlertDialog(
-        title: Text('Error'),
-        content: Text('Usuario no encontrado'),
-        actions: [
+
+  void openDialog(BuildContext context) async{
+    final localizations = AppLocalizations.of(context);
+    await localizations.load(); // Await the load method
+    showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text('Error'),
+          content: Text(localizations.translate('usuarioNo')),
+          actions: [
           TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text('Ok'))
-        ],
-      )
-  );
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: Text('Ok'))
+      ],
+    ));
+  }
 }
 
 class PetMateAppBar extends StatelessWidget implements PreferredSizeWidget {
