@@ -133,11 +133,12 @@ class PantallaProtectoraItemsState extends State<PantallaProtectoraItems> {
 
 void _mostrarPopUp(BuildContext context, Map<String,dynamic> elemento, Image photoUser, Image photoAnimal) {
   Map<String, dynamic> data = {};
+  final localization = AppLocalizations.of(context);
   showDialog(
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: Text(AppLocalizations.of(context)!.informacionAdopyAni),
+        title: Text(localization!.informacionAdopyAni),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -184,7 +185,7 @@ void _mostrarPopUp(BuildContext context, Map<String,dynamic> elemento, Image pho
             ),
             SizedBox(height: 16),
             Text(
-              AppLocalizations.of(context)!.deseaAdoptar,
+              localization!.deseaAdoptar,
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 16),
             ),

@@ -150,7 +150,7 @@ class InicioSesionState extends State<InicioSesion> {
                                   Navigator.pushNamed(context, PantallaProtectoraRoute);
                                 }
                               } else {
-                                openDialog();
+                                openDialog(context);
                                 formKey.currentState?.reset();
                               }
                             },
@@ -202,20 +202,23 @@ class InicioSesionState extends State<InicioSesion> {
       ),
     );
   }
-  Future<void> openDialog() => showDialog(
-      context: this.context,
-      builder: (context) => AlertDialog(
-        title: Text('Error'),
-        content: Text(AppLocalizations.of(context)!.usuarioNo),
-        actions: [
-          TextButton(
+
+  void openDialog(BuildContext context){
+    final localization = AppLocalizations.of(context);
+    showDialog(
+        context: this.context,
+        builder: (context) => AlertDialog(
+          title: Text('Error'),
+          content: Text(localization!.usuarioNo),
+          actions: [
+            TextButton(
               onPressed: () {
                 Navigator.pop(context);
-              },
+            },
               child: Text('Ok'))
-        ],
-      )
-  );
+      ],
+    ));
+  }
 }
 
 class PetMateAppBar extends StatelessWidget implements PreferredSizeWidget {

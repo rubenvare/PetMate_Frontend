@@ -321,13 +321,14 @@ class _RegistroAdoptanteState extends State<RegistroAdoptante> {
                                   postImage('users', _imageFile,
                                       id.values.toString().replaceAll(
                                           RegExp(r"[\(\)]"), ""));
+                                  final localization = AppLocalizations.of(context);
                                   showDialog(
                                       context: context,
                                       builder: (BuildContext context) {
                                         return AlertDialog(
                                           icon: const Icon(Icons.pets_rounded),
                                           title:  Text(
-                                              AppLocalizations.of(context)!.registroAdopCompletado),
+                                              localization!.registroAdopCompletado),
                                           titleTextStyle: GoogleFonts.quicksand(
                                               fontSize: 16,
                                               fontWeight: FontWeight.w700,
@@ -351,7 +352,7 @@ class _RegistroAdoptanteState extends State<RegistroAdoptante> {
                                                       Navigator.of(context)
                                                           .pop();
                                                     },
-                                                    child:  Text(AppLocalizations.of(context)!.cerrar))
+                                                    child:  Text(localization!.cerrar))
                                               ],
                                             )
                                           ],

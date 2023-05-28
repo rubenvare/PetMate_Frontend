@@ -412,6 +412,7 @@ class _PetMateNavBarState extends State<PetMateNavBar> {
 
   @override
   Widget build(BuildContext context) {
+    final localization =  AppLocalizations.of(context);
     return BottomNavigationBar(
       currentIndex: _currentIndex,
       onTap: (index) {
@@ -466,15 +467,15 @@ class _PetMateNavBarState extends State<PetMateNavBar> {
       items:  [
         BottomNavigationBarItem(
           icon: Icon(Icons.home),
-          label: AppLocalizations.of(context)!.inicio,
+          label: localization!.inicio,
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.message),
-          label: AppLocalizations.of(context)!.mensajes,
+          label: localization!.mensajes,
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.person),
-          label: AppLocalizations.of(context)!.perfil,
+          label: localization!.perfil,
         ),
       ],
     );
